@@ -1,6 +1,6 @@
 (function() {
   function closePopup() {
-    window.close();
+    window.top.close();
     // If the popup is opened as a tab, the above won't work. Let's reload then.
     document.body.style.opacity = 0;
     setTimeout(function() { history.go(0); }, 300);

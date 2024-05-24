@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ZeroOmega--Proxy Switchy manifest v3 version",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "__MSG_manifest_app_description__",
   "icons": {
     "16": "img/icons/omega-action-16.png",

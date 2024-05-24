@@ -22,7 +22,8 @@ module.exports = class ExternalApi
     return unless @disabled
 
     @options.setProxyNotControllable(null)
-    chrome.action.setPopup?({popup: 'popup/index.html'})
+    #chrome.action.setPopup?({popup: 'popup/index.html'})
+    chrome.action.setPopup?({popup: 'popup-iframe.html'})
     @options.reloadQuickSwitch()
     @disabled = false
     @options.clearBadge()
@@ -49,7 +50,8 @@ module.exports = class ExternalApi
           if @knownExts[port.sender.id] >= 32
             reason = 'upgrade'
           @options.setProxyNotControllable reason, {text: 'X', color: '#5ab432'}
-        chrome.action.setPopup?({popup: 'popup/index.html'})
+        #chrome.action.setPopup?({popup: 'popup/index.html'})
+        chrome.action.setPopup?({popup: 'popup-iframe.html'})
         port.postMessage({action: 'state', state: 'disabled'})
       when 'enable'
         @reenable()

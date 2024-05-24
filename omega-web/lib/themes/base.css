@@ -186,6 +186,7 @@ fieldset[disabled] .form-control {
   inset: 0;
   opacity: 0.1;
   background-color: var(--primaryColor);
+  pointer-events: none;
 }
 
 .alert-danger {
@@ -386,11 +387,22 @@ main .page-header {
   background-color: var(--lighterBackground);
 }
 .om-nav-item.om-active > a {
-  color: var(--whiteColor);
+  color: var(--whiteColor)!important;
   background-color: var(--infoColor);
 }
 .om-divider {
   background-color: var(--lighterBackground);
+}
+
+.om-edit-toggle{
+  background-color: var(--defaultBackground);
+  border-color: var(--selectionBackground);
+  color: var(--primaryColor);
+}
+
+.om-edit-toggle:hover{
+  background-color: var(--lighterBackground);
+  border-color: var(--highlightBackground);
 }
 
 /**
