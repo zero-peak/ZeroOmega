@@ -5,23 +5,6 @@ Promise.longStackTraces()
 OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
 Log = OmegaTargetCurrent.Log
 
-_writeLogToLocalStorage = (content) ->
-  try
-    localStorage['log'] += content
-  catch _
-    # Maybe we have reached our limit here. See #1288. Try trimming it.
-    localStorage['log'] = content
-
-Log.log = (args...) ->
-  console.log(args...)
-  content = args.map(Log.str.bind(Log)).join(' ') + '\n'
-  _writeLogToLocalStorage(content)
-Log.error = (args...) ->
-  console.error(args...)
-  content = args.map(Log.str.bind(Log)).join(' ')
-  localStorage['logLastError'] = content
-  _writeLogToLocalStorage('ERROR: ' + content + '\n')
-
 unhandledPromises = []
 unhandledPromisesId = []
 unhandledPromisesNextId = 1

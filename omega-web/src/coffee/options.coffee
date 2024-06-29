@@ -62,7 +62,6 @@ $script.ready ['angular'], ->
 $script.ready ['angular', 'omega', 'omega-deps', 'angular-ui-router',
   'jquery-ui', 'spectrum', 'filesaver', 'blob', 'angular-ladda',
   'angular-sanitize', 'angular-i18n'], ->
-    $script 'js/style.js', 'om-style'
     initInjector = angular.injector(['ng'])
     $http = initInjector.get('$http')
     $http.get('./lib/themes/themes.json').then((response) ->

@@ -653,7 +653,7 @@ class Options
   # updated profile.
   ###
   updateProfile: (name, opt_bypass_cache) ->
-    @log.method('Options#updateProfile', this, arguments)
+#    @log.method('Options#updateProfile', this, arguments)
     results = {}
     OmegaPac.Profiles.each @_options, (key, profile) =>
       if name?

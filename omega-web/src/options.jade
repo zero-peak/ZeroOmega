@@ -72,6 +72,9 @@ html(lang='en' ng-controller='MasterCtrl' ng-csp)
         span.glyphicon(class="{{alertIcons[alert.type]}}")
         = ' '
         | {{alert.i18n ? (alert.i18n | tr) : alert.message}}
+    script(src='lib/moment-with-locales.js')
+    script(src='lib/idb-keyval.js')
+    script(src='lib/jszip.min.js')
     script(src='js/omega_debug.js')
     script(src='js/log_error.js')
     script(src='lib/script.js/script.min.js')
