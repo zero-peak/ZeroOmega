@@ -205,10 +205,22 @@ class OptionsSync
         @_logOperations('OptionsSync::pull', operations)
         local.apply(operations)
 
-    @storage.watch null, (changes) =>
+    @storage.watch null, (changes, opts = {}) =>
       for own key, value of changes
         pull[key] = value
       return if pullScheduled?
-      pullScheduled = setTimeout(doPull, @pullThrottle)
+      if opts.immediately
+        doPull()
+      else
+        pullScheduled = setTimeout(doPull, @pullThrottle)
+  checkChange: ->
+    @storage.checkChange({
+      immediately: true
+      force: true
+    })
+  init: (args) ->
+    @storage.init(args)
+  flush: ({data}) ->
+    @storage.flush({data})
 
 module.exports = OptionsSync

@@ -154,13 +154,11 @@ actionForUrl = (url) ->
 
 
 storage = new OmegaTargetCurrent.Storage('local')
-state = new OmegaTargetCurrent.BrowserStorage(localStorage, 'omega.local.')
+state = new OmegaTargetCurrent.BrowserStorage(zeroLocalStorage, 'omega.local.')
 
 if chrome?.storage?.sync or browser?.storage?.sync
-  syncStorage = new OmegaTargetCurrent.Storage('sync')
+  syncStorage = new OmegaTargetCurrent.SyncStorage('sync', state)
   sync = new OmegaTargetCurrent.OptionsSync(syncStorage)
-  if localStorage['omega.local.syncOptions'] != '"sync"'
-    sync.enabled = false
   sync.transformValue = OmegaTargetCurrent.Options.transformValueForSync
 
 proxyImpl = OmegaTargetCurrent.proxy.getProxyImpl(Log)
@@ -315,10 +313,23 @@ refreshActivePageIfEnabled = ->
     else
       chrome.tabs.reload(tabs[0].id, {bypassCache: true})
 
+
+resetAllOptions = ->
+  options.ready.then ->
+    options._watchStop?()
+    options._syncWatchStop?()
+    Promise.all([
+      chrome.storage.sync.clear(),
+      chrome.storage.local.clear()
+    ])
+
 chrome.runtime.onMessage.addListener (request, sender, respond) ->
   return unless request and request.method
   options.ready.then ->
-    if request.method == 'getState'
+    if request.method == 'resetAllOptions'
+      target = globalThis
+      method = resetAllOptions
+    else if request.method == 'getState'
       target = state
       method = state.get
     else if request.method == 'setState'

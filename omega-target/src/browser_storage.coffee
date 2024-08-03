@@ -59,9 +59,9 @@ class BrowserStorage extends Storage
         else
           index = 0
           while true
-            key = @proto.key.call(index)
+            key = @proto.key.call(@storage, index)
             break if key == null
-            if @key.substr(0, @prefix.length) == @prefix
+            if key.substr(0, @prefix.length) == @prefix
               @proto.removeItem.call(@storage, @prefix + keys)
             else
               index++

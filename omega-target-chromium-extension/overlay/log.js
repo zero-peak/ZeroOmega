@@ -1,7 +1,5 @@
 const logStore = idbKeyval.createStore('log-store', 'log-store');
 
-const dayOfWeek = moment().format('E') // Day of Week (ISO),  keep logs max 7 day
-const logKey = 'zerolog-' + dayOfWeek
 const logSequence = []
 let isRunning = false
 let splitStr = '\n------------------\n'
@@ -12,15 +10,21 @@ const originConsoleError = console.error
 const _logFn = async function(){
   if (isRunning) return
   isRunning = true
+  const _moment = moment()
+
+  const dayOfWeek = _moment.format('E') // Day of Week (ISO),  keep logs max 7 day
+  const monthNum = _moment.format('DD')
+  const logKey = 'zerolog-' + dayOfWeek
   while (logSequence.length > 0) {
     const str = logSequence.join('\n');
     logSequence.length = 0;
     let logInfo = await idbKeyval.get(logKey, logStore)
+    let date = _moment.format('YYYY-MM-DD')
     if (!logInfo || !logInfo.date) {
-      logInfo = { date: moment().format('YYYY-MM-DD'), val: ''}
+      logInfo = { date: date, val: ''}
     }
-    let { date, val } = logInfo
-    if ( !date.endsWith(dayOfWeek)) {
+    let { val } = logInfo
+    if ( logInfo.date != date) {
       val = ''
     }
     val += splitStr
@@ -43,6 +47,9 @@ const replacerFn = (key, value)=>{
     case 'password':
     case 'host':
     case 'port':
+    case 'token':
+    case 'gistToken':
+    case 'gistId':
       return '<secret>'
     default:
       return value
@@ -84,7 +91,7 @@ const _lastErrorLogFn = async ()=>{
   _lastErrorLogFn.isRunning = false
 }
 
-const lastErrorLogFn = async ()=>{
+const lastErrorLogFn = async function (){
   const val = getStr.apply(null, arguments)
   _lastErrorLogFn.val = val
   _lastErrorLogFn()

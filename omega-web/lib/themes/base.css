@@ -172,7 +172,7 @@ fieldset[disabled] .form-control {
   position: relative;
 }
 .alert-success {
-  color: var(--primaryColor);
+  color: var(--positiveColor);
   background-color: transparent;
   border-color: var(--lighterBackground);
   position: relative;
@@ -185,7 +185,7 @@ fieldset[disabled] .form-control {
   position: absolute;
   inset: 0;
   opacity: 0.1;
-  background-color: var(--primaryColor);
+  background-color: var(--positiveColor);
   pointer-events: none;
 }
 
@@ -428,4 +428,10 @@ main .page-header {
 
 .sp-palette-container {
   border-right-color: var(--selectionBackground);
+}
+
+.input-group-addon{
+  color: var(--defaultForeground);
+  background-color: var(--lighterBackground);
+  border-color: var(--lighterBackground);
 }

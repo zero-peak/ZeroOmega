@@ -158,7 +158,8 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
       chrome.tabs.create url: 'chrome://extensions/configureCommands'
     setOptionsSync: (enabled, args) ->
       callBackground('setOptionsSync', enabled, args)
-    resetOptionsSync: (enabled, args) -> callBackground('resetOptionsSync')
+    resetOptionsSync: (args) -> callBackground('resetOptionsSync', args)
+    checkOptionsSyncChange: -> callBackground('checkOptionsSyncChange')
     setRequestInfoCallback: (callback) ->
       requestInfoCallback = callback
 

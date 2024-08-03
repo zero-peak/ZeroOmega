@@ -45,6 +45,8 @@ class Options
   # @returns {{}} The transformed value
   ###
   @transformValueForSync: (value, key) ->
+    if key is '-customCss'
+      return undefined
     if key[0] == '+'
       if OmegaPac.Profiles.updateUrl(value)
         profile = {}
@@ -83,22 +85,36 @@ class Options
     @_watchStop = null
 
     loadRaw = if options? then Promise.resolve(options) else
-      if not @sync?.enabled
-        if not @sync?
-          @_state.set({'syncOptions': 'unsupported'})
+      if not @sync?
+        @_state.set({'syncOptions': 'unsupported'})
         @_storage.get(null)
       else
-        @_state.set({'syncOptions': 'sync'})
-        @_syncWatchStop = @sync.watchAndPull(@_storage)
-        @sync.copyTo(@_storage).catch(Storage.StorageUnavailableError, =>
-          console.error('Warning: Sync storage is not available in this ' +
-            'browser! Disabling options sync.')
-          @_syncWatchStop?()
-          @_syncWatchStop = null
-          @sync = null
-          @_state.set({'syncOptions': 'unsupported'})
-        ).then =>
-          @_storage.get(null)
+        @_state.get({
+          'syncOptions': ''
+          'gistId': ''
+          'gistToken': ''
+        }).then(({syncOptions, gistId, gistToken}) =>
+          unless gistId
+            syncOptions = 'pristine'
+            @_state.set({'syncOptions': 'pristine'})
+          @sync.enabled = syncOptions is 'sync'
+          unless @sync.enabled
+            @_storage.get(null)
+          else
+            @sync.init({gistId, gistToken}).catch((e) ->
+              console.error('sync init fail::', e)
+            )
+            @_syncWatchStop = @sync.watchAndPull(@_storage)
+            @sync.copyTo(@_storage).catch(Storage.StorageUnavailableError, =>
+              console.error('Warning: Sync storage is not available in this ' +
+                'browser! Disabling options sync.')
+              @_syncWatchStop?()
+              @_syncWatchStop = null
+              @sync = null
+              @_state.set({'syncOptions': 'unsupported'})
+            ).then =>
+              @_storage.get(null)
+        )
 
     @optionsLoaded = loadRaw.then((options) =>
       @upgrade(options)
@@ -235,7 +251,7 @@ class Options
       # Current schemaVersion.
       Promise.resolve([options, changes])
     else
-      Promise.reject new Error("Invalid schemaVerion #{version}!")
+      Promise.reject new Error("Invalid schemaVersion #{version}!")
 
   ###*
   # Parse options in various formats (including JSON & base64).
@@ -1004,53 +1020,80 @@ class Options
   # @param {boolean=false} args.force If true, overwrite options when conflict
   # @returns {Promise} A promise which is fulfilled when the syncing is switched
   ###
-  setOptionsSync: (enabled, args) ->
+  setOptionsSync: (enabled, args = {}) ->
     @log.method('Options#setOptionsSync', this, arguments)
     if not @sync?
       return Promise.reject(new Error('Options syncing is unsupported.'))
-    @_state.get({'syncOptions': ''}).then ({syncOptions}) =>
+    @_state.get({
+      'syncOptions': '', lastGistCommit: ''
+    }).then ({syncOptions, lastGistCommit}) =>
       if not enabled
         if syncOptions == 'sync'
-          @_state.set({'syncOptions': 'conflict'})
+          @_state.set({'syncOptions': 'pristine'})
         @sync.enabled = false
         @_syncWatchStop?()
         @_syncWatchStop = null
         return
 
       if syncOptions == 'conflict'
-        if not args?.force
+        if not args.force
           return Promise.reject(new Error(
             'Syncing not enabled due to conflict. Retry with force to overwrite
             local options and enable syncing.'))
       return if syncOptions == 'sync'
-      @_state.set({'syncOptions': 'sync'}).then =>
-        if syncOptions == 'conflict'
-          # Try to re-init options from sync.
-          @sync.enabled = false
-          @_storage.remove().then =>
-            @sync.enabled = true
-            @init()
-        else
-          @sync.enabled = true
-          @_syncWatchStop?()
-          @sync.requestPush(@_options)
-          @_syncWatchStop = @sync.watchAndPull(@_storage)
-          return
+      { gistId, gistToken } = args
+      @sync.init({
+        gistId, gistToken, withRemoteData: true
+      }).then( ({
+        options: remoteOptions, lastGistCommit: remoteLastGistCommit
+      }) =>
+        @_state.set({
+          'syncOptions': 'sync'
+          'gistId': gistId
+          'gistToken': gistToken
+        }).then =>
+          if syncOptions == 'conflict'
+            # Try to re-init options from sync.
+            @sync.enabled = false
+            @_storage.remove().then =>
+              @sync.enabled = true
+              @init()
+          else
+            if remoteOptions.schemaVersion
+              @sync.flush({data: remoteOptions}).then( =>
+                @sync.enabled = false
+                @_state.set({'syncOptions': 'conflict'})
+                return
+              )
+            else
+              @sync.enabled = true
+              @_syncWatchStop?()
+              @sync.requestPush(@_options)
+              @_syncWatchStop = @sync.watchAndPull(@_storage)
+              return
+      )
 
   ###*
   # Clear the sync storage, resetting syncing state to pristine.
   # @returns {Promise} A promise which is fulfilled when the syncing is reset.
   ###
-  resetOptionsSync: ->
+  resetOptionsSync: (args) ->
     @log.method('Options#resetOptionsSync', this, arguments)
     if not @sync?
       return Promise.reject(new Error('Options syncing is unsupported.'))
     @sync.enabled = false
     @_syncWatchStop?()
     @_syncWatchStop = null
-    @_state.set({'syncOptions': 'conflict'})
-
-    return @sync.storage.remove().then =>
+    @_state.set({'syncOptions': 'conflict'}).then( =>
+      @sync.init(args)
+    ).then( =>
+      @sync.storage.remove()
+    ).then( =>
       @_state.set({'syncOptions': 'pristine'})
+    )
+
+  checkOptionsSyncChange: ->
+    if @sync and @sync.enabled
+      @sync.checkChange()
 
 module.exports = Options

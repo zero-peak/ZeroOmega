@@ -38,15 +38,47 @@ section.settings-group
           | {{'options_restoreOnlineSubmit' | tr}}
 section.settings-group
   h3 {{'options_group_syncing' | tr}}
+  div
+    form
+      div.form-group
+        label {{'Gist Id'}}
+        .input-group.width-limit
+          span.input-group-addon {{'ID'}}
+          input.form-control(type='text' ng-model='gistId' ng-readonly='syncOptions == "sync"' placeholder="Gist Id e.g. https://gist.github.com/{username}/{Gist Id}")
+        span.help-block
+          a(href="https://gist.github.com/" role="button" target="_blank")
+            | {{'Create a secret Gist. '}}
+          strong
+            | {{" Note: If it's a public Gist, your options can be searched by others。"}}
+      div.form-group
+        label {{'Gist Token'}}
+        .input-group.width-limit
+          span.input-group-addon {{'TOKEN'}}
+          input.form-control(type='text' ng-model='gistToken' ng-readonly='syncOptions == "sync"' placeholder="Gist Token")
+        span.help-block
+          a(href="https://github.com/settings/tokens/new" role="button" target="_blank")
+            | {{ 'Create a token that manages the Gist.'}}
   div(ng-show='syncOptions == "pristine" || syncOptions == "disabled"')
     p.help-block(omega-html='"options_syncPristineHelp" | tr')
     p
-      button.btn.btn-default(ng-click='enableOptionsSync()')
+      button.btn.btn-default(ng-click='enableOptionsSync()' ladda='enableOptionsSyncing' data-spinner-color="currentColor")
         span.glyphicon.glyphicon-cloud-upload
         = ' '
         | {{'options_syncEnable' | tr}}
   div(ng-show='syncOptions == "sync"')
     p.alert.alert-success.width-limit
+      button.btn.btn-sm.btn-success(ng-click='checkOptionsSyncChange()' ladda='enableOptionsSyncing')
+        span.glyphicon.glyphicon-refresh
+      span {{'   last sync date: '}}
+      | {{ lastGistSync | date:'medium'}}
+      | {{'('}}
+      | {{lastGistState}}
+      | {{')'}}
+      a(href="https://gist.github.com/{{gistId}}" role="button" target="_blank")
+        | {{' '}}
+        span.glyphicon.glyphicon-link
+      br
+      br
       span.glyphicon.glyphicon-ok
       = ' '
       | {{"options_syncSyncAlert" | tr}}
@@ -57,13 +89,13 @@ section.settings-group
         = ' '
         | {{'options_syncDisable' | tr}}
   div(ng-show='syncOptions == "conflict"')
-    p.alert.alert-info.width-limit
+    p.alert.alert-danger.width-limit
       span.glyphicon.glyphicon-info-sign
       = ' '
       | {{"options_syncConflictAlert" | tr}}
     p.help-block(omega-html='"options_syncConflictHelp" | tr')
     p
-      button.btn.btn-danger(ng-click='enableOptionsSync({force: true})')
+      button.btn.btn-danger(ng-click='enableOptionsSync({force: true})' ladda='enableOptionsSyncing' )
         span.glyphicon.glyphicon-cloud-download
         = ' '
         | {{'options_syncEnableForce' | tr}}

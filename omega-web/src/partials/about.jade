@@ -14,17 +14,17 @@ section
       p {{'about_app_description' | tr}}
 section
   p
-    button.btn.btn-info(ng-click='reportIssue()')
+    button.btn.btn-info(ng-click='reportIssue()' ladda='issueReporting')
       span.glyphicon.glyphicon-comment
       = ' '
       | {{'popup_reportIssues' | tr}}
     = ' '
-    button.btn.btn-default(ng-click='downloadLog()')
+    button.btn.btn-default(ng-click='downloadLog()' ladda='logDownloading' data-spinner-color="currentColor")
       span.glyphicon.glyphicon-download
       = ' '
       | {{'popup_errorLog' | tr}}
     = ' '
-    button.btn.btn-danger(ng-click='showResetOptionsModal()')
+    button.btn.btn-danger(ng-click='showResetOptionsModal()' ladda='optionsReseting')
       span.glyphicon.glyphicon-alert
       = ' '
       | {{'options_reset' | tr}}

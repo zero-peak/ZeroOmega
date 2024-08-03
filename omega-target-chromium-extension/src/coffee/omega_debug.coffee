@@ -1,7 +1,13 @@
 
 logStore = idbKeyval.createStore('log-store', 'log-store')
+syncStore = idbKeyval.createStore('sync-store', 'sync')
 
-isProcessing = false
+waitTimeFn = (timeout = 1000) ->
+  return new Promise((resolve, reject) ->
+    setTimeout( ->
+      resolve()
+    , timeout)
+  )
 
 window.OmegaDebug =
   getProjectVersion: ->
@@ -9,8 +15,6 @@ window.OmegaDebug =
   getExtensionVersion: ->
     chrome.runtime.getManifest().version
   downloadLog: ->
-    return if isProcessing
-    isProcessing = true
     idbKeyval.entries(logStore).then((entries) ->
       zip = new JSZip()
       zipFolder = zip.folder('ZeroOmega')
@@ -28,26 +32,30 @@ window.OmegaDebug =
     ).then((blob) ->
       filename = "ZeroOmegaLog_#{Date.now()}.zip"
       saveAs(blob, filename)
-      isProcessing = false
     )
   resetOptions: ->
-    return if isProcessing
-    isProcessing = true
-    Promise.all([
-      idbKeyval.clear(logStore),
-      chrome.storage.local.clear()
-    ]).then( ->
+    chrome.runtime.sendMessage({
+      method: 'resetAllOptions'
+    }, (response) ->
+      # firefox still use localStorage
       localStorage.clear()
-      # Prevent options loading from sync storage after reload.
-      localStorage['omega.local.syncOptions'] = '"conflict"'
-      isProcessing = false
-      chrome.runtime.reload()
+      # as storage watch value changed
+      # and background localStorage state delay saved
+      # this must after storage and wait 2 seconds
+      Promise.all([
+        idbKeyval.clear(logStore),
+        idbKeyval.clear(syncStore),
+        waitTimeFn(2000)
+      ]).then( ->
+        idbKeyval.clear()
+      ).then( ->
+        # Prevent options loading from sync storage after reload.
+        #localStorage['omega.local.syncOptions'] = '"conflict"'
+        chrome.runtime.reload()
+      )
     )
   reportIssue: ->
-    return if isProcessing
-    isProcessing = true
     idbKeyval.get('lastError', logStore).then((lastError) ->
-      isProcessing = false
       url = 'https://github.com/suziwen/ZeroOmega/issues/new?title=&body='
       finalUrl = url
       try

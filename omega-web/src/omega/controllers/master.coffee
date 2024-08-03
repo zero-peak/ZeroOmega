@@ -90,9 +90,6 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
     plainOptions = angular.fromJson(angular.toJson($rootScope.options))
     patch = diff.diff($rootScope.optionsOld, plainOptions)
     omegaTarget.optionsPatch(patch).then ->
-
-      omegaTarget.state('customCss').then (customCss = '') ->
-        $scope.customCss = customCss
       $rootScope.showAlert(
         type: 'success'
         i18n: 'options_saveSuccess'
