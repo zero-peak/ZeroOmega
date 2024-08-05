@@ -2,6 +2,14 @@ angular.module('omega').controller 'IoCtrl', (
   $scope, $rootScope, $window, $http, omegaTarget, downloadFile
 ) ->
 
+  getGistId = (gistUrl = '') ->
+    # get gistId from url `https://gist.github.com/{username}/{gistId}`
+    # or directly gistId
+    gistId = gistUrl.replace(/\/+$/, '')
+    gistId = gistId.split('/')
+    gistId = gistId[gistId.length - 1]
+    return gistId
+
   omegaTarget.state([
     'web.restoreOnlineUrl',
     'gistId',
@@ -13,6 +21,7 @@ angular.module('omega').controller 'IoCtrl', (
       $scope.restoreOnlineUrl = url
     if gistId
       $scope.gistId = gistId
+      $scope.gistUrl = "https://gist.github.com/" + getGistId(gistId)
     if gistToken
       $scope.gistToken = gistToken
     $scope.lastGistSync = new Date(lastGistSync or Date.now())

@@ -288,7 +288,12 @@ class ChromeSyncStorage extends OmegaTarget.Storage
   # param(withRemoteData) retrive gist file content
   ##
   init: (args) ->
-    gistId = args.gistId
+    gistId = args.gistId || ''
+    if gistId.indexOf('/') >= 0
+      # get gistId from url `https://gist.github.com/{username}/{gistId}`
+      gistId = gistId.replace(/\/+$/, '')
+      gistId = gistId.split('/')
+      gistId = gistId[gistId.length - 1]
     gistToken = args.gistToken
     return new Promise((resolve, reject) ->
       getLastCommit(gistId).then( (lastGistCommit) ->
