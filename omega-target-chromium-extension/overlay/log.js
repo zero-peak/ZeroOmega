@@ -2,7 +2,7 @@ const logStore = idbKeyval.createStore('log-store', 'log-store');
 
 const logSequence = []
 let isRunning = false
-let splitStr = '\n------------------\n'
+let splitStr = '\n----Z-e-r-o-O-m-e-g-a--------------\n'
 
 const originConsoleLog = console.log
 const originConsoleError = console.error

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "ZeroOmega--Proxy Switchy manifest v3 version",
-  "version": "3.3.1",
+  "name": "ZeroOmega--Proxy SwitchyOmega manifest v3",
+  "version": "3.3.2",
   "description": "__MSG_manifest_app_description__",
   "icons": {
     "16": "img/icons/omega-action-16.png",
@@ -26,7 +26,7 @@
     "scripts": ["x-background.js"],
     "type": "module"
   },
-  "minimum_chrome_version": "111",
+  "minimum_chrome_version": "88",
   "options_ui": {
     "page": "options.html",
     "browser_style": false,
@@ -48,7 +48,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "suziwen1@gmail.com",
-      "strict_min_version": "111.0"
+      "strict_min_version": "92.0"
     }
   }
 }
