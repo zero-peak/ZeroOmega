@@ -301,7 +301,7 @@ encodeError = (obj) ->
     obj
 
 refreshActivePageIfEnabled = ->
-  return if localStorage['omega.local.refreshOnProfileChange'] == 'false'
+  return if zeroLocalStorage['omega.local.refreshOnProfileChange'] == 'false'
   chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
     url = tabs[0].pendingUrl or tabs[0].url
     return if not url
