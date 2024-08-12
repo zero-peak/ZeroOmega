@@ -220,6 +220,8 @@ class OptionsSync
     })
   init: (args) ->
     @storage.init(args)
+  destroy: ->
+    @storage.destroy()
   flush: ({data}) ->
     @storage.flush({data})
 

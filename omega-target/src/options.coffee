@@ -56,20 +56,26 @@ class Options
         value = profile
     return value
 
-  constructor: (options, @_storage, @_state, @log, @sync, @proxyImpl) ->
+  constructor: (@_storage, @_state, @log, @sync, @proxyImpl) ->
     @_options = {}
     @_tempProfileRules = {}
     @_tempProfileRulesByProfile = {}
     @_storage ?= Storage()
     @_state ?= Storage()
     @log ?= Log
+
+
+  ###
+  # 拆开比较合理些
+  ###
+  initWithOptions: (options, startupCheck) ->
     if not options?
-      @init()
+      @init(startupCheck)
     else
       @ready = @_storage.remove().then(=>
         @_storage.set(options)
       ).then =>
-        @init()
+        @init(startupCheck)
 
   ###*
   # Attempt to load options from local and remote storage.
@@ -174,9 +180,15 @@ class Options
   # Attempt to initialize (or reinitialize) options.
   # @returns {Promise<OmegaOptions>} A promise that is fulfilled on ready.
   ###
-  init: ->
+  init: (startupCheck = -> true) ->
+    # startupCheck 一定要放在 isBrowserRestart 后面
+    # TODO  (suziwen1@gmail.com)
+    # 1. 好像有 bug , 一直没法重现，但就是很不经意就能出现，概率很小的样子
+    # 2. 有全局变量，容易污染代码，需要重构初始化流程
     @ready = @loadOptions().then(=>
-      if globalThis.isBrowserRestart and @_options['-startupProfileName']
+      if globalThis.isBrowserRestart and
+      startupCheck() and
+      @_options['-startupProfileName']
         @applyProfile(@_options['-startupProfileName'])
       else
         @_state.get({
@@ -1033,6 +1045,7 @@ class Options
         @sync.enabled = false
         @_syncWatchStop?()
         @_syncWatchStop = null
+        @sync.destroy()
         return
 
       if syncOptions == 'conflict'
@@ -1059,7 +1072,7 @@ class Options
               @sync.enabled = true
               @init()
           else
-            if remoteOptions.schemaVersion
+            if remoteOptions?.schemaVersion
               @sync.flush({data: remoteOptions}).then( =>
                 @sync.enabled = false
                 @_state.set({'syncOptions': 'conflict'})

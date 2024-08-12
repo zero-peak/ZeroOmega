@@ -8,7 +8,8 @@ isPushing = false
 
 state = null
 
-optionFilename = 'ZeroOmega.json'
+mainLetters = ['Z','e', 'r', 'o', 'O', 'm','e', 'g', 'a']
+optionFilename = mainLetters.concat(['.json']).join('')
 gistId = ''
 gistToken = ''
 gistHost = 'https://api.github.com'
@@ -135,7 +136,7 @@ getGist = (gistId) ->
 
 updateGist = (gistId, options) ->
   postBody = {
-    description: 'ZeroOmega Sync'
+    description: mainLetters.concat([' Sync']).join('')
     files: {}
   }
   postBody.files[optionFilename] = {
@@ -275,6 +276,8 @@ class ChromeSyncStorage extends OmegaTarget.Storage
       return Promise.resolve({})
     Promise.resolve(@storage.remove(keys))
       .catch(ChromeSyncStorage.parseStorageErrors)
+  destroy: ->
+    idbKeyval.clear(@syncStore)
   flush: ({data}) ->
     entries = []
     result = null

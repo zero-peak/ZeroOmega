@@ -5,6 +5,14 @@ Promise.longStackTraces()
 OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
 Log = OmegaTargetCurrent.Log
 
+# TODO 将来可能代码需要重构下，这里写得有点乱． (suziwen1@gmail.com)
+globalThis.isBrowserRestart = globalThis.startupCheck is undefined
+startupCheck = globalThis.startupCheck ?= -> true
+
+chrome.runtime.onStartup.addListener ->
+  globalThis.isBrowserRestart = true
+
+
 unhandledPromises = []
 unhandledPromisesId = []
 unhandledPromisesNextId = 1
@@ -163,8 +171,10 @@ if chrome?.storage?.sync or browser?.storage?.sync
 
 proxyImpl = OmegaTargetCurrent.proxy.getProxyImpl(Log)
 state.set({proxyImplFeatures: proxyImpl.features})
-options = new OmegaTargetCurrent.Options(null, storage, state, Log, sync,
+options = new OmegaTargetCurrent.Options(storage, state, Log, sync,
   proxyImpl)
+
+options.initWithOptions(null, startupCheck)
 
 options.externalApi = new OmegaTargetCurrent.ExternalApi(options)
 options.externalApi.listen()
@@ -322,7 +332,6 @@ resetAllOptions = ->
       chrome.storage.sync.clear(),
       chrome.storage.local.clear()
     ])
-
 chrome.runtime.onMessage.addListener (request, sender, respond) ->
   return unless request and request.method
   options.ready.then ->
