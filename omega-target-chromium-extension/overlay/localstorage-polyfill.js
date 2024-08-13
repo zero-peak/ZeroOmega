@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * author: suziwen1@gmail.com
+ **/
 let valuesMap = new Map()
 
 class LocalStorage {
@@ -42,7 +45,7 @@ class LocalStorage {
 }
 const instance = new LocalStorage()
 
-globalThis.zeroLocalStorage = new Proxy(instance, {
+const zeroLocalStorage = new Proxy(instance, {
   set: function (obj, prop, value) {
     if (LocalStorage.prototype.hasOwnProperty(prop)) {
       instance[prop] = value
@@ -60,6 +63,5 @@ globalThis.zeroLocalStorage = new Proxy(instance, {
     }
   }
 })
-if (!globalThis.localStorage) {
-  globalThis.localStorage = globalThis.zeroLocalStorage;
-}
+
+export default zeroLocalStorage

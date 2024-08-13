@@ -262,32 +262,8 @@ class ChromeOptions extends OmegaTarget.Options
       chrome.i18n.getMessage('browserAction_profileDetails_' + type) || null
 
   upgrade: (options, changes) ->
-    super(options).catch (err) =>
-      return Promise.reject err if options?['schemaVersion']
-      getOldOptions = Promise.reject()
-
-      getOldOptions = getOldOptions.catch ->
-        if options?['config']
-          Promise.resolve options
-        else if localStorage['config']
-          Promise.resolve localStorage
-        else
-          Promise.reject new OmegaTarget.Options.NoOptionsError()
-
-      getOldOptions.then (oldOptions) =>
-        i18n = {
-          upgrade_profile_auto: chrome.i18n.getMessage('upgrade_profile_auto')
-        }
-        try
-          # Upgrade from SwitchySharp.
-          upgraded = require('./upgrade')(oldOptions, i18n)
-        catch ex
-          @log.error(ex)
-          return Promise.reject ex
-        if localStorage['config']
-          Object.getPrototypeOf(localStorage).clear.call(localStorage)
-        @_state.set({'firstRun': 'upgrade'})
-        return this && super(upgraded, upgraded)
+    super(options).catch (err) ->
+      return Promise.reject err
 
   onFirstRun: (reason) ->
     console.log('first run ....')
