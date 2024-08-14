@@ -1,19 +1,21 @@
-zeroBackground = (zeroStorage, opts) ->
-  OmegaTargetCurrent = Object.create(OmegaTargetChromium)
-  Promise = OmegaTargetCurrent.Promise
-  Promise.longStackTraces()
+OmegaTargetCurrent = Object.create(OmegaTargetChromium)
+Promise = OmegaTargetCurrent.Promise
+Promise.longStackTraces()
 
-  OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
-  Log = OmegaTargetCurrent.Log
+OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
+Log = OmegaTargetCurrent.Log
 
 # TODO 将来可能代码需要重构下，这里写得有点乱． (suziwen1@gmail.com)
-  globalThis.isBrowserRestart = globalThis.startupCheck is undefined
-  startupCheck = globalThis.startupCheck ?= -> true
+globalThis.isBrowserRestart = globalThis.startupCheck is undefined
+startupCheck = globalThis.startupCheck ?= -> true
 
-  chrome.runtime.onStartup.addListener ->
-    globalThis.isBrowserRestart = true
+chrome.runtime.onStartup.addListener ->
+  globalThis.isBrowserRestart = true
 
 
+dispName = (name) -> chrome.i18n.getMessage('profile_' + name) || name
+
+zeroBackground = (zeroStorage, opts) ->
   unhandledPromises = []
   unhandledPromisesId = []
   unhandledPromisesNextId = 1
@@ -69,7 +71,6 @@ zeroBackground = (zeroStorage, opts) ->
   isHidden = (name) -> (name.charCodeAt(0) == charCodeUnderscore and
     name.charCodeAt(1) == charCodeUnderscore)
 
-  dispName = (name) -> chrome.i18n.getMessage('profile_' + name) || name
 
   actionForUrl = (url) ->
     options.ready.then(->
