@@ -23,17 +23,26 @@ import "./js/background.js" // zeroBackground
 const isFirefox = !!globalThis.localStorage
 
 function detectPrivateMode(cb) {
-    var db,
+    var db, tempMode,
     on = cb.bind(null, true),
     off = cb.bind(null, false)
   if (isFirefox) {
-    db = indexedDB.open("zeroOmega-test"), db.onerror = on, db.onsuccess = off
+    // in private mode, localStorage will be erased when browser restart
+    tempMode = localStorage.getItem('zeroOmega.isPrivateMode')
+    if (tempMode) {
+      tempMode == 'true' ? on() : off()
+    } else {
+      db = indexedDB.open("zeroOmega-test"), db.onerror = on, db.onsuccess = off
+    }
   } else {
     off()
   }
 }
 
 detectPrivateMode(function (isPrivateMode) {
+  if (isFirefox) {
+    localStorage.setItem('zeroOmega.isPrivateMode', isPrivateMode ? 'true' : 'false')
+  }
 
   if (isPrivateMode && isFirefox) {
     // fake indexedDB
