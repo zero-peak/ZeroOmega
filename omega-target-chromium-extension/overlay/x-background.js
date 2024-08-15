@@ -21,11 +21,17 @@ import "./js/background.js" // zeroBackground
  **/
 
 const isFirefox = !!globalThis.localStorage
+const zcb = globalThis.zeroDetectModeCB
 
 function detectPrivateMode(cb) {
-    var db, tempMode,
-    on = cb.bind(null, true),
-    off = cb.bind(null, false)
+    var db, tempMode,on, off;
+    if (zcb) {
+      on = zcb(cb, true);
+      off = zcb(cb, false);
+    } else {
+      on = ()=> {setTimeout(cb.bind(null, true), 1)};
+      off = ()=> {setTimeout(cb.bind(null, false), 1)};
+    }
   if (isFirefox) {
     // in private mode, localStorage will be erased when browser restart
     tempMode = localStorage.getItem('zeroOmega.isPrivateMode')
