@@ -172,35 +172,6 @@ updateGist = (gistId, options) ->
 
 class ChromeSyncStorage extends OmegaTarget.Storage
   @parseStorageErrors: (err) ->
-    if err?.message
-      sustainedPerMinute = 'MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE'
-      if err.message.indexOf('QUOTA_BYTES_PER_ITEM') >= 0
-        err = new OmegaTarget.Storage.QuotaExceededError()
-        err.perItem = true
-      else if err.message.indexOf('QUOTA_BYTES') >= 0
-        err = new OmegaTarget.Storage.QuotaExceededError()
-      else if err.message.indexOf('MAX_ITEMS') >= 0
-        err = new OmegaTarget.Storage.QuotaExceededError()
-        err.maxItems = true
-      else if err.message.indexOf('MAX_WRITE_OPERATIONS_') >= 0
-        err = new OmegaTarget.Storage.RateLimitExceededError()
-        if err.message.indexOf('MAX_WRITE_OPERATIONS_PER_HOUR') >= 0
-          err.perHour = true
-        else if err.message.indexOf('MAX_WRITE_OPERATIONS_PER_MINUTE') >= 0
-          err.perMinute = true
-      else if err.message.indexOf(sustainedPerMinute) >= 0
-        err = new OmegaTarget.Storage.RateLimitExceededError()
-        err.perMinute = true
-        err.sustained = 10
-      else if err.message.indexOf('is not available') >= 0
-        # This could happen if the storage area is not available. For example,
-        # some Chromium-based browsers disable access to the sync storage.
-        err = new OmegaTarget.Storage.StorageUnavailableError()
-      else if err.message.indexOf(
-        'Please set webextensions.storage.sync.enabled to true') >= 0
-          # This happens when sync storage is disabled in flags.
-          err = new OmegaTarget.Storage.StorageUnavailableError()
-
     return Promise.reject(err)
 
   constructor: (@areaName, _state) ->
