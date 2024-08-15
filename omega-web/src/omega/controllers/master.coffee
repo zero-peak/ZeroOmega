@@ -26,7 +26,8 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
       showFirstRun()
   
   $rootScope.revertOptions = ->
-    $window.location.reload()
+    if $rootScope.optionsDirty
+      $window.location.reload()
 
   $rootScope.exportScript = (name) ->
     getProfileName =
@@ -85,6 +86,7 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
     return true
 
   $rootScope.applyOptions = ->
+    return unless $rootScope.optionsDirty
     return unless checkFormValid()
     return if $rootScope.$broadcast('omegaApplyOptions').defaultPrevented
     plainOptions = angular.fromJson(angular.toJson($rootScope.options))
