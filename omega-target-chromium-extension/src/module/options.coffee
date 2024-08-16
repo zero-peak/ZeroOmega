@@ -25,7 +25,7 @@ class ChromeOptions extends OmegaTarget.Options
           @ready.then( =>
             @updateProfile()
           )
-    chrome.contextMenus.onClicked.addListener((info, tab) =>
+    chrome.contextMenus?.onClicked.addListener((info, tab) =>
       @ready.then( =>
         switch info.menuItemId
           when 'enableQuickSwitch'

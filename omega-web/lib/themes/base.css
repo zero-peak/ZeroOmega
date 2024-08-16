@@ -167,13 +167,13 @@ fieldset[disabled] .form-control {
 
 .alert-info {
   color: var(--infoColor);
-  background-color: transparent;
+  background: var(--defaultBackground);
   border-color: var(--lighterBackground);
   position: relative;
 }
 .alert-success {
   color: var(--positiveColor);
-  background-color: transparent;
+  background: var(--defaultBackground);
   border-color: var(--lighterBackground);
   position: relative;
 }
@@ -191,7 +191,7 @@ fieldset[disabled] .form-control {
 
 .alert-danger {
   color: var(--negativeColor);
-  background-color: transparent;
+  background: var(--defaultBackground);
   border-color: var(--lighterBackground);
   position: relative;
 }

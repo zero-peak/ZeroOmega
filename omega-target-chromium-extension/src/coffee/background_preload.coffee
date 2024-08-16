@@ -4,7 +4,7 @@ if not globalThis.window
 window.UglifyJS_NoUnsafeEval = true
 
 createContextMenu = ->
-  chrome.contextMenus.create({
+  chrome.contextMenus?.create({
     id: 'enableQuickSwitch'
     title: chrome.i18n.getMessage('contextMenu_enableQuickSwitch')
     type: 'checkbox'

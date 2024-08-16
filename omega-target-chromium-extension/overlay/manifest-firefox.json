@@ -48,7 +48,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "suziwen1@gmail.com",
-      "strict_min_version": "92.0"
+      "strict_min_version": "112.0"
     }
   }
 }
