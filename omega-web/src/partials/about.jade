@@ -10,7 +10,7 @@ section
     .media-left
       img.media-object(src='img/icons/omega-action-32.png')
     .media-body
-      h4.media-heading {{'appNameShort' | tr}}
+      h4.media-heading {{'Z&#8205e&#8205r&#8205o&#8205Omega'}}
       p {{'about_app_description' | tr}}
 section
   p
@@ -46,10 +46,10 @@ section
 
 section(style='margin-top: 7em')
   p
-    | {{'appNameShort' | tr}}
+    | {{'Z&#8203;er&#8203;oO&#8203;mega'}}
     br
     span(ng-bind-html='"about_copyright" | tr')
     br
-    span(ng-bind-html='"about_license" | tr')
+    span(ng-bind-html='htmlCredits')
     br
-    span(ng-bind-html='"about_credits" | tr')
+    span(ng-bind-html='htmlLicense')
