@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 5.5-dev\n"
 
 msgid "appNameShort"
-msgstr "SwitchyOmega"
+msgstr "Z&#8205;e&#8205;r&#8205;oOmega"
 
 msgid "manifest_app_name"
 msgstr "Proxy SwitchyOmega"
@@ -1128,19 +1128,19 @@ msgid "about_experimental_warning_moz"
 msgstr "Mozilla Firefox 浏览器支持目前仍处于早期实验阶段！如果您遇到任何问题，请使用下方的按钮进行反馈。"
 
 msgid "about_disclaimer_networkService"
-msgstr "SwitchyOmega 不提供代理服务器、VPN等网络服务。"
+msgstr "Zer&#8205;oOmega 不提供代理服务器、VPN等网络服务。"
 
 msgid "about_disclaimer_privacy"
-msgstr "SwitchyOmega 不会跟踪您的上网记录，不在页面中插入广告。请参见我们的"
+msgstr "Z&#8205;eroOmega 不会跟踪您的上网记录，不在页面中插入广告。请参见我们的"
 "<a href='https://github.com/FelisCatus/SwitchyOmega/wiki/Privacy#%E4%B8%AD%E6%96%87'>隐私政策</a>。"
 
 msgid "about_help"
 msgstr ""
-"有其它问题？在使用 SwitchyOmega 方面需要帮助？请参阅我们的<a href='https://github.com/FelisCatus/"
+"有其它问题？在使用 Ze&#8205;roOmega 方面需要帮助？请参阅我们的<a href='https://github.com/FelisCatus/"
 "SwitchyOmega/wiki/FAQ'>常见问题</a>。"
 
 msgid "about_copyright"
-msgstr "版权所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有权利。"
+msgstr "版权所有 2012-2024 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有权利。"
 
 msgid "about_credits"
 msgstr "SwitchyOmega 的诞生离不开 <a href='https://github.com/FelisCatus/SwitchyOmega'>SwitchyOmega</a> 开源项目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>开源软件</a>。"

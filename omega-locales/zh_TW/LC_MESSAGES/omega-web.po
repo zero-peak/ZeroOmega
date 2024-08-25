@@ -1115,10 +1115,10 @@ msgid "about_experimental_warning_moz"
 msgstr "Mozilla Firefox 瀏覽器支持目前仍處於早期實驗階段！如果您遇到任何問題，請使用下方的按鈕進行回報。"
 
 msgid "about_disclaimer_networkService"
-msgstr "SwitchyOmega 不提供代理伺服器、VPN等網路服務。"
+msgstr "Zer&#8205;oO&#8205;mega 不提供代理伺服器、VPN等網路服務。"
 
 msgid "about_disclaimer_privacy"
-msgstr "SwitchyOmega 不會跟蹤您的上網記錄，不在頁面中插入廣告。請參見我們的"
+msgstr "Ze&#8205;roOmega 不會跟蹤您的上網記錄，不在頁面中插入廣告。請參見我們的"
 "<a href='https://github.com/FelisCatus/SwitchyOmega/wiki/Privacy#%E4%B8%AD%E6%96%87'>隱私政策</a>。"
 
 msgid "about_help"
