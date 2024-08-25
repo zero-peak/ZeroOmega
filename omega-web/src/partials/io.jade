@@ -57,7 +57,7 @@ section.settings-group
           input.form-control(type='text' ng-model='gistToken' ng-readonly='syncOptions == "sync"' placeholder="Gist Token")
         span.help-block
           a(href="https://github.com/settings/tokens/new" role="button" target="_blank")
-            | {{ 'Create a token that manages the Gist.'}}
+            | {{ 'Create a token that manages the Gist.(Only gist permission is required.)'}}
   div(ng-show='syncOptions == "pristine" || syncOptions == "disabled"')
     p.help-block(omega-html='"options_syncPristineHelp" | tr')
     p
