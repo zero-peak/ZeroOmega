@@ -14,6 +14,13 @@ createContextMenu = ->
     contexts: ["action"]
   })
 
+  chrome.contextMenus?.create({
+    id: 'reportIssue'
+    title: chrome.i18n.getMessage('popup_reportIssues')
+    contexts: ["action"]
+  })
+
+
 chrome.runtime.onInstalled.addListener( ->
   # We don't need this API. However its presence indicates that Chrome >= 35
   # which provides info.checked we need in contextMenu callback.
@@ -25,3 +32,9 @@ chrome.runtime.onInstalled.addListener( ->
 if browser?.proxy?.onRequest?
   #firefox bug fix?
   createContextMenu()
+
+chrome.contextMenus?.onClicked.addListener((info, tab) ->
+  switch info.menuItemId
+    when 'reportIssue'
+      OmegaDebug.reportIssue()
+)

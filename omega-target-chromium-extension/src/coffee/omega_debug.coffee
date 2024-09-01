@@ -71,7 +71,7 @@ window.OmegaDebug =
         body ||= """
           \n\n
           <!-- Please write your comment ABOVE this line. -->
-          SwitchyOmega #{env.projectVersion}
+          ZeroOmega #{env.projectVersion}
           #{env.userAgent}
         """
         finalUrl = url + encodeURIComponent(body)

@@ -7,11 +7,42 @@ Log = OmegaTargetCurrent.Log
 
 # TODO 将来可能代码需要重构下，这里写得有点乱． (suziwen1@gmail.com)
 globalThis.isBrowserRestart = globalThis.startupCheck is undefined
+globalThis.hasStartupCheck = not globalThis.isBrowserRestart
 startupCheck = globalThis.startupCheck ?= -> true
+options = null
 
 chrome.runtime.onStartup.addListener ->
   globalThis.isBrowserRestart = true
 
+upgradeMigrateFn = (details) ->
+  if details.reason is 'update'
+    manifest = chrome.runtime.getManifest()
+    currentVersion = manifest.version
+    previousVersion = details.previousVersion
+    if compareVersions.compare currentVersion, previousVersion, '>'
+      if compareVersions.compare '3.3.0', currentVersion, '>'
+        options.ready.then( ->
+          chrome.storage.sync.clear()
+          chrome.storage.local.clear()
+          idbKeyval.clear()
+        )
+      else
+        switch currentVersion
+          when '3.3.10'
+            options.ready.then( ->
+              # TODO check
+              true
+            )
+          when '3.3.11'
+            options.ready.then( ->
+              # TODO clear all disabled syncOptions
+              true
+            )
+chrome.runtime.onInstalled.addListener( (details) ->
+  setTimeout(->
+    upgradeMigrateFn(details)
+  , 2)
+)
 
 dispName = (name) -> chrome.i18n.getMessage('profile_' + name) || name
 
