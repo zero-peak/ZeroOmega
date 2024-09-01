@@ -1214,11 +1214,11 @@ msgid "browserAction_profileDetails_RuleListProfile"
 msgstr "(switching based on rule list)"
 
 msgid "browserAction_titleNormal"
-msgstr "SwitchyOmega:: $PROFILE$"
+msgstr "ZeroOmega:: $PROFILE$"
 
 msgid "browserAction_titleWithResult"
 msgstr ""
-"SwitchyOmega:: $1:PROFILE$\n"
+"ZeroOmega:: $1:PROFILE$\n"
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"

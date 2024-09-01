@@ -516,14 +516,6 @@ msgstr ""
 "Las opciones de sincronización no son soportadas por su plataforma o "
 "navegador. Por ahora, solo el navegador Chrome en el escritorio las soporta."
 
-msgid "options_profileSyncDisabled"
-msgstr "La sincronización esta inhabilitada para este perfil."
-
-msgid "options_profileSyncDisabled_quotaPerItem"
-msgstr ""
-"La sincronización esta inhabilitada para este perfil por usar mucho espacio "
-"de almacenamiento."
-
 msgid "options_profileTabPrefix"
 msgstr "Perfil :: "
 
@@ -1233,7 +1225,7 @@ msgstr ""
 "\n"
 "\n"
 "<!-- Por favor escribe tu comentario SOBRE esta línea. -->\n"
-"SwitchyOmega $projectVersion$\n"
+"ZeroOmega $projectVersion$\n"
 "$userAgent$"
 
 msgid "browserAction_profileDetails_PacProfile"
@@ -1252,11 +1244,11 @@ msgid "browserAction_profileDetails_RuleListProfile"
 msgstr "(cambio basado en la lista de reglas)"
 
 msgid "browserAction_titleNormal"
-msgstr "SwitchyOmega:: $PROFILE$"
+msgstr "ZeroOmega:: $PROFILE$"
 
 msgid "browserAction_titleWithResult"
 msgstr ""
-"SwitchyOmega:: $1:PROFILE$\n"
+"ZeroOmega:: $1:PROFILE$\n"
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"

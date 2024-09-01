@@ -500,14 +500,6 @@ msgstr ""
 "همگام سازی گزینه ها در پلت فرم یا مرورگر شما پشتیبانی نمی شود. در حال حاضر ، "
 "فقط مرورگر Chrome روی دسکتاپ پشتیبانی می شود."
 
-msgid "options_profileSyncDisabled"
-msgstr "همگام سازی برای این پروفایل غیرفعال میباشد ."
-
-msgid "options_profileSyncDisabled_quotaPerItem"
-msgstr ""
-"همگام سازی برای این پروفایل به دلیل استفاده ی زیاد از فضای حافظه غیرفعال شده "
-"است ."
-
 msgid "options_profileTabPrefix"
 msgstr "نمایه :: "
 
@@ -1198,7 +1190,7 @@ msgstr ""
 "\n"
 "\n"
 "<!-- لطفا توضیحات خود را در بالای این خط بنویسید. -->\n"
-"SwitchyOmega $projectVersion$↵\n"
+"ZeroOmega $projectVersion$↵\n"
 "$userAgent$"
 
 msgid "browserAction_profileDetails_PacProfile"

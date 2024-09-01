@@ -489,12 +489,6 @@ msgstr ""
 "Options syncing is not supported on your platform or browser. For now, only "
 "Chrome browser on desktop is supported."
 
-msgid "options_profileSyncDisabled"
-msgstr "Syncing is disabled for this profile."
-
-msgid "options_profileSyncDisabled_quotaPerItem"
-msgstr "Syncing is disabled for this profile for using too much storage space."
-
 msgid "options_profileTabPrefix"
 msgstr "Profile :: "
 
@@ -1174,7 +1168,7 @@ msgstr ""
 "\n"
 "\n"
 "<!-- Please write your comment ABOVE this line. -->\n"
-"SwitchyOmega $projectVersion$\n"
+"ZeroOmega $projectVersion$\n"
 "$userAgent$"
 
 msgid "browserAction_profileDetails_PacProfile"
@@ -1193,11 +1187,11 @@ msgid "browserAction_profileDetails_RuleListProfile"
 msgstr "(switching based on rule list)"
 
 msgid "browserAction_titleNormal"
-msgstr "SwitchyOmega:: $PROFILE$"
+msgstr "ZeroOmega:: $PROFILE$"
 
 msgid "browserAction_titleWithResult"
 msgstr ""
-"SwitchyOmega:: $1:PROFILE$\n"
+"ZeroOmega:: $1:PROFILE$\n"
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"

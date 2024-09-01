@@ -429,12 +429,6 @@ msgstr "您可以將雲端的選項下載到此裝置使用。<br>一旦選擇�
 msgid "options_syncUnsupportedHelp"
 msgstr "選項同步暫不支援您的平臺或瀏覽器。目前只支援桌面版Chrome的瀏覽器的同步，請諒解。"
 
-msgid "options_profileSyncDisabled"
-msgstr "此情境模式已經停用同步。"
-
-msgid "options_profileSyncDisabled_quotaPerItem"
-msgstr "此情境模式使用儲存空間過多，因此無法進行同步。"
-
 msgid "options_profileTabPrefix"
 msgstr "情境模式： "
 
@@ -1034,7 +1028,7 @@ msgstr ""
 "\n"
 "\n"
 "<!-- ↑請在此行上方填寫問題/建議詳情，可用中文↑ -->\n"
-"SwitchyOmega $projectVersion$\n"
+"ZeroOmega $projectVersion$\n"
 "$userAgent$"
 
 msgid "browserAction_profileDetails_PacProfile"
@@ -1053,11 +1047,11 @@ msgid "browserAction_profileDetails_RuleListProfile"
 msgstr "(依據規則清單切換)"
 
 msgid "browserAction_titleNormal"
-msgstr "SwitchyOmega:: $PROFILE$"
+msgstr "ZeroOmega:: $PROFILE$"
 
 msgid "browserAction_titleWithResult"
 msgstr ""
-"SwitchyOmega:: $1:PROFILE$\n"
+"ZeroOmega:: $1:PROFILE$\n"
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"
