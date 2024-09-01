@@ -259,6 +259,10 @@ class Options
           color: '#00cccc'
         )
       version = changes['schemaVersion'] = options['schemaVersion'] = 2
+    OmegaPac.Profiles.each options, (key, profile) ->
+      if profile.syncOptions is 'disabled'
+        delete profile['syncOptions']
+        delete profile['syncError']
     if version == 2
       # Current schemaVersion.
       Promise.resolve([options, changes])

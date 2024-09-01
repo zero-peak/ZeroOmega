@@ -50,7 +50,6 @@ class OptionsSync
   ###*
   # Merge newVal and oldVal of a given key. The default implementation choose
   # between newVal and oldVal based on the following rules:
-  # 1. Choose oldVal if syncOptions is 'disabled' in either oldVal or newVal.
   # 2. Choose oldVal if it has a revision newer than or equal to that of newVal.
   # 3. Choose oldVal if it deeply equals newVal.
   # 4. Otherwise, choose newVal.
@@ -67,8 +66,6 @@ class OptionsSync
     )
     return (key, newVal, oldVal) ->
       return oldVal if newVal == oldVal
-      if oldVal?.syncOptions == 'disabled' or newVal?.syncOptions == 'disabled'
-        return oldVal
       if oldVal?.revision? and newVal?.revision?
         result = Revision.compare(oldVal.revision, newVal.revision)
         return oldVal if result >= 0
@@ -176,9 +173,6 @@ class OptionsSync
   ###
   copyTo: (local) ->
     Promise.join local.get(null), @storage.get(null), (base, changes) =>
-      for own key of base when not (key of changes)
-        if key[0] == '+' and not base[key]?.syncOptions == 'disabled'
-          changes[key] = undefined
       local.apply(
         changes: changes
         base: base
