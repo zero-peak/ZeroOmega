@@ -5,8 +5,9 @@ window.UglifyJS_NoUnsafeEval = true
 globalThis.zeroDetectModeCB = null
 globalThis.startupCheck = undefined
 
-createContextMenu = ->
-  chrome.contextMenus?.create({
+initContextMenu = ->
+  chrome.contextMenus.removeAll()
+  chrome.contextMenus.create({
     id: 'enableQuickSwitch'
     title: chrome.i18n.getMessage('contextMenu_enableQuickSwitch')
     type: 'checkbox'
@@ -14,26 +15,15 @@ createContextMenu = ->
     contexts: ["action"]
   })
 
-  chrome.contextMenus?.create({
+  chrome.contextMenus.create({
     id: 'reportIssue'
     title: chrome.i18n.getMessage('popup_reportIssues')
     contexts: ["action"]
   })
 
+initContextMenu()
 
-chrome.runtime.onInstalled.addListener( ->
-  # We don't need this API. However its presence indicates that Chrome >= 35
-  # which provides info.checked we need in contextMenu callback.
-  # https://developer.chrome.com/extensions/contextMenus
-  if chrome.i18n.getUILanguage?
-    createContextMenu()
-)
-
-if browser?.proxy?.onRequest?
-  #firefox bug fix?
-  createContextMenu()
-
-chrome.contextMenus?.onClicked.addListener((info, tab) ->
+chrome.contextMenus.onClicked.addListener((info, tab) ->
   switch info.menuItemId
     when 'reportIssue'
       OmegaDebug.reportIssue()

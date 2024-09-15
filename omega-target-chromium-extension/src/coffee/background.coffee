@@ -14,6 +14,16 @@ options = null
 chrome.runtime.onStartup.addListener ->
   globalThis.isBrowserRestart = true
 
+
+
+chrome.contextMenus.onClicked.addListener((info, tab) ->
+  options?.ready.then( ->
+    switch info.menuItemId
+      when 'inspectPage', 'inspectLink', 'inspectElement', 'inspectFrame'
+        options._inspect.inspect(info, tab)
+  )
+)
+
 upgradeMigrateFn = (details) ->
   if details.reason is 'update'
     manifest = chrome.runtime.getManifest()

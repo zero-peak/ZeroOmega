@@ -174,6 +174,18 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
     omegaTarget.addCondition(conditions, profileName).then ->
       omegaTarget.state('lastProfileNameForCondition', profileName)
       refresh()
+
+  $scope.addTempConditionForDomains = (domains, profileName) ->
+    conditions = []
+    promises = []
+    for own domain, enabled of domains when enabled
+      promises.push(omegaTarget.addTempRule(
+        domain.substring(2),
+        profileName, 1)
+      )
+    Promise.all(promises).then ->
+      omegaTarget.state('lastProfileNameForCondition', profileName)
+      refresh()
   
   $scope.validateProfileName =
     conflict: '!$value || !availableProfiles["+" + $value]'

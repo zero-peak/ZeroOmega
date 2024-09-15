@@ -810,9 +810,13 @@ class Options
   # Add a temp rule.
   # @param {String} domain The domain for the temp rule.
   # @param {String} profileName The profile to apply for the domain.
+  # @param {1, -1, undefined, null, 0}
+  # 1: force add temp rule;
+  # -1: force delete temp rule;
+  # 0, null or undefined : toggle it
   # @returns {Promise} A promise which is fulfilled when the rule is applied.
   ###
-  addTempRule: (domain, profileName) ->
+  addTempRule: (domain, profileName, toggle) ->
     @log.method('Options#addTempRule', this, arguments)
     return Promise.resolve() if not @_currentProfileName
     profile = OmegaPac.Profiles.byName(profileName, @_options)
@@ -824,8 +828,14 @@ class Options
       @_tempProfile.color = currentProfile.color
       @_tempProfile.defaultProfileName = currentProfile.name
     
-    changed = 0
+    changed = 0 # 0: nothing change, 1 add or modified, -1 delete
     rule = @_tempProfileRules[domain]
+    if toggle
+      if rule and toggle is 1
+        return Promise.resolve()
+      if not rule and toggle is -1
+        return Promise.resolve()
+
     if rule and rule.profileName
       if rule.profileName != profileName
         key = OmegaPac.Profiles.nameAsKey(rule.profileName)
