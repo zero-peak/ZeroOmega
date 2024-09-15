@@ -6,6 +6,7 @@ globalThis.zeroDetectModeCB = null
 globalThis.startupCheck = undefined
 
 initContextMenu = ->
+  return unless chrome.contextMenus
   chrome.contextMenus.removeAll()
   chrome.contextMenus.create({
     id: 'enableQuickSwitch'
@@ -23,7 +24,7 @@ initContextMenu = ->
 
 initContextMenu()
 
-chrome.contextMenus.onClicked.addListener((info, tab) ->
+chrome.contextMenus?.onClicked.addListener((info, tab) ->
   switch info.menuItemId
     when 'reportIssue'
       OmegaDebug.reportIssue()

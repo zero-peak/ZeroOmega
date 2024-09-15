@@ -16,7 +16,7 @@ chrome.runtime.onStartup.addListener ->
 
 
 
-chrome.contextMenus.onClicked.addListener((info, tab) ->
+chrome.contextMenus?.onClicked.addListener((info, tab) ->
   options?.ready.then( ->
     switch info.menuItemId
       when 'inspectPage', 'inspectLink', 'inspectElement', 'inspectFrame'
