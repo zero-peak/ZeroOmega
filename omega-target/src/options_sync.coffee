@@ -6,6 +6,9 @@ Log = require './log'
 jsondiffpatch = require 'jsondiffpatch'
 TokenBucket = require('limiter').TokenBucket
 
+
+BUILTINSYNCKEY = 'zeroOmegaSync'
+
 class OptionsSync
   @TokenBucket: TokenBucket
 
@@ -31,7 +34,15 @@ class OptionsSync
   ###
   storage: null
 
-  constructor: (@storage, @_bucket) ->
+  ###*
+  # Use browser built-in sync to enhance gist sync function
+  # @type Storage
+  ###
+  builtInSyncStorage: null
+
+  state: null
+
+  constructor: (@storage, @builtInSyncStorage, @state, @_bucket) ->
     @_pending = {}
     @_bucket ?= new TokenBucket(10, 10, 'minute', null)
     @_bucket.clear ?= =>
@@ -207,12 +218,45 @@ class OptionsSync
         doPull()
       else
         pullScheduled = setTimeout(doPull, @pullThrottle)
+  toggleBuiltInSync: (useBuiltInSync) ->
+    @getBuiltInSyncConfig().then((builtInSyncConfig) =>
+      @state.get({
+        'gistId': '',
+        'gistToken': '',
+        'lastGistCommit': ''
+      }).then((syncConfig) =>
+        if useBuiltInSync is undefined
+          useBuiltInSync = !builtInSyncConfig
+        if useBuiltInSync is true
+          _obj = {}
+          _obj[BUILTINSYNCKEY] = syncConfig
+          @builtInSyncStorage.set(_obj)
+        else
+          @builtInSyncStorage.remove(BUILTINSYNCKEY)
+      )
+    )
+  getBuiltInSyncConfig: ->
+    @builtInSyncStorage.get(BUILTINSYNCKEY).then((_obj) ->
+      return _obj[BUILTINSYNCKEY]
+    )
+  updateBuiltInSyncConfigIf: (_builtInSyncConfig) ->
+    @getBuiltInSyncConfig().then((builtInSyncConfig) =>
+      if !!builtInSyncConfig
+        newBuiltInSyncConfig = Object.assign(
+          {}, builtInSyncConfig, _builtInSyncConfig
+        )
+        _obj = {}
+        _obj[BUILTINSYNCKEY] = newBuiltInSyncConfig
+        @builtInSyncStorage.set(_obj)
+    )
   checkChange: ->
     @storage.checkChange({
       immediately: true
       force: true
     })
   init: (args) ->
+    args.optionsSync = this
+    args.state = @state
     @storage.init(args)
   destroy: ->
     @storage.destroy()

@@ -5,6 +5,9 @@ Promise.longStackTraces()
 OmegaTargetCurrent.Log = Object.create(OmegaTargetCurrent.Log)
 Log = OmegaTargetCurrent.Log
 
+
+BUILTINSYNCKEY = 'zeroOmegaSync'
+
 # TODO 将来可能代码需要重构下，这里写得有点乱． (suziwen1@gmail.com)
 globalThis.isBrowserRestart = globalThis.startupCheck is undefined
 globalThis.hasStartupCheck = not globalThis.isBrowserRestart
@@ -212,7 +215,10 @@ zeroBackground = (zeroStorage, opts) ->
 
   if chrome?.storage?.sync or browser?.storage?.sync
     syncStorage = new OmegaTargetCurrent.SyncStorage('sync', state)
-    sync = new OmegaTargetCurrent.OptionsSync(syncStorage)
+    builtInSyncStorage = new OmegaTargetCurrent.Storage('sync')
+    sync = new OmegaTargetCurrent.OptionsSync(
+      syncStorage, builtInSyncStorage, state
+    )
     sync.transformValue = OmegaTargetCurrent.Options.transformValueForSync
 
   proxyImpl = OmegaTargetCurrent.proxy.getProxyImpl(Log)
@@ -228,7 +234,46 @@ zeroBackground = (zeroStorage, opts) ->
   if chrome.runtime.id != OmegaTargetCurrent.SwitchySharp.extId and false
     options.switchySharp = new OmegaTargetCurrent.SwitchySharp()
     options.switchySharp.monitor()
-
+  if sync and options and builtInSyncStorage
+    builtInSyncStorage.watch [
+      BUILTINSYNCKEY
+    ], (changes, opts = {}) ->
+      builtInSyncConfig = changes[BUILTINSYNCKEY]
+      if builtInSyncConfig
+        {gistId, gistToken, lastGistCommit} = builtInSyncConfig
+        state.set({gistId, gistToken})
+        if sync.enabled
+          console.log('check gist change', lastGistCommit)
+          sync.init({gistId, gistToken})
+          state.get({
+            'lastGistCommit': ''
+          }).then((syncConfig) ->
+            if syncConfig.lastGistCommit isnt lastGistCommit
+              console.log(
+                'no match last gist commit, will check change',
+                syncConfig.lastGistCommit
+              )
+              sync.checkChange()
+          )
+        else
+          # try to enable sync
+          state.get({
+            'syncOptions': ''
+            'lastGistCommit': ''
+          }).then((syncConfig) ->
+            return if syncConfig.lastGistCommit is lastGistCommit
+            if syncConfig.syncOptions in ['pristine', 'conflict']
+              state.set({
+                syncOptions: 'conflict'
+              }).then( ->
+                options.setOptionsSync(true, {
+                  gistId,
+                  gistToken,
+                  useBuiltInSync: true,
+                  force: true
+                })
+              )
+          )
   tabs = new OmegaTargetCurrent.ChromeTabs(actionForUrl)
   tabs.watch()
 

@@ -101,8 +101,9 @@ class Options
           'gistToken': ''
         }).then(({syncOptions, gistId, gistToken}) =>
           unless gistId
-            syncOptions = 'pristine'
-            @_state.set({'syncOptions': 'pristine'})
+            unless syncOptions is 'disabled'
+              syncOptions = 'pristine'
+            @_state.set({'syncOptions': syncOptions})
           @sync.enabled = syncOptions is 'sync'
           unless @sync.enabled
             @_storage.get(null)
@@ -182,6 +183,8 @@ class Options
   ###
   init: (startupCheck = -> true) ->
     # startupCheck 一定要放在 isBrowserRestart 后面
+    # startupProfileName 如果为空，就使用当前的 currentProfileName
+    # 如果没有 currentProfileName, 就使用默认的 fallbackProfileName
     # TODO  (suziwen1@gmail.com)
     # 1. 好像有 bug , 一直没法重现，但就是很不经意就能出现，概率很小的样子
     # 2. 有全局变量，容易污染代码，需要重构初始化流程
@@ -189,12 +192,17 @@ class Options
       if globalThis.isBrowserRestart and
       startupCheck() and
       @_options['-startupProfileName']
+        console.log(
+          'apply browser restart startup profile',
+          @_options['-startupProfileName']
+        )
         @applyProfile(@_options['-startupProfileName'])
       else
         @_state.get({
           'currentProfileName': @fallbackProfileName
           'isSystemProfile': false
         }).then (st) =>
+          console.log('apply init startup profile', st)
           if st['isSystemProfile']
             @applyProfile('system')
           else
@@ -208,7 +216,7 @@ class Options
     ).then => @getAll()
 
     @ready.then =>
-      @sync.requestPush(@_options) if @sync?.enabled
+      #@sync.requestPush(@_options) if @sync?.enabled
 
       @_state.get({'firstRun': ''}).then ({firstRun}) =>
         @onFirstRun(firstRun) if firstRun
@@ -296,14 +304,20 @@ class Options
   reset: (options) ->
     @log.method('Options#reset', this, arguments)
     options ?= @getDefaultOptions()
-    @upgrade(@parseOptions(options)).then ([opt]) =>
+    _options = @parseOptions(options)
+    @upgrade(_options).then ([opt]) =>
       # Disable syncing when resetting to avoid affecting sync storage.
       @sync.enabled = false if @sync?
       @_state.remove(['syncOptions'])
+      @_watchStop?()
+      @_watchStop = null
       @_storage.remove().then(=>
         @_storage.set(opt)
-      ).then =>
+      ).then( =>
         @init()
+      ).then =>
+        if _options['-startupProfileName']
+          @applyProfile(_options['-startupProfileName'])
 
   ###*
   # Called on the first initialization of options.
@@ -1055,7 +1069,7 @@ class Options
     }).then ({syncOptions, lastGistCommit}) =>
       if not enabled
         if syncOptions == 'sync'
-          @_state.set({'syncOptions': 'pristine'})
+          @_state.set({'syncOptions': 'disabled'})
         @sync.enabled = false
         @_syncWatchStop?()
         @_syncWatchStop = null
@@ -1082,9 +1096,26 @@ class Options
           if syncOptions == 'conflict'
             # Try to re-init options from sync.
             @sync.enabled = false
-            @_storage.remove().then =>
+            @_watchStop?()
+            @_watchStop = null
+            @_storage.remove().then( =>
+              if remoteOptions
+                console.log('flush data')
+                @sync.flush({data: remoteOptions})
+            ).then =>
               @sync.enabled = true
-              @init()
+              @init().then( =>
+                if remoteOptions
+                  if remoteOptions['-startupProfileName']
+                    console.log('apply startup')
+                    @applyProfile(remoteOptions['-startupProfileName'])
+                if args.useBuiltInSync
+                  @sync.toggleBuiltInSync(true)
+                else
+                  @sync.toggleBuiltInSync(false)
+              ).then( =>
+                @updateProfile()
+              )
           else
             if remoteOptions?.schemaVersion
               @sync.flush({data: remoteOptions}).then( =>
@@ -1097,6 +1128,10 @@ class Options
               @_syncWatchStop?()
               @sync.requestPush(@_options)
               @_syncWatchStop = @sync.watchAndPull(@_storage)
+              if args.useBuiltInSync
+                @sync.toggleBuiltInSync(true)
+              else
+                @sync.toggleBuiltInSync(false)
               return
       )
 

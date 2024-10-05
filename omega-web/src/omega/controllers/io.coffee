@@ -2,6 +2,7 @@ angular.module('omega').controller 'IoCtrl', (
   $scope, $rootScope, $window, $http, omegaTarget, downloadFile
 ) ->
 
+  $scope.useBuiltInSync = true
   getGistId = (gistUrl = '') ->
     # get gistId from url `https://gist.github.com/{username}/{gistId}`
     # or directly gistId
@@ -32,7 +33,7 @@ angular.module('omega').controller 'IoCtrl', (
       plainOptions = angular.fromJson(angular.toJson($rootScope.options))
       content = JSON.stringify(plainOptions)
       blob = new Blob [content], {type: "text/plain;charset=utf-8"}
-      downloadFile(blob, "OmegaOptions.bak")
+      downloadFile(blob, "Zero" + """OmegaOptions.bak""")
 
   $scope.importSuccess = ->
     $rootScope.showAlert(
@@ -89,6 +90,7 @@ angular.module('omega').controller 'IoCtrl', (
         return
       args.gistId = $scope.gistId
       args.gistToken = $scope.gistToken
+      args.useBuiltInSync = $scope.useBuiltInSync
       $scope.enableOptionsSyncing = true
       omegaTarget.setOptionsSync(true, args).then( ->
         $window.location.reload()

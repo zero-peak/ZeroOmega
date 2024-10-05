@@ -59,6 +59,10 @@ section.settings-group
           a(href="https://github.com/settings/tokens/new" role="button" target="_blank")
             | {{ 'Create a token that manages the Gist.(Only gist permission is required.)'}}
   div(ng-show='syncOptions == "pristine" || syncOptions == "disabled"')
+    div.checkbox
+      label
+        input#use-built-in-sync-enhance(type='checkbox' ng-model='useBuiltInSync')
+        span {{'options_useBuiltInSyncEnhance' | tr}}
     p.help-block(omega-html='"options_syncPristineHelp" | tr')
     p
       button.btn.btn-default(ng-click='enableOptionsSync()' ladda='enableOptionsSyncing' data-spinner-color="currentColor")
@@ -89,6 +93,10 @@ section.settings-group
         = ' '
         | {{'options_syncDisable' | tr}}
   div(ng-show='syncOptions == "conflict"')
+    div.checkbox
+      label
+        input#use-built-in-sync-enhance(type='checkbox' ng-model='useBuiltInSync')
+        span {{'options_useBuiltInSyncEnhance' | tr}}
     p.alert.alert-danger.width-limit
       span.glyphicon.glyphicon-info-sign
       = ' '

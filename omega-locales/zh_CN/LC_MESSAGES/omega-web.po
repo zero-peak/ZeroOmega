@@ -413,6 +413,9 @@ msgstr "选项同步 (测试中)"
 msgid "options_syncEnable"
 msgstr "启用同步"
 
+msgid "options_useBuiltInSyncEnhance"
+msgstr "使用浏览器内置同步功能增强 Gist 同步使用体验"
+
 msgid "options_syncEnableForce"
 msgstr "下载云端版本"
 

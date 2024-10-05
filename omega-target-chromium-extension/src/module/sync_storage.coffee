@@ -7,6 +7,7 @@ isPulling = false
 isPushing = false
 
 state = null
+optionsSync = null
 
 mainLetters = ['Z','e', 'r', 'o', 'O', 'm','e', 'g', 'a']
 optionFilename = mainLetters.concat(['.json']).join('')
@@ -97,7 +98,7 @@ processPush = (syncStore) ->
   processPush.sequence.push(syncStore)
   return if isPushing
   isPushing = true
-  _processPush()
+  setTimeout(_processPush, 600) # use timeout to merge push
 
 processPush.sequence = []
 
@@ -155,11 +156,16 @@ updateGist = (gistId, options) ->
   ).then((data) ->
     if data.message
       throw data.message
+    lastGistCommit = data.history[0]?.version
     state?.set({
-      'lastGistCommit': data.history[0]?.version
+      'lastGistCommit': lastGistCommit
       'lastGistState': 'success'
       'lastGistSync': Date.now()
-    })
+    }).then( ->
+      optionsSync?.updateBuiltInSyncConfigIf({
+        lastGistCommit
+      })
+    )
     return data
   ).catch((e) ->
     state?.set({
@@ -262,6 +268,8 @@ class ChromeSyncStorage extends OmegaTarget.Storage
   # param(withRemoteData) retrive gist file content
   ##
   init: (args) ->
+    optionsSync = args.optionsSync
+    state = args.state
     gistId = args.gistId || ''
     if gistId.indexOf('/') >= 0
       # get gistId from url `https://gist.github.com/{username}/{gistId}`

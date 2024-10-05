@@ -452,6 +452,9 @@ msgstr "Syncing (Experimental)"
 msgid "options_syncEnable"
 msgstr "Enable Syncing"
 
+msgid "options_useBuiltInSyncEnhance"
+msgstr "Enhance your Gist sync experience with built-in browser sync"
+
 msgid "options_syncEnableForce"
 msgstr "Download from Syncing"
 
