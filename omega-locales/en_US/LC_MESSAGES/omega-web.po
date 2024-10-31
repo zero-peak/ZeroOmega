@@ -440,6 +440,48 @@ msgstr "Restore your SwitchyOmega options from a local file."
 msgid "options_restoreOnline"
 msgstr "Restore from online"
 
+msgid "options_restoreOnlineURL"
+msgstr "Options file URL"
+
+msgid "options_lastRestoreOnlineDate"
+msgstr "Last Restore: "
+
+msgid "options_noRestoreOnlineDate"
+msgstr "Not restore yet"
+
+msgid "options_restoreOnlineLink"
+msgstr "Enable auto restore"
+
+msgid "options_restoreInterval"
+msgstr "Restore Interval"
+
+msgid "options_restoreInterval_0.1"
+msgstr "6 Seconds"
+
+msgid "options_restoreInterval_1"
+msgstr "1 Minute"
+
+msgid "options_restoreInterval_5"
+msgstr "5 Minutes"
+
+msgid "options_restoreInterval_60"
+msgstr "1 Hour"
+
+msgid "options_restoreInterval_180"
+msgstr "3 Hours"
+
+msgid "options_restoreInterval_720"
+msgstr "12 Hours"
+
+msgid "options_restoreInterval_1440"
+msgstr "Every day"
+
+msgid "options_restoreInterval_10080"
+msgstr "Every week"
+
+msgid "options_optionFileUrlHelp"
+msgstr "The URL can also be a .json."
+
 msgid "options_restoreOnlinePlaceholder"
 msgstr "Options file URL (e.g. 'http://example.com/switchy.bak')"
 
@@ -447,7 +489,7 @@ msgid "options_restoreOnlineSubmit"
 msgstr "Restore"
 
 msgid "options_group_syncing"
-msgstr "Syncing (Experimental)"
+msgstr "Chrome account Syncing (Experimental)"
 
 msgid "options_syncEnable"
 msgstr "Enable Syncing"
