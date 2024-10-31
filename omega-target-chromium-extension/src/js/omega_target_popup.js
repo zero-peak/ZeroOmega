@@ -1,9 +1,9 @@
-function callBackgroundNoReply(method, args, cb) {
+function callBackgroundNoReply(method, args, cb, refresh = true) {
   chrome.runtime.sendMessage({
     method: method,
     args: args,
     noReply: true,
-    refreshActivePage: true,
+    refreshActivePage: refresh,
   });
   if (cb) return cb();
 }
@@ -27,8 +27,8 @@ OmegaTargetPopup = {
     callBackground('getState', [keys], cb);
     return;
   },
-  applyProfile: function (name, cb) {
-    callBackgroundNoReply('applyProfile', [name], cb);
+  applyProfile: function (name, cb, refresh) {
+    callBackgroundNoReply('applyProfile', [name], cb, refresh);
   },
   openOptions: function (hash, cb) {
     var options_url = chrome.runtime.getURL('options.html');

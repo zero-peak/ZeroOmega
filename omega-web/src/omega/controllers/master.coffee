@@ -99,6 +99,12 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
 
   $rootScope.resetOptions = (options) ->
     omegaTarget.resetOptions(options).then(->
+
+      restoreDate = new Date()
+      chrome.storage.local.set { lastRestoreDate: restoreDate }, ->
+        $scope.lastRestoreDate = restoreDate.toLocaleString()
+        $scope.$applyAsync()
+
       $rootScope.showAlert(
         type: 'success'
         i18n: 'options_resetSuccess'
@@ -108,6 +114,21 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
         type: 'error'
         message: err
       )
+      $q.reject err
+
+  $rootScope.resetOnlyProxies = (options) ->
+
+    $rootScope.optionsDirty = true
+    $rootScope.applyOptions()
+
+    omegaTarget.resetOnlyProxies(options).then(->
+
+      restoreOnlineDate = new Date()
+      chrome.storage.local.set { lastRestoreOnlineDate: restoreOnlineDate }, ->
+        $scope.lastRestoreOnlineDate = restoreOnlineDate.toLocaleString()
+        $scope.$applyAsync()
+
+    ).catch (err) ->
       $q.reject err
 
   $rootScope.profileByName = (name) ->
@@ -323,6 +344,18 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
   $scope.downloadIntervals = [15, 60, 180, 360, 720, 1440, -1]
   $scope.downloadIntervalI18n = (interval) ->
     "options_downloadInterval_" + (if interval < 0 then "never" else interval)
+
+  $scope.restoreIntervals = [0.1, 1, 5, 60, 180, 720, 1440, 10080]
+  $scope.restoreIntervalI18n = (interval) ->
+    "options_restoreInterval_" + interval
+
+  chrome.storage.local.get 'lastRestoreOnlineDate', (data) ->
+    if data.lastRestoreOnlineDate
+      $scope.lastRestoreOnlineDate =
+      new Date(data.lastRestoreOnlineDate).toLocaleString()
+    else
+      $scope.lastRestoreOnlineDate = null
+    $scope.$applyAsync()
 
   themeItems = []
   for key, val of themes

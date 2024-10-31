@@ -29,13 +29,39 @@ section.settings-group
       = ' '
       | {{'options_restoreLocal' | tr}}
     span.help-inline {{'options_restoreLocalHelp' | tr}}
-  div
-    label {{'options_restoreOnline' | tr}}
+section.settings-group.width-limit
+  h3 {{'options_restoreOnline' | tr}}
+  div.form-group
+    label {{'options_restoreOnlineURL' | tr}}
     .input-group.width-limit
-      input.form-control(type='url' ng-model='restoreOnlineUrl' placeholder="{{'options_restoreOnlinePlaceholder' | tr}}")
+      span.input-group-addon {{'URL'}}
+      input.form-control(type='url' ng-model='restoreOnlineUrl'
+        placeholder="{{'options_restoreOnlinePlaceholder' | tr}}"
+        ng-disabled='options["-onlineUrlLink"]')
       span.input-group-btn
-        button.btn.btn-default(ng-click='restoreOnline()' ladda='restoringOnline' data-spinner-color="#000000")
+        button.btn.btn-default(ng-click='restoreOnline()' ng-disabled="!restoreOnlineUrl")
           | {{'options_restoreOnlineSubmit' | tr}}
+    p.help-block(omega-html="'options_optionFileUrlHelp' | tr")
+
+  div
+    label(for='last-restore-date') {{'options_lastRestoreOnlineDate' | tr}}&nbsp;
+    span#last-restore-date 
+      | {{lastRestoreOnlineDate ? lastRestoreOnlineDate : ('options_noRestoreOnlineDate' | tr)}}
+      
+  div.checkbox
+    label
+      input.input(type="checkbox", ng-model='options["-onlineUrlLink"]',  
+        ng-change='toggleRestoreSync(options["-onlineUrlLink"])', ng-disabled="!restoreOnlineUrl")
+      span{{'options_restoreOnlineLink' | tr}}
+
+  div(ng-show='options["-onlineUrlLink"]')
+    label(for='restore-interval') {{'options_restoreInterval' | tr}}
+    select#restore-interval.form-control.inline-form-control(
+      ng-model='options["-restoreInterval"]'
+      ng-options='interval as (restoreIntervalI18n(interval) | tr) for interval in restoreIntervals'
+      ng-disabled='!options["-onlineUrlLink"]'
+      ng-change='restoreOnline()'
+      )
 section.settings-group
   h3 {{'options_group_syncing' | tr}}
   div

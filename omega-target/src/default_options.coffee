@@ -10,6 +10,9 @@ module.exports = ->
   "-addConditionsToBottom": false
   "-showExternalProfile": true
   "-downloadInterval": 1440
+  "-onlineUrlLink": false
+  "-restoreInterval": 1440
+
   "+proxy":
     bypassList: [
       {

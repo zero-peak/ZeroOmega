@@ -451,6 +451,9 @@ msgstr "Options file URL (e.g. 'http://example.com/switchy.bak')"
 msgid "options_restoreOnlineSubmit"
 msgstr "Restore"
 
+msgid "options_restoreOnlineLink"
+msgstr "Do you want to sync your file ?"
+
 msgid "options_group_syncing"
 msgstr "Syncing (Experimental)"
 

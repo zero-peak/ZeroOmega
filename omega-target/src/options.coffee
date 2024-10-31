@@ -319,6 +319,41 @@ class Options
         if _options['-startupProfileName']
           @applyProfile(_options['-startupProfileName'])
 
+  ###
+  # Reset only the proxy-related settings in the options.
+  #
+  # @param {?OmegaOptions} options The options to set. This will
+  #   be parsed and upgraded if necessary.
+  # @returns {Promise<void>} A promise that resolves when the proxy-related
+  #   settings have been reinitialized.
+  #
+  # Description:
+  # This function focuses on resetting only the proxy settings, without
+  # affecting other stored data. It removes each profile related to proxy
+  # settings from storage. Once profiles are cleared, the function
+  # sets the new proxy options and reinitializes them.
+  ###
+  resetOnlyProxies: (options) ->
+    @log.method('Options#resetOnlyProxies', this, arguments)
+
+    # Upgrade and parse the provided options
+    @upgrade(@parseOptions(options)).then ([opt]) =>
+
+      # Iterate through each profile and remove them from storage
+      OmegaPac.Profiles.each @_options, (key, profile) =>
+        @_storage.remove(key)
+
+      # After removing all profiles, set the new options
+      return @_storage.set(opt).then =>
+        # Reinitialize the options
+        @init()
+
+    .catch (error) =>
+      # Handle any errors during the process
+      @log.error('Error resetting only proxies:', error)
+      return Promise.reject(error)
+
+
   ###*
   # Called on the first initialization of options.
   # @param {reason} reason The value of 'firstRun' in state.

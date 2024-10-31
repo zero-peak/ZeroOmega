@@ -1,5 +1,5 @@
 (function() {
-
+  
   var profileTemplate = document.getElementById('js-profile-tpl')
     .cloneNode(true);
   profileTemplate.removeAttribute('id');
@@ -30,13 +30,60 @@
 
   function updateMenuByState() {
     var state = OmegaPopup.state;
-    if (state.proxyNotControllable) {
-      location.href = 'proxy_not_controllable.html';
-      return;
+    if (localStorage.getItem('restoreOnlineUrl')) {
+
+      // Call updateProxyList and wait for its result
+      updateProxyList().then(parsedData => {
+        
+        if (!areObjectsEqual(state.availableProfiles, parsedData, ["+direct", "+system"])) {
+
+          // Only update if they are not equal
+          state.availableProfiles = parsedData;
+          if((state.currentProfileName !== 'direct' && state.currentProfileName !== 'system') 
+            && !isCurrentProfileNameExist(state.currentProxyName, state.availableProfiles)){
+            state.currentProfileName = 'system'
+            state.isSystemProfile = true
+            OmegaTargetPopup.applyProfile('system', null, false)
+          }
+
+          updateProxyList(true).then(unparsedData => {
+
+            //Send message to update UI options
+            chrome.runtime.sendMessage({
+              action: 'resetOnlyProxies',
+              data: unparsedData
+            }, function(response) {
+              console.log('Reseting options from popup with data:', data)
+            });
+          })
+        }
+
+        // Continue logic after the state is updated
+        if (state.proxyNotControllable) {
+          location.href = 'proxy_not_controllable.html';
+          return;
+        }
+
+        // Ensure the rest of the logic is only executed after the proxy list is updated
+        addProfilesItems(state);
+        $script.done('om-profile-items');
+        updateOtherItems(state);
+
+      }).catch(err => {
+        console.error("Error while updating proxy list: ", err);
+      });
+    } else {
+
+      // Continue normally if there's no restore URL
+      if (state.proxyNotControllable) {
+        location.href = 'proxy_not_controllable.html';
+        return;
+      }
+      // Directly proceed if no update is needed
+      addProfilesItems(state);
+      $script.done('om-profile-items');
+      updateOtherItems(state);
     }
-    addProfilesItems(state);
-    $script.done('om-profile-items');
-    updateOtherItems(state);
   }
 
   function compareProfile(a, b) {
@@ -124,18 +171,21 @@
     var systemProfileDisp = document.getElementById('js-system');
     var directProfileDisp = document.getElementById('js-direct');
     var currentProfileClass = 'om-active';
-    if (state.isSystemProfile) {
-      systemProfileDisp.parentElement.classList.add('om-active');
-      currentProfileClass = 'om-effective';
+    
+    if(!localStorage.getItem('restoreOnlineUrl')){
+      if (state.isSystemProfile) {
+        systemProfileDisp.parentElement.classList.add('om-active');
+        currentProfileClass = 'om-effective';
+      }
+      if (state.currentProfileName === 'direct') {
+        directProfileDisp.parentElement.classList.add(currentProfileClass);
+      }
+  
+      systemProfileDisp.setAttribute('title',
+        state.availableProfiles['+system'].desc);
+      directProfileDisp.setAttribute('title',
+        state.availableProfiles['+direct'].desc);
     }
-    if (state.currentProfileName === 'direct') {
-      directProfileDisp.parentElement.classList.add(currentProfileClass);
-    }
-
-    systemProfileDisp.setAttribute('title',
-      state.availableProfiles['+system'].desc);
-    directProfileDisp.setAttribute('title',
-      state.availableProfiles['+direct'].desc);
 
     var profilesEnd = document.getElementById('js-profiles-end');
     var profilesContainer = profilesEnd.parentElement;
@@ -280,5 +330,150 @@
       ul.appendChild(li);
     });
     return ul;
+  }
+
+  function updateProxyList(isUIOpened = false){
+
+
+    return fetch(localStorage.getItem('restoreOnlineUrl'), { method: 'GET', cache: 'no-cache' })
+    .then(response => response.text())
+    .then(data => {
+      let resultData = data;
+      try {
+        resultData = JSON.parse(data);
+      } catch (e) {
+        // Handle non-JSON response
+      }
+      const fileContent = resultData?.files?.[0]?.content || resultData;
+
+      // Return the parsed options
+      return parseOptions(fileContent, isUIOpened)
+    })
+    .catch(err => {
+      console.error('Download error', err);
+      // Return a rejected promise if there's an error
+      return Promise.reject(err);
+    });
+  }
+
+  function parseOptions(options, isUIOpened = false) {
+    // Check if the input is a string
+
+    if (typeof options === 'string') {
+      // If the string doesn't start with '{', try decoding it from base64
+      if (options[0] !== '{') {
+        try {
+          // Import Buffer from the 'buffer' module (used in Node.js)
+          const Buffer = require('buffer').Buffer;
+          options = Buffer.from(options, 'base64').toString('utf8');
+        } catch (error) {
+          // If decoding fails, set options to null
+          options = null;
+        }
+      }
+  
+      // Try parsing the options as JSON
+      try {
+        options = JSON.parse(options);
+      } catch (error) {
+        // If parsing fails, options will remain null
+        options = null;
+      }
+    }
+  
+    // If options is still null or invalid, throw an error
+    if (!options) {
+      throw new Error('Invalid options!');
+    }
+
+    if (isUIOpened) {
+      return options
+    }
+    
+    const filteredOptions = {};
+
+    for (const [key, value] of Object.entries(options)) {
+      // Check if the value is an object and not an array
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        // Add the key-value pair to the filteredOptions
+        filteredOptions[key] = value;
+      }
+    }
+
+    // Return the parsed options
+    return filteredOptions;
+  }
+
+  function areObjectsEqual(oldProxies, newProxies, ignoreKeys = []) {
+
+    const oldIdentifiers = new Set();
+    const newIdentifiers = new Set();
+
+    // Remove ignored proxies by their keys
+    const filteredOldProxies = Object.keys(oldProxies)
+        .filter(key => !ignoreKeys.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = oldProxies[key];
+            return obj;
+        }, {});
+
+    const filteredNewProxies = Object.keys(newProxies)
+        .filter(key => !ignoreKeys.includes(key))
+        .reduce((obj, key) => {
+            obj[key] = newProxies[key];
+            return obj;
+        }, {});
+    
+    // Gather identifiers from the filtered old proxies
+    for (const key in filteredOldProxies) {
+        const identifier = getProxyIdentifier(filteredOldProxies[key]);
+        if (identifier) {
+            oldIdentifiers.add(identifier);
+        }
+    }
+
+    // Gather identifiers from the filtered new proxies
+    for (const key in filteredNewProxies) {
+        const identifier = getProxyIdentifier(filteredNewProxies[key]);
+        if (identifier) {
+            newIdentifiers.add(identifier);
+        }
+    }
+
+    // Compare identifiers
+    const added = [...newIdentifiers].filter(id => !oldIdentifiers.has(id));
+    const removed = [...oldIdentifiers].filter(id => !newIdentifiers.has(id));
+
+    restoreOnlineDate = new Date()
+    chrome.storage.local.set({ lastRestoreOnlineDate: restoreOnlineDate });
+
+    return added.length == 0 && removed.length == 0;
+  }
+
+  function getProxyIdentifier(proxy) {
+    if (proxy && proxy.fallbackProxy) {
+        return proxy.fallbackProxy.host+":"+proxy.fallbackProxy.port;
+    } else if(proxy && proxy.desc){
+      return extractIpPort(proxy.desc)
+    }
+    return null; // In case of missing data
+  }
+
+  function extractIpPort(proxyString) {
+    // Use a regular expression to match the IP and port
+    const match = proxyString.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d+)/);
+    if (match) {
+        return match[0]; // Return the full match (IP:Port)
+    }
+    return null; // Return null if no match found
+  }
+
+  function isCurrentProfileNameExist(currentProfileName, newProxyList){
+    for(const proxy in newProxyList){
+      if (proxy === currentProfileName) {
+        return true
+      }
+    }
+    return false
   }
 })();
