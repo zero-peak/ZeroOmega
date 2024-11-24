@@ -145,6 +145,7 @@ along with ZeroOmega.  If not, see <http://www.gnu.org/licenses/>.
 Notice
 ------
 
+
 ZeroOmega currently does not have a dedicated project homepage. Please refer to this Github repository and wiki for official information.
 
 ZeroOmega is not cooperating with any proxy providers, VPN providers or ISPs at the moment. No advertisement is displayed in ZeroOmega project or software. Proxy providers are welcome to recommend ZeroOmega as part of the solution in tutorials, but it must be made clear that ZeroOmega is an independent project, is not affiliated with the provider and therefore cannot provide any support on network connections or proxy technology.
