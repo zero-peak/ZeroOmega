@@ -12,6 +12,7 @@ class AST_Raw extends U2.AST_SymbolRef
     @aborts = -> false
 
 decorateCustomBuiltinProfiles = (profile, options = {}) ->
+  return unless profile
   key = exports.nameAsKey(profile)
   if exports.builtinProfiles[key]
     customBuiltinProfiles = Object.assign(
