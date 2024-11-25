@@ -1,0 +1,21 @@
+.page-header
+  h2 {{'options_builtinProfile' | tr}}
+section.settings-group
+  span.profile-color-editor
+    .profile-color-editor-fake
+      x-spectrum-colorpicker(
+        ng-model='systemProfile.color'
+        options='spectrumOptions'
+        on-change='changeColor(color)'
+        on-move='moveColor(color, "+system")'
+      )
+  h2.profile-name {{'options_profileTabPrefix' | tr}}{{'System'}}
+section.settings-group
+  span.profile-color-editor
+    .profile-color-editor-fake
+      x-spectrum-colorpicker(
+        ng-model='directProfile.color'
+        options='spectrumOptions'
+        on-move='moveColor(color, "+direct")'
+      )
+  h2.profile-name {{'options_profileTabPrefix' | tr}}{{'Direct'}}

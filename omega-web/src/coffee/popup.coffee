@@ -33,6 +33,9 @@ shortcutKeys =
 for i in [1..9]
   shortcutKeys[48 + i] = i
 
+subdomainLevel = 0
+summaryDetail = false
+
 customProfiles = do ->
   _customProfiles = null
   return ->
@@ -81,8 +84,8 @@ jQuery(document).on 'keydown', (e) ->
   return false
 
 module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
-  profileIcons, profileOrder, dispNameFilter, getVirtualTarget) ->
-
+  profileIcons, profileOrder, dispNameFilter, getVirtualTarget
+) ->
   omegaTarget.state('customCss').then (customCss = '') ->
     $scope.customCss = customCss
 
@@ -219,7 +222,8 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
     'proxyNotControllable', 'lastProfileNameForCondition'
   ]).then ([availableProfiles, currentProfileName, isSystemProfile,
     validResultProfiles, refresh, externalProfile,
-    proxyNotControllable, lastProfileNameForCondition]) ->
+    proxyNotControllable, lastProfileNameForCondition]
+  ) ->
     $scope.proxyNotControllable = proxyNotControllable
     return if proxyNotControllable
     $scope.availableProfiles = availableProfiles
@@ -261,12 +265,43 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
 
   $scope.domainsForCondition = {}
   $scope.requestInfoProvided = null
-  omegaTarget.setRequestInfoCallback (info) ->
-    info.domains = []
-    for own domain, domainInfo of info.summary
+  generateDomainInfos = (info) ->
+    domains = []
+    summary = info.summary
+    unless summaryDetail
+      summary = {}
+      for own domain, domainInfo of info.summary
+        summaryItem = summary[domainInfo.baseDomain]
+        unless summaryItem
+          summaryItem = {
+            errorCount: domainInfo.errorCount
+            domain: domainInfo.baseDomain
+            baseDomain: domainInfo.baseDomain
+          }
+          summary[domainInfo.baseDomain] = summaryItem
+        else
+          summaryItem.errorCount += domainInfo.errorCount
+    for own domain, domainInfo of summary
       domainInfo.domain = domain
-      info.domains.push(domainInfo)
-    info.domains.sort (a, b) -> b.errorCount - a.errorCount
+      domains.push(domainInfo)
+    domains.sort (a, b) -> b.errorCount - a.errorCount
+    return domains
+
+  $scope.toggleSummarDetail = (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    $scope.domainsForCondition = {}
+    $scope.requestInfoProvided = null
+    summaryDetail = !summaryDetail
+    info = $scope.requestInfo
+    info.domains = generateDomainInfos(info)
+    $scope.requestInfo = info
+    $scope.requestInfoProvided ?= (info?.domains.length > 0)
+    for domain in info.domains
+      $scope.domainsForCondition[domain.domain] ?= true
+
+  omegaTarget.setRequestInfoCallback (info) ->
+    info.domains = generateDomainInfos(info)
     $scope.$apply ->
       $scope.requestInfo = info
       $scope.requestInfoProvided ?= (info?.domains.length > 0)
@@ -284,11 +319,12 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
       if $scope.currentTempRuleProfile
         preselectedProfileNameForCondition = $scope.currentTempRuleProfile
       $scope.currentDomain = info.domain
+      $scope.subdomain = info.subdomain
       if $window.location.hash == '#!addRule'
         $scope.prepareConditionForm()
-
-  $scope.prepareConditionForm = ->
+  generateConditionSuggestion = ->
     currentDomain = $scope.currentDomain
+    subdomain = $scope.subdomain
     currentDomainEscaped = currentDomain.replace(/\./g, '\\.')
     domainLooksLikeIp = false
     if currentDomain.indexOf(':') >= 0
@@ -308,6 +344,14 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
         'UrlRegexCondition': '://' + currentDomainEscaped + '(:\\d+)?/'
         'KeywordCondition': currentDomain
     else
+      if subdomain
+        subdomains = subdomain.split('.')
+        subdomainLevel = subdomainLevel % ( subdomains.length + 1 )
+        if subdomainLevel > 0
+          subdomains = subdomains.splice(subdomainLevel - 1)
+          subdomains.push(currentDomain)
+          currentDomain = subdomains.join('.')
+          currentDomainEscaped = currentDomain.replace(/\./g, '\\.')
       conditionSuggestion =
         'HostWildcardCondition': '*.' + currentDomain
         'HostRegexCondition': '(^|\\.)' + currentDomainEscaped + '$'
@@ -315,7 +359,12 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
         'UrlRegexCondition':
           '://([^/.]+\\.)*' + currentDomainEscaped + '(:\\d+)?/'
         'KeywordCondition': currentDomain
+    return conditionSuggestion
 
+
+
+  $scope.prepareConditionForm = ->
+    conditionSuggestion = generateConditionSuggestion()
     $scope.rule =
       condition:
         conditionType: 'HostWildcardCondition'
@@ -323,5 +372,15 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
       profileName: preselectedProfileNameForCondition
     $scope.$watch 'rule.condition.conditionType', (type) ->
       $scope.rule.condition.pattern = conditionSuggestion[type]
+    $scope.toggleSubDomainLevel = (domain) ->
+      domain = domain or $scope.currentDomain
+      if $window.location.hash == '#!addRule'
+        subdomainLevel++
+        conditionSuggestion = generateConditionSuggestion()
+        $scope.rule.condition.pattern =
+          conditionSuggestion[$scope.rule.condition.conditionType]
+      else
+        console.log('change domain....')
+
 
     $scope.showConditionForm = true

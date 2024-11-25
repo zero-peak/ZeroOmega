@@ -416,6 +416,10 @@ msgstr "启用同步"
 msgid "options_useBuiltInSyncEnhance"
 msgstr "使用浏览器内置同步功能增强 Gist 同步使用体验"
 
+msgid "options_useBuiltInSyncEnhanceTip"
+msgstr "<li>用户登录浏览器账号后就自动下载扩展，并恢复所有已同步的设置</li>"
+"<li>配置项有变化时，会立即同步到其他浏览器下．（没有打开该功能时，应用只会每隔 5 分钟检查配置是否变化）</li>"
+
 msgid "options_syncEnableForce"
 msgstr "下载云端版本"
 
@@ -442,6 +446,12 @@ msgstr "您可以将云端的选项下载到此设备使用。<br>一旦选择�
 
 msgid "options_syncUnsupportedHelp"
 msgstr "选项同步暂不支持您的平台或浏览器。目前只支持桌面版Chrome的浏览器的同步，请谅解。"
+
+msgid "options_builtin"
+msgstr "系统"
+
+msgid "options_builtinProfile"
+msgstr "内置情境模式"
 
 msgid "options_profileTabPrefix"
 msgstr "情景模式： "

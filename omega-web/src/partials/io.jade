@@ -63,6 +63,11 @@ section.settings-group
       label
         input#use-built-in-sync-enhance(type='checkbox' ng-model='useBuiltInSync')
         span {{'options_useBuiltInSyncEnhance' | tr}}
+      details.use-built-in-sync-enhance-tip
+        summary
+          span.glyphicon.glyphicon-question-sign
+        ol(omega-html='"options_useBuiltInSyncEnhanceTip" | tr')
+          
     p.help-block(omega-html='"options_syncPristineHelp" | tr')
     p
       button.btn.btn-default(ng-click='enableOptionsSync()' ladda='enableOptionsSyncing' data-spinner-color="currentColor")

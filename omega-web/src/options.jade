@@ -38,6 +38,10 @@ html(lang='en' ng-controller='MasterCtrl' ng-csp)
             | {{'Theme'}}
           li.divider
           li.nav-header {{'options_navHeader_profiles' | tr}}
+          li(ui-sref-active='active'): a(ui-sref='builtin')
+            span.glyphicon.glyphicon-globe
+            = ' '
+            | {{'options_builtin' | tr}}
           li.nav-profile(ng-repeat='profile in options | profiles:"sorted"' ui-sref-active='active'
             data-profile-type="{{profile.profileType}}")
             a(ui-sref='profile({name: profile.name})')

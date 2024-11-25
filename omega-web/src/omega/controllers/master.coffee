@@ -1,7 +1,8 @@
 angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
   $q, $modal, $state, profileColors, profileIcons, omegaTarget,
   $timeout, $location, $filter, getAttachedName, isProfileNameReserved,
-  isProfileNameHidden, dispNameFilter, downloadFile, themes) ->
+  isProfileNameHidden, dispNameFilter, downloadFile, themes
+) ->
 
   if browser?.proxy?.register? or browser?.proxy?.registerProxyScript?
     $scope.isExperimental = true

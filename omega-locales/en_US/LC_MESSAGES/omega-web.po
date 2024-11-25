@@ -455,6 +455,10 @@ msgstr "Enable Syncing"
 msgid "options_useBuiltInSyncEnhance"
 msgstr "Enhance your Gist sync experience with built-in browser sync"
 
+msgid "options_useBuiltInSyncEnhanceTip"
+msgstr "<li>After the user logs in to the browser account, the extension will be automatically downloaded and all synchronized settings will be restored</li>"
+"<li>When the configuration items are changed, they will be synchronized to other browsers immediately. (When this feature is not turned on, the application will only check whether the configuration has changed every 5 minutes)</li>"
+
 msgid "options_syncEnableForce"
 msgstr "Download from Syncing"
 
@@ -491,6 +495,12 @@ msgid "options_syncUnsupportedHelp"
 msgstr ""
 "Options syncing is not supported on your platform or browser. For now, only "
 "Chrome browser on desktop is supported."
+
+msgid "options_builtin"
+msgstr "Builtin"
+
+msgid "options_builtinProfile"
+msgstr "Builtin Profiles"
 
 msgid "options_profileTabPrefix"
 msgstr "Profile :: "

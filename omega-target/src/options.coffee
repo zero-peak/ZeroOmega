@@ -384,6 +384,8 @@ class Options
               value.revision)
             continue if result >= 0
           profilesChanged = true
+        if key is '-builtinProfiles'
+          currentProfileAffected = 'changed'
         @_options[key] = value
       if not currentProfileAffected and @_watchingProfiles[key]
         currentProfileAffected = 'changed'

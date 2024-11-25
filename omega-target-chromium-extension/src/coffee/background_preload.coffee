@@ -21,11 +21,18 @@ initContextMenu = ->
     title: chrome.i18n.getMessage('popup_reportIssues')
     contexts: ["action"]
   })
+  chrome.contextMenus.create({
+    id: 'reload'
+    title: 'Reload'
+    contexts: ["action"]
+  })
 
 initContextMenu()
 
 chrome.contextMenus?.onClicked.addListener((info, tab) ->
   switch info.menuItemId
+    when 'reload'
+      chrome.runtime.reload()
     when 'reportIssue'
       OmegaDebug.reportIssue()
 )

@@ -108,7 +108,11 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
             option(value='KeywordCondition') {{'condition_KeywordCondition' | tr}}
         div.form-group
           label {{'options_conditionDetails' | tr}}
-          input.form-control.condition-details(type='text' required ng-model='rule.condition.pattern' autofocus)
+          span.input-group
+            input.form-control.condition-details(type='text' required ng-model='rule.condition.pattern' autofocus)
+            span.input-group-btn
+              button.btn.btn-default(type='button' ng-click='toggleSubDomainLevel()')
+                i.glyphicon.glyphicon-transfer
         div.form-group
           label {{'options_resultProfile' | tr}}
           div(omega-profile-select='validResultProfiles' ng-model='rule.profileName'
@@ -138,6 +142,9 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
         .text-warning {{'popup_requestErrorWarning' | tr}}
         p.help-block {{'popup_requestErrorWarningHelp' | tr}}
         p.help-block(ng-show='!!currentProfileCanAddRule') {{'popup_requestErrorAddCondition' | tr}} 
+        div
+          button.btn.btn-default.btn-xs.btn-link(ng-click='toggleSummarDetail($event)')
+            i.glyphicon.glyphicon-transfer
         .checkbox(ng-repeat='domain in requestInfo.domains track by domain.domain')
           label
             input(type='checkbox' ng-model='domainsForCondition[domain.domain]' autofocus ng-if='$index === 0')

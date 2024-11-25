@@ -176,7 +176,11 @@ module.exports = class WebRequestMonitor
           if @eventCategory[oldStatus] != 'error'
             summaryItem = info.summary[id]
             if not summaryItem?
-              summaryItem = info.summary[id] = {errorCount: 0}
+              hostname = Url.parse(req.url).hostname
+              summaryItem = info.summary[id] = {
+                baseDomain: OmegaPac.wildcardForDomain(hostname)
+                errorCount: 0
+              }
             summaryItem.errorCount++
         else if @eventCategory[oldStatus] == 'error'
           summaryItem = info.summary[id]

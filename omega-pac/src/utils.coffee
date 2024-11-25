@@ -51,6 +51,9 @@ exports.getBaseDomain = (domain) ->
   return domain if exports.isIp(domain)
   return tld.getDomain(domain) ? domain
 
+exports.getSubdomain = (url) ->
+  return tld.getSubdomain(url)
+
 exports.wildcardForDomain = (domain) ->
   return domain if exports.isIp(domain)
   return '*.' + exports.getBaseDomain(domain)
@@ -58,4 +61,5 @@ exports.wildcardForDomain = (domain) ->
 Url = require('url')
 exports.wildcardForUrl = (url) ->
   domain = Url.parse(url).hostname
-  return exports.wildcardForDomain(domain)
+  return domain if exports.isIp(domain)
+  return '*.' + domain

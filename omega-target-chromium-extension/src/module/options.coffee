@@ -9,9 +9,6 @@ Url = require('url')
 
 TEMPPROFILEKEY = 'tempProfileState'
 
-chrome.runtime.onStartup.addListener ->
-  idbKeyval.del(TEMPPROFILEKEY)
-
 class ChromeOptions extends OmegaTarget.Options
   _inspect: null
 
@@ -69,7 +66,10 @@ class ChromeOptions extends OmegaTarget.Options
   init: (startupCheck) ->
     super(startupCheck)
     @ready.then =>
-      idbKeyval.get(TEMPPROFILEKEY).then (tempProfileState) =>
+      chrome.storage.session
+      .get(TEMPPROFILEKEY).then((tempProfileState = {}) =>
+        tempProfileState = if globalThis.hasStartupCheck
+        then tempProfileState[TEMPPROFILEKEY] else null
         # tempProfileState =
         # { _tempProfile,
         # _tempProfileActive}
@@ -89,15 +89,19 @@ class ChromeOptions extends OmegaTarget.Options
           #  tempProfileState._tempProfileRulesByProfile
           @_tempProfileActive = tempProfileState._tempProfileActive
           OmegaPac.Profiles.updateRevision(@_tempProfile)
+          console.log('apply temp state profile', @_currentProfileName)
           @applyProfile(@_currentProfileName)
+        )
     @ready
 
   addTempRule: (domain, profileName) ->
     super(domain, profileName).then =>
-      idbKeyval.set(TEMPPROFILEKEY, {
+      _zeroState = {}
+      _zeroState[TEMPPROFILEKEY] = {
         _tempProfile: @_tempProfile
         _tempProfileActive: @_tempProfileActive
-      })
+      }
+      chrome.storage.session.set(_zeroState)
   updateProfile: (args...) ->
     super(args...).then (results) ->
       error = false
@@ -296,10 +300,12 @@ class ChromeOptions extends OmegaTarget.Options
       return result if url.substr(0, 6) == 'about:'
       return result if url.substr(0, 4) == 'moz-'
       domain = OmegaPac.getBaseDomain(Url.parse(url).hostname)
+      subdomain = OmegaPac.getSubdomain(url)
 
       return {
         url: url
         domain: domain
+        subdomain: subdomain
         tempRuleProfileName: @queryTempRule(domain)
         errorCount: errorCount
       }
