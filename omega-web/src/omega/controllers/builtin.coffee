@@ -2,14 +2,24 @@ angular.module('omega').controller 'BuiltinCtrl', ($scope, $stateParams,
   $location, $rootScope,
   $timeout, $state, $modal,
   builtinProfiles, profileColorPalette,
-  getAttachedName, getParentName, getVirtualTarget
+  getAttachedName, getParentName, getVirtualTarget,
+  omegaTarget
 ) ->
-  customBuiltinProfiles = Object.assign(
-    {}, builtinProfiles, $rootScope.options['-builtinProfiles']
-  )
-  #$rootScope.options['-builtinProfiles'] = customBuiltinProfiles
-  $scope.systemProfile = customBuiltinProfiles['+system']
-  $scope.directProfile = customBuiltinProfiles['+direct']
+
+  customBuiltinProfiles = {}
+
+  decorateBuiltinProfile = (newOptions) ->
+    Object.assign(
+      customBuiltinProfiles,
+      builtinProfiles,
+      newOptions?['-builtinProfiles']
+    )
+    $scope.systemProfile = customBuiltinProfiles['+system']
+    $scope.directProfile = customBuiltinProfiles['+direct']
+
+  omegaTarget.addOptionsChangeCallback decorateBuiltinProfile
+
+  decorateBuiltinProfile($rootScope.options)
   $scope.moveColor = (color, key) ->
     customBuiltinProfiles[key].color = color
     # make sure options watcher watch value changed
