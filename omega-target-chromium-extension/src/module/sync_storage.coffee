@@ -154,6 +154,8 @@ updateGist = (gistId, options) ->
   }).then((res) ->
     res.json()
   ).then((data) ->
+    if data.status is "404"
+      throw new Error("The token with Gist permission is required.")
     if data.message
       throw data.message
     lastGistCommit = data.history[0]?.version

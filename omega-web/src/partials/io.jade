@@ -39,12 +39,13 @@ section.settings-group
 section.settings-group
   h3 {{'options_group_syncing' | tr}}
   div
-    form
+    form.sync-form
       div.form-group
         label {{'Gist Id'}}
         .input-group.width-limit
           span.input-group-addon {{'ID'}}
           input.form-control(type='text' ng-model='gistId' ng-readonly='syncOptions == "sync"' placeholder="Gist Id e.g. https://gist.github.com/{username}/{Gist Id}")
+          span.glyphicon.glyphicon-remove.btn.clean-btn(ng-click='cleanInput("gistId")' ng-if='syncOptions != "sync"')
         span.help-block
           a(href="https://gist.github.com/" role="button" target="_blank")
             | {{'Create a secret Gist. '}}
@@ -55,9 +56,12 @@ section.settings-group
         .input-group.width-limit
           span.input-group-addon {{'TOKEN'}}
           input.form-control(type='text' ng-model='gistToken' ng-readonly='syncOptions == "sync"' placeholder="Gist Token")
+          span.glyphicon.glyphicon-remove.btn.clean-btn(ng-click='cleanInput("gistToken")' ng-if='syncOptions != "sync"')
         span.help-block
           a(href="https://github.com/settings/tokens/new" role="button" target="_blank")
-            | {{ 'Create a token that manages the Gist.(Only gist permission is required.)'}}
+            | {{ 'Create a token that manages the Gist.' }}
+            strong
+              | {{ '(Gist permission is required.)'}}
   div(ng-show='syncOptions == "pristine" || syncOptions == "disabled"')
     div.checkbox
       label
@@ -91,7 +95,6 @@ section.settings-group
       span.glyphicon.glyphicon-ok
       = ' '
       | {{"options_syncSyncAlert" | tr}}
-    p.help-block(omega-html='"options_syncSyncHelp" | tr')
     p
       button.btn.btn-warning(ng-click='disableOptionsSync()')
         span.glyphicon.glyphicon-remove-sign

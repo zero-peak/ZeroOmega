@@ -107,6 +107,10 @@ angular.module('omega').controller 'IoCtrl', (
     else
       $rootScope.applyOptionsConfirm().then enable
 
+  $scope.cleanInput = (target) ->
+    $scope[target] = ''
+    omegaTarget.state(target, '')
+
   $scope.checkOptionsSyncChange = ->
     $scope.enableOptionsSyncing = true
     omegaTarget.checkOptionsSyncChange().then( ->
