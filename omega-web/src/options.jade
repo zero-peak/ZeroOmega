@@ -35,7 +35,7 @@ html(lang='en' ng-controller='MasterCtrl' ng-csp)
           li(ui-sref-active='active'): a(ui-sref='theme')
             span.glyphicon.glyphicon-adjust
             = ' '
-            | {{'Theme'}}
+            | {{'options_theme' | tr}}
           li.divider
           li.nav-header {{'options_navHeader_profiles' | tr}}
           li(ui-sref-active='active'): a(ui-sref='builtin')

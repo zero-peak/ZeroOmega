@@ -23,13 +23,13 @@ initContextMenu = ->
   })
   chrome.contextMenus.create({
     id: 'reload'
-    title: 'Reload'
+    title: chrome.i18n.getMessage('popup_Reload')
     contexts: ["action"]
   })
   if !!globalThis.localStorage
     chrome.contextMenus.create({
       id: 'options'
-      title: 'Options'
+      title: chrome.i18n.getMessage('popup_showOptions')
       contexts: ["action"]
     })
 

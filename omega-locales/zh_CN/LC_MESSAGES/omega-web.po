@@ -18,7 +18,7 @@ msgid "appNameShort"
 msgstr "ZeroOmega"
 
 msgid "manifest_app_name"
-msgstr "Proxy SwitchyOmega"
+msgstr "ZeroOmega"
 
 msgid "manifest_app_description"
 msgstr "轻松快捷地管理和切换多个代理设置。"
@@ -198,7 +198,7 @@ msgid "inputClear_restore"
 msgstr "还原"
 
 msgid "options_title"
-msgstr "SwitchyOmega 选项"
+msgstr "ZeroOmega 选项"
 
 msgid "options_experimental_badge"
 msgstr "测试版"
@@ -306,14 +306,14 @@ msgstr ""
 
 msgid "options_conflicts_lowerPriority"
 msgstr ""
-"如果 SwitchyOmega 图标上显示这样的红色徽章，表示另一个应用优先级较高，因此"
-"SwitchyOmega 无法控制代理设置。请尝试卸载 SwitchyOmega 再重新安装，这样可能可"
-"以提高 SwitchyOmega 的优先级。如果重装后您仍然看到冲突，那么请考虑移除那个"
+"如果 ZeroOmega 图标上显示这样的红色徽章，表示另一个应用优先级较高，因此"
+"ZeroOmega 无法控制代理设置。请尝试卸载 ZeroOmega 再重新安装，这样可能可"
+"以提高 ZeroOmega 的优先级。如果重装后您仍然看到冲突，那么请考虑移除那个"
 "导致冲突的应用。"
 
 msgid "options_conflicts_higherPriority"
 msgstr ""
-"如果 SwitchyOmega 的优先级较高，那么您可以在弹出菜单中选择 $SYSTEMPROFILE$ 来"
+"如果 ZeroOmega 的优先级较高，那么您可以在弹出菜单中选择 $SYSTEMPROFILE$ 来"
 "把控制权还给其他应用或系统设置。"
 
 msgid "options_showExternalProfile"
@@ -381,7 +381,7 @@ msgid "options_exportLegacyRuleList"
 msgstr "导出规则列表时使用 Proxy Switchy!/SwitchyPlus/SwitchySharp 兼容格式。"
 
 msgid "options_exportLegacyRuleListHelp"
-msgstr "如果您需要发布规则列表给那些软件的用户，请启用此选项。<br>建议您提醒订阅者升级到 SwitchyOmega 以享受新版功能。"
+msgstr "如果您需要发布规则列表给那些软件的用户，请启用此选项。<br>建议您提醒订阅者升级到 ZeroOmega 以享受新版功能。"
 
 msgid "options_group_importExportSettings"
 msgstr "选项"
@@ -450,6 +450,9 @@ msgstr "选项同步暂不支持您的平台或浏览器。目前只支持桌面
 msgid "options_builtin"
 msgstr "系统"
 
+msgid "options_theme"
+msgstr "主题"
+
 msgid "options_builtinProfile"
 msgstr "内置情境模式"
 
@@ -508,7 +511,7 @@ msgstr "代理登录"
 
 msgid "options_proxy_authNotSupported"
 msgstr "您的浏览器不支持 $PROTOCOLDISP$ 代理认证！如有问题请联系您的浏览器支持，"
-"请勿反馈此问题给 SwitchyOmega."
+"请勿反馈此问题给 ZeroOmega."
 
 msgid "options_proxy_authAllWarningPac"
 msgstr "警告: 用户名密码将会提供给PAC脚本返回的任何服务器，有时目标服务器会出乎您的预料。"
@@ -699,16 +702,16 @@ msgid "options_attachProfileHelp"
 msgstr "可以添加规则列表，以便引用他人在线发布的一组规则。"
 
 msgid "options_modalHeader_welcome"
-msgstr "欢迎使用 SwitchyOmega"
+msgstr "欢迎使用 ZeroOmega"
 
 msgid "options_welcomeNormal"
-msgstr "您已经成功安装了 SwitchyOmega ，一个强大的代理切换工具。"
+msgstr "您已经成功安装了 ZeroOmega ，一个强大的代理切换工具。"
 
 msgid "options_welcomeNormalGuide"
 msgstr "您可以通过选项页面设置需要使用的代理服务器，下面我们就来试试看吧。"
 
 msgid "options_welcomeUpgrade"
-msgstr "您已经成功升级到 SwitchyOmega. 别担心，所有设置都已经升级成功，可以继续使用。"
+msgstr "您已经成功升级到 ZeroOmega. 别担心，所有设置都已经升级成功，可以继续使用。"
 
 msgid "options_welcomeUpgradeGuide"
 msgstr "现在我们来熟悉一下新的选项页面。"
@@ -785,7 +788,7 @@ msgid "options_profileNameEmpty"
 msgstr "情景模式名称不能为空。"
 
 msgid "popup_title"
-msgstr "SwitchyOmega 弹出菜单"
+msgstr "ZeroOmega 弹出菜单"
 
 msgid "options_modalHeader_deleteRule"
 msgstr "删除规则"
@@ -938,12 +941,12 @@ msgstr "立即更新情景模式"
 
 msgid "options_guide_fixedProfileStep"
 msgstr ""
-"<b>代理情景</b>包含了服务器地址、端口等代理的信息。<br>在 SwitchyOmega 中，情景模式是代理设置的基本单元。<br>"
+"<b>代理情景</b>包含了服务器地址、端口等代理的信息。<br>在 ZeroOmega 中，情景模式是代理设置的基本单元。<br>"
 "默认设置中已经建立了一个代理情景模式作为样例。试着打开它吧。"
 
 msgid "options_guide_fixedServersStep"
 msgstr ""
-"在这里，您可以填写所需的代理服务器地址和端口。<br>SwitchyOmega<b>软件本身不提供任何内置代理服务器</b>。<br>"
+"在这里，您可以填写所需的代理服务器地址和端口。<br>ZeroOmega<b>软件本身不提供任何内置代理服务器</b>。<br>"
 "如果您不清楚应该填写什么，最好咨询下您的网络提供者，或者参考代理软件的设置说明。"
 
 msgid "options_guide_autoSwitchProfileStep"
@@ -957,7 +960,7 @@ msgstr "需要更多情景模式？你始终可以添加更多<b>代理、切换
 
 msgid "options_guide_conditionStep"
 msgstr ""
-"SwitchyOmega 可以根据<b>切换条件</b>对不同的网络请求使用不同的情景模式。<br>例如<b>域名通配符</b>"
+"ZeroOmega 可以根据<b>切换条件</b>对不同的网络请求使用不同的情景模式。<br>例如<b>域名通配符</b>"
 "条件可以对某个域名下的所有网址使用特定的情景模式。"
 
 msgid "options_guide_conditionTypeStep"
@@ -965,7 +968,7 @@ msgstr "您可以使用各种条件类型来匹配域名或者整个网址。<br
 
 msgid "options_guide_conditionProfileStep"
 msgstr ""
-"对于<b>任何匹配该条件的请求</b>，SwitchyOmega 会使用这个情景模式。<br>如果选择了<b>\"[直接连接]\"情景模式</b>，"
+"对于<b>任何匹配该条件的请求</b>，ZeroOmega 会使用这个情景模式。<br>如果选择了<b>\"[直接连接]\"情景模式</b>，"
 "则匹配的请求不使用任何代理。"
 
 msgid "options_guide_switchDefaultStep"
@@ -992,16 +995,16 @@ msgid "popup_proxyNotControllable_unknown"
 msgstr "无法设置代理设置。请检查系统和浏览器设置。"
 
 msgid "popup_proxyNotControllable_disabled"
-msgstr "在其他应用或扩展的要求下，SwitchyOmega 已经禁用代理设置。"
+msgstr "在其他应用或扩展的要求下，ZeroOmega 已经禁用代理设置。"
 
 msgid "popup_proxyNotControllable_upgrade"
-msgstr "代理设置现在由新版本的 SwitchyOmega 控制。"
+msgstr "代理设置现在由新版本的 ZeroOmega 控制。"
 
 msgid "popup_proxyNotControllableDetails"
-msgstr "如果不解决以上问题，则无法使用SwitchyOmega切换代理。"
+msgstr "如果不解决以上问题，则无法使用ZeroOmega切换代理。"
 
 msgid "popup_proxyNotControllableDetails_upgrade"
-msgstr "两个不同版本的 SwitchyOmega （如稳定版和测试版）不能共存。请禁用其中之一。"
+msgstr "两个不同版本的 ZeroOmega （如稳定版和测试版）不能共存。请禁用其中之一。"
 
 msgid "popup_proxyNotControllableManage"
 msgstr "管理扩展"
@@ -1014,6 +1017,9 @@ msgstr "添加条件"
 
 msgid "popup_showOptions"
 msgstr "选项"
+
+msgid "popup_reload"
+msgstr "重启插件"
 
 msgid "popup_reportIssues"
 msgstr "反馈问题"
@@ -1031,7 +1037,7 @@ msgid "popup_requestErrorWarning"
 msgstr "由于网络原因，此页面部分资源加载失败。这些问题可能是由您的网络、代理服务器或网站本身引起的。"
 
 msgid "popup_requestErrorWarningHelp"
-msgstr "这些问题并非由 SwitchyOmega 自身导致，它只不过检测并报告了错误而已。"
+msgstr "这些问题并非由 ZeroOmega 自身导致，它只不过检测并报告了错误而已。"
 
 msgid "popup_requestErrorAddCondition"
 msgstr "您可以查看以下域名，并根据实际情况确定是否对其使用代理。"
@@ -1081,7 +1087,7 @@ msgstr ""
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"
-msgstr "错误：需要新版本的SwitchyOmega才能加载当前选项。"
+msgstr "错误：需要新版本的ZeroOmega才能加载当前选项。"
 
 msgid "browserAction_titleOptionError"
 msgstr "错误：选项文件已经损坏，点击此处重置选项。"
@@ -1147,8 +1153,8 @@ msgstr ""
 "SwitchyOmega/wiki/FAQ'>常见问题</a>。"
 
 msgid "about_copyright"
-msgstr "版权所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有权利。<br>"
-"版权所有 2024 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
+msgstr "版权所有 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. 保留所有权利。<br>"
+"版权所有 2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
 
 msgid "about_credits"
 msgstr "ZeroOmega 的诞生离不开 <a href='https://github.com/zero-peak/ZeroOmega'>ZeroOmega</a> 开源项目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>开源软件</a>。"

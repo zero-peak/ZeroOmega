@@ -18,7 +18,7 @@ msgid "appNameShort"
 msgstr "ZeroOmega"
 
 msgid "manifest_app_name"
-msgstr "Proxy SwitchyOmega"
+msgstr "ZeroOmega"
 
 msgid "manifest_app_description"
 msgstr "輕鬆簡單地管理並切換多個代理伺服器設定。"
@@ -193,7 +193,7 @@ msgid "inputClear_restore"
 msgstr "還原"
 
 msgid "options_title"
-msgstr "SwitchyOmega 選項"
+msgstr "ZeroOmega 選項"
 
 msgid "options_experimental_badge"
 msgstr "測試版"
@@ -301,11 +301,11 @@ msgstr ""
 
 msgid "options_conflicts_lowerPriority"
 msgstr ""
-"如果 SwitchyOmega 圖示上顯示這樣的紅色徽章，表示另一個應用優先級較高，因此SwitchyOmega 無法控制代理設定。請嘗試卸載 "
-"SwitchyOmega 再重新安裝，這樣可能可以提高 SwitchyOmega 的優先級。如果重裝後您仍然看到衝突，那麼請考慮移除那個導致衝突的應用。"
+"如果 ZeroOmega 圖示上顯示這樣的紅色徽章，表示另一個應用優先級較高，因此ZeroOmega 無法控制代理設定。請嘗試卸載 "
+"ZeroOmega 再重新安裝，這樣可能可以提高 ZeroOmega 的優先級。如果重裝後您仍然看到衝突，那麼請考慮移除那個導致衝突的應用。"
 
 msgid "options_conflicts_higherPriority"
-msgstr "如果 SwitchyOmega 的優先級較高，那麼您可以在彈出式選單中選擇 $SYSTEMPROFILE$ 來把控制權還給其他應用或系統設定。"
+msgstr "如果 ZeroOmega 的優先級較高，那麼您可以在彈出式選單中選擇 $SYSTEMPROFILE$ 來把控制權還給其他應用或系統設定。"
 
 msgid "options_showExternalProfile"
 msgstr "在彈出式選單中顯示選單項目，以匯入其他應用提供的代理設定。"
@@ -370,7 +370,7 @@ msgid "options_exportLegacyRuleList"
 msgstr "匯出規則清單時使用 Proxy Switchy!/SwitchyPlus/SwitchySharp 相容格式。"
 
 msgid "options_exportLegacyRuleListHelp"
-msgstr "如果您需要釋出規則清單給那些軟體的使用者，請啟用此選項。<br>建議您提醒訂閱者升級到 SwitchyOmega 以享受新版功能。"
+msgstr "如果您需要釋出規則清單給那些軟體的使用者，請啟用此選項。<br>建議您提醒訂閱者升級到 ZeroOmega 以享受新版功能。"
 
 msgid "options_group_importExportSettings"
 msgstr "選項"
@@ -441,6 +441,9 @@ msgstr "選項同步暫不支援您的平臺或瀏覽器。目前只支援桌面
 msgid "options_builtin"
 msgstr "内建"
 
+msgid "options_theme"
+msgstr "主題"
+
 msgid "options_builtinProfile"
 msgstr "內建情境模式"
 
@@ -499,7 +502,7 @@ msgstr "代理認證"
 
 msgid "options_proxy_authNotSupported"
 msgstr "您的瀏覽器不支持 $PROTOCOLDISP$ 代理認證！如有問題請聯繫您的瀏覽器支持，"
-"請勿反饋此問題給 SwitchyOmega."
+"請勿反饋此問題給 ZeroOmega."
 
 msgid "options_proxy_authAllWarningPac"
 msgstr "警告：使用者名稱和密碼將會提供給 PAC 指令碼返回的任何伺服器，有時目標伺服器會出乎您的預料。"
@@ -690,16 +693,16 @@ msgid "options_attachProfileHelp"
 msgstr "可以加入規則清單，以便引用他人線上釋出的一組規則。"
 
 msgid "options_modalHeader_welcome"
-msgstr "歡迎使用 SwitchyOmega"
+msgstr "歡迎使用 ZeroOmega"
 
 msgid "options_welcomeNormal"
-msgstr "您已經成功安裝了 SwitchyOmega ，一個強大的代理切換工具。"
+msgstr "您已經成功安裝了 ZeroOmega ，一個強大的代理切換工具。"
 
 msgid "options_welcomeNormalGuide"
 msgstr "您可以通過選項頁面設定需要使用的代理伺服器，下面我們就來試試看吧。"
 
 msgid "options_welcomeUpgrade"
-msgstr "您已經成功升級到 SwitchyOmega. 別擔心，所有設定都已經升級成功，可以繼續使用。"
+msgstr "您已經成功升級到 ZeroOmega. 別擔心，所有設定都已經升級成功，可以繼續使用。"
 
 msgid "options_welcomeUpgradeGuide"
 msgstr "現在我們來熟悉一下新的選項頁面。"
@@ -776,7 +779,7 @@ msgid "options_profileNameEmpty"
 msgstr "情境模式名稱不能為空。"
 
 msgid "popup_title"
-msgstr "SwitchyOmega 彈出選單"
+msgstr "ZeroOmega 彈出選單"
 
 msgid "options_modalHeader_deleteRule"
 msgstr "刪除規則"
@@ -927,12 +930,12 @@ msgstr "立即更新情境模式"
 
 msgid "options_guide_fixedProfileStep"
 msgstr ""
-"<b>代理情境</b>包含了伺服器位址、埠等代理的資訊。<br>在 SwitchyOmega "
+"<b>代理情境</b>包含了伺服器位址、埠等代理的資訊。<br>在 ZeroOmega "
 "中，情境模式是代理設定的基本單元。<br>預設設定中已經建立了一個代理情境模式作為樣例。試著開啟它吧。"
 
 msgid "options_guide_fixedServersStep"
 msgstr ""
-"在這裡，您可以填寫所需的代理伺服器位址和埠。<br>SwitchyOmega<b>軟體本身不提供任何內建代理伺服器</b>。<br>如果您不清楚應該填寫什"
+"在這裡，您可以填寫所需的代理伺服器位址和埠。<br>ZeroOmega<b>軟體本身不提供任何內建代理伺服器</b>。<br>如果您不清楚應該填寫什"
 "麼，最好諮詢下您的網路提供者，或者參考代理軟體的設定說明。"
 
 msgid "options_guide_autoSwitchProfileStep"
@@ -945,7 +948,7 @@ msgstr "如果您需要更多的情境模式，可以隨時在這裡建立<b>代
 
 msgid "options_guide_conditionStep"
 msgstr ""
-"SwitchyOmega "
+"ZeroOmega "
 "可以依據<b>切換條件</b>對不同的網路請求使用不同的情境模式。<br>例如<b>網域萬用字元</b>條件可以對某個網域下的所有網址使用特定的情境模式。"
 
 msgid "options_guide_conditionTypeStep"
@@ -953,7 +956,7 @@ msgstr "您可以使用各種條件類型來比對網域或者整個網址。<br
 
 msgid "options_guide_conditionProfileStep"
 msgstr ""
-"對於<b>任何比對該條件的請求</b>，SwitchyOmega 會使用這個情境模式。<br>如果選擇了<b>\"[直接連線]\""
+"對於<b>任何比對該條件的請求</b>，ZeroOmega 會使用這個情境模式。<br>如果選擇了<b>\"[直接連線]\""
 "情境模式</b>，則比對的請求不使用任何代理。"
 
 msgid "options_guide_switchDefaultStep"
@@ -981,16 +984,16 @@ msgid "popup_proxyNotControllable_unknown"
 msgstr "無法設定代理設定。請檢查系統和瀏覽器設定。"
 
 msgid "popup_proxyNotControllable_disabled"
-msgstr "在其他程式或擴充功能的要求下，SwitchyOmega 已經停用代理設定。"
+msgstr "在其他程式或擴充功能的要求下，ZeroOmega 已經停用代理設定。"
 
 msgid "popup_proxyNotControllable_upgrade"
-msgstr "代理設定現在由新版本的 SwitchyOmega 控制。"
+msgstr "代理設定現在由新版本的 ZeroOmega 控制。"
 
 msgid "popup_proxyNotControllableDetails"
-msgstr "如果不解決以上問題，則無法使用SwitchyOmega切換代理。"
+msgstr "如果不解決以上問題，則無法使用ZeroOmega切換代理。"
 
 msgid "popup_proxyNotControllableDetails_upgrade"
-msgstr "兩個不同版本的 SwitchyOmega （如穩定版和測試版）不能共存。請停用其中之一。"
+msgstr "兩個不同版本的 ZeroOmega （如穩定版和測試版）不能共存。請停用其中之一。"
 
 msgid "popup_proxyNotControllableManage"
 msgstr "管理擴充功能"
@@ -1003,6 +1006,10 @@ msgstr "加入條件"
 
 msgid "popup_showOptions"
 msgstr "選項"
+
+
+msgid "popup_reload"
+msgstr "重啓插件"
 
 msgid "popup_reportIssues"
 msgstr "回報問題"
@@ -1020,7 +1027,7 @@ msgid "popup_requestErrorWarning"
 msgstr "由於網路原因，此頁面部分資源載入失敗。這些問題可能是由您的網路、代理伺服器或網站本身引起的。"
 
 msgid "popup_requestErrorWarningHelp"
-msgstr "這些問題並非由 SwitchyOmega 自身導致，它只不過偵測並報告了錯誤而已。"
+msgstr "這些問題並非由 ZeroOmega 自身導致，它只不過偵測並報告了錯誤而已。"
 
 msgid "popup_requestErrorAddCondition"
 msgstr "您可以檢視以下網域，並依據實際情況確定是否對其使用代理。"
@@ -1070,7 +1077,7 @@ msgstr ""
 "$3:DETAILS$"
 
 msgid "browserAction_titleNewerOptions"
-msgstr "錯誤：需要新版本的SwitchyOmega才能載入目前選項。"
+msgstr "錯誤：需要新版本的ZeroOmega才能載入目前選項。"
 
 msgid "browserAction_titleOptionError"
 msgstr "錯誤：選項檔案已經損壞，點選此處重設選項。"
@@ -1136,10 +1143,10 @@ msgstr ""
 "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98'>常見問題</a>。"
 
 msgid "about_copyright"
-msgstr "版權所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有權利。"
+msgstr "版權所有 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. 保留所有權利。"
 
 msgid "about_credits"
-msgstr "SwitchyOmega 的誕生離不開 <a href='https://github.com/FelisCatus/SwitchyOmega'>SwitchyOmega</a> 開源項目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>開源軟體</a>。"
+msgstr "ZeroOmega 的誕生離不開 <a href='https://github.com/FelisCatus/SwitchyOmega'>SwitchyOmega</a> 開源項目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>開源軟體</a>。"
 
 msgid "about_license"
-msgstr "SwitchyOmega 是<a href='https://www.gnu.org/philosophy/free-sw.zh-tw.html'>自由軟體</a>，使用<a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public License</a> 版本 3 及以上授權。"
+msgstr "ZeroOmega 是<a href='https://www.gnu.org/philosophy/free-sw.zh-tw.html'>自由軟體</a>，使用<a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public License</a> 版本 3 及以上授權。"

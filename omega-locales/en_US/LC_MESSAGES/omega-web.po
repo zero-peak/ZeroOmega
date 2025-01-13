@@ -18,7 +18,7 @@ msgid "appNameShort"
 msgstr "ZeroOmega"
 
 msgid "manifest_app_name"
-msgstr "Proxy SwitchyOmega"
+msgstr "ZeroOmega"
 
 msgid "manifest_app_description"
 msgstr "Manage and switch between multiple proxies quickly & easily."
@@ -216,7 +216,7 @@ msgid "inputClear_restore"
 msgstr "Restore"
 
 msgid "options_title"
-msgstr "SwitchyOmega Options"
+msgstr "ZeroOmega Options"
 
 msgid "options_experimental_badge"
 msgstr "α"
@@ -337,15 +337,15 @@ msgstr ""
 
 msgid "options_conflicts_lowerPriority"
 msgstr ""
-"A red badge like this on the SwitchyOmega icon indicates that another app has "
-"higher priority so SwitchyOmega cannot control the settings. Please try to "
-"uninstall SwitchyOmega and reinstall, which should raise SwitchyOmega's "
+"A red badge like this on the ZeroOmega icon indicates that another app has "
+"higher priority so ZeroOmega cannot control the settings. Please try to "
+"uninstall ZeroOmega and reinstall, which should raise ZeroOmega's "
 "priority. If you still see conflicts after reinstallation, please consider "
 "removing the other app causing the conflict."
 
 msgid "options_conflicts_higherPriority"
 msgstr ""
-"If SwitchyOmega has higher priority, you can give the control back to other "
+"If ZeroOmega has higher priority, you can give the control back to other "
 "apps or system settings by selecting $SYSTEMPROFILE$ in the popup menu."
 
 msgid "options_showExternalProfile"
@@ -419,7 +419,7 @@ msgstr ""
 msgid "options_exportLegacyRuleListHelp"
 msgstr ""
 "Enable this option only if you publish rule lists for users of those projects.<"
-"br>Please consider advising your audience to upgrade to SwitchyOmega for the "
+"br>Please consider advising your audience to upgrade to ZeroOmega for the "
 "improvements."
 
 msgid "options_group_importExportSettings"
@@ -435,7 +435,7 @@ msgid "options_restoreLocal"
 msgstr "Restore from file"
 
 msgid "options_restoreLocalHelp"
-msgstr "Restore your SwitchyOmega options from a local file."
+msgstr "Restore your ZeroOmega options from a local file."
 
 msgid "options_restoreOnline"
 msgstr "Restore from online"
@@ -499,6 +499,9 @@ msgstr ""
 msgid "options_builtin"
 msgstr "Builtin"
 
+msgid "options_theme"
+msgstr "Theme"
+
 msgid "options_builtinProfile"
 msgstr "Builtin Profiles"
 
@@ -557,7 +560,7 @@ msgstr "Authentication"
 
 msgid "options_proxy_authNotSupported"
 msgstr "Your browser DOES NOT support $PROTOCOLDISP$ proxy authentication! "
-"Please do not report this issue to SwitchyOmega. Contact the support for "
+"Please do not report this issue to ZeroOmega. Contact the support for "
 "your browser instead."
 
 msgid "options_proxy_authAllWarningPac"
@@ -777,19 +780,19 @@ msgstr ""
 "adding a rule list."
 
 msgid "options_modalHeader_welcome"
-msgstr "Welcome to SwitchyOmega"
+msgstr "Welcome to ZeroOmega"
 
 msgid "options_welcomeNormal"
-msgstr "You have successfully installed SwitchyOmega, the ultimate proxy switcher."
+msgstr "You have successfully installed ZeroOmega, the ultimate proxy switcher."
 
 msgid "options_welcomeNormalGuide"
 msgstr ""
-"Please tell SwitchyOmega about your proxies through the options page. Let's "
+"Please tell ZeroOmega about your proxies through the options page. Let's "
 "see how."
 
 msgid "options_welcomeUpgrade"
 msgstr ""
-"You have successfully upgraded to SwitchyOmega. Don't panic, your existing "
+"You have successfully upgraded to ZeroOmega. Don't panic, your existing "
 "options are fully preserved."
 
 msgid "options_welcomeUpgradeGuide"
@@ -877,7 +880,7 @@ msgid "options_profileNameEmpty"
 msgstr "The name of the profile must not be empty."
 
 msgid "popup_title"
-msgstr "SwitchyOmega Popup"
+msgstr "ZeroOmega Popup"
 
 msgid "options_modalHeader_proxyAuth"
 msgstr "Proxy Authentication"
@@ -1041,19 +1044,19 @@ msgstr "Download Profile Now"
 msgid "options_guide_fixedProfileStep"
 msgstr ""
 "A <b>Proxy Profile</b> contains settings like server ip &amp; port for proxy.<"
-"br>Profiles are the the basic configuration units in SwitchyOmega.<br>We have "
+"br>Profiles are the the basic configuration units in ZeroOmega.<br>We have "
 "already created an example profile for you. Try opening it."
 
 msgid "options_guide_fixedServersStep"
 msgstr ""
-"You can fill in your proxy server and port here as you like.<br>SwitchyOmega <"
+"You can fill in your proxy server and port here as you like.<br>ZeroOmega <"
 "b>does not come with any proxy servers</b>.<br>Please consult your network "
 "provider or proxy software manual if you don't know what should be filled in "
 "here."
 
 msgid "options_guide_autoSwitchProfileStep"
 msgstr ""
-"You can tell SwitchyOmega to switch between proxies automatically through the "
+"You can tell ZeroOmega to switch between proxies automatically through the "
 "mighty <b>Switch Profile</b>.<br>However, its features cannot be covered in "
 "this quick guide.<br>You can open this profile to unlock its power some time "
 "later."
@@ -1065,7 +1068,7 @@ msgstr ""
 
 msgid "options_guide_conditionStep"
 msgstr ""
-"SwitchyOmega can apply different profiles to requests based on <b>conditions</"
+"ZeroOmega can apply different profiles to requests based on <b>conditions</"
 "b>.<br> For example, the <b>Host wildcard</b> condition allows you to set the "
 "profile for all URLs in a domain."
 
@@ -1076,7 +1079,7 @@ msgstr ""
 
 msgid "options_guide_conditionProfileStep"
 msgstr ""
-"SwitchyOmega applies the selected profile here to <b>any request matching the "
+"ZeroOmega applies the selected profile here to <b>any request matching the "
 "condition.</b> <br> The special <b>\"[Direct]\" profile</b> will cause the "
 "request to be sent without any proxy."
 
@@ -1120,14 +1123,14 @@ msgstr ""
 "extension(s)."
 
 msgid "popup_proxyNotControllable_upgrade"
-msgstr "Proxy settings are now controlled by a newer version of SwitchyOmega."
+msgstr "Proxy settings are now controlled by a newer version of ZeroOmega."
 
 msgid "popup_proxyNotControllableDetails"
-msgstr "You cannot switch profiles with SwitchyOmega unless you fix the problem above."
+msgstr "You cannot switch profiles with ZeroOmega unless you fix the problem above."
 
 msgid "popup_proxyNotControllableDetails_upgrade"
 msgstr ""
-"You can't enable two (or more) versions of SwitchyOmega at the same time. "
+"You can't enable two (or more) versions of ZeroOmega at the same time. "
 "Please disable one of them."
 
 msgid "popup_proxyNotControllableManage"
@@ -1141,6 +1144,9 @@ msgstr "Add condition"
 
 msgid "popup_showOptions"
 msgstr "Options"
+
+msgid "popup_reload"
+msgstr "Reload"
 
 msgid "popup_reportIssues"
 msgstr "Report issues"
@@ -1158,7 +1164,7 @@ msgid "popup_requestErrorWarning"
 msgstr "A few resources failed to load due to issues with your network, proxy server or the webpage."
 
 msgid "popup_requestErrorWarningHelp"
-msgstr "SwitchyOmega is just the reporter of these issues, not the cause of them."
+msgstr "ZeroOmega is just the reporter of these issues, not the cause of them."
 
 msgid "popup_requestErrorAddCondition"
 msgstr "You can review the following domains and use proxy for them when appropriate."
@@ -1273,7 +1279,7 @@ msgstr "Other questions? Need help with using ZeroOmega? Please see our "
 "<a href='https://github.com/FelisCatus/SwitchyOmega/wiki/FAQ'>FAQ</a>."
 
 msgid "about_copyright"
-msgstr "Copyright 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. All rights reserved.<br>"
+msgstr "Copyright 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. All rights reserved.<br>"
 "Copyright 2024 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
 
 msgid "about_credits"
