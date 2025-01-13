@@ -26,11 +26,19 @@ initContextMenu = ->
     title: 'Reload'
     contexts: ["action"]
   })
+  if !!globalThis.localStorage
+    chrome.contextMenus.create({
+      id: 'options'
+      title: 'Options'
+      contexts: ["action"]
+    })
 
 initContextMenu()
 
 chrome.contextMenus?.onClicked.addListener((info, tab) ->
   switch info.menuItemId
+    when 'options'
+      browser.runtime.openOptionsPage()
     when 'reload'
       chrome.runtime.reload()
     when 'reportIssue'
