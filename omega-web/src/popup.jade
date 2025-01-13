@@ -167,7 +167,7 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
               | {{'Add temp condition'}}
           button.btn.btn-primary(type='submit' ng-show='!!currentProfileCanAddRule') {{'popup_addCondition' | tr}}
           button.btn.btn-default.pull-right(type='button' ng-show='!currentProfileCanAddRule'
-            ng-click='openOptions("#/general")') {{'popup_configureMonitorWebRequests' | tr}}
+            ng-click='openOptions("#!/general")') {{'popup_configureMonitorWebRequests' | tr}}
 
     script(src='js/log_error.js')
     script(src='lib/iframeResizer/iframeResizer.contentWindow.min.js')
