@@ -2,10 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Permissions required</title>
+  <style>
+*{
+  box-sizing: border-box;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.incognito-access-img-container{
+  margin-right: 20px;
+}
+.incognito-access-img{
+  width: 100%;
+  max-width: 100%;
+  border: 2px solid;
+  border-radius: 5px;
+  height: auto;
+}
+  </style>
 </head>
-<body>
-  <button id="grant-permissions-btn">grant site permissions</button>
+<body style="opacity: 0">
+  <ol style="margin-right: 20px;">
+    <li class="site-permissions-required">
+      <div>
+        <p>
+          <strong>Site permissions is required.</strong> The Api <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/proxy/onRequest">proxy.onRequest</a> requires site permissions. <button id="grant-permissions-btn">grant site permissions</button>
+        </p>
+      </div>
+    </li>
+    <li class="incognito-access-required">
+      <div>
+        <p><strong>IncognitoAccess is required.</strong>According to <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/proxy/settings" target="_blank"/>Firefox API</a> requirements.Changing proxy settings requires private browsing window access.</p>
+        <div class="incognito-access-img-container">
+          <img class="incognito-access-img" src="./img/AllowedIncognitoAccess.png"/>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <dialog opened class="loading-dialog">loading...</dialog>
   <script src="../js/omega_target_popup.js"></script>
   <script src="js/style.js"></script>
   <script src="js/grant_permissions.js"></script>

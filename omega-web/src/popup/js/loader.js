@@ -25,11 +25,14 @@ $script('../js/omega_target_popup.js', 'om-target', function() {
   }
   const permissionValue = {origins: ["<all_urls>"]}
   if (globalThis.browser && browser.proxy && browser.proxy.onRequest){
-    chrome.permissions.contains(permissionValue).then((hasPermission)=>{
-      if (!hasPermission) {
-        location.href = 'grant_permissions.html'
-      } else {
+    Promise.all([browser.permissions.contains(permissionValue), browser.extension.isAllowedIncognitoAccess()])
+    .then(([sitePermissions, isAllowedIncognitoAccess])=>{
+      // chrome.contextMenus check is Android or PC,
+      // browser.proxy.settings doesn't support Android
+      if (sitePermissions && (!chrome.contextMenus || isAllowedIncognitoAccess)) {
         init();
+      } else {
+        location.href = 'grant_permissions.html'
       }
     })
   } else {
