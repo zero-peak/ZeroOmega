@@ -18,30 +18,14 @@ The project is available as a Chromium Extension.
 You can try it on [Chrome Web Store](https://chrome.google.com/webstore/detail/padekgcemlokbadohgkifijomclgjgif),
 or grab a packaged extension file (CRX) for offline installation on the [Releases page](https://github.com/zero-peak/ZeroOmega/releases).
 
-Please [report issues on the issue tracker.](https://github.com/zero-peak/ZeroOmega/issues)
+Please [report issues on the issue tracker](https://github.com/zero-peak/ZeroOmega/issues).
 
-Firefox Addon (Experimental)
+Firefox Addon
 ----------------------------
 
-There is also an experimental WebExtension port, which allows installing in
-**Firefox Nightly Version >= 56**.
+There is also a WebExtension port, which allows installing in Firefox. Compatibility with Firefox has increased significantly recently.
 
-**Since the WebExtensions API is still under heavy development on Mozilla's side,
-we strongly recommended using the Nightly channel (>= 56.0) and update frequently.**
-
-The Developer Edition and Beta channels will not receive fixes as often and
-therefore unsupported by ZeroOmega. Some users report that it works with the
-Firefox Developer Edition (>= 55) as well, but we strongly advise against doing
-so. It won't work at all in Firefox 54 Stable.
-
-You can try it on [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/zeroomega/),
-or grab a packaged extension file (XPI) for offline installation on the [Releases page](https://github.com/zero-peak/ZeroOmega/releases).
-
-Please make sure that you are using the latest Nightly build before you
-[report issues](https://github.com/zero-peak/ZeroOmega/issues).
-Build number AND build date should be mentioned somewhere in the issue.
-
-NOTE: PAC Profiles DO NOT work on Firefox due to AMO review policies. We will see what we can do.
+Please [report issues on the issue tracker](https://github.com/zero-peak/ZeroOmega/issues), browser specific bugs are possible.
 
 Development status
 ------------------
