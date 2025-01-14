@@ -28,7 +28,7 @@ There is also a WebExtension port, which allows installing in Firefox. Compatibi
 You can try it on [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/zeroomega/),
 or grab a packaged extension file (XPI) for offline installation on the [Releases page](https://github.com/zero-peak/ZeroOmega/releases).
 
-Please [report issues on the issue tracker](https://github.com/zero-peak/ZeroOmega/issues), browser specific bugs are possible.
+Please [report issues on the issue tracker](https://github.com/zero-peak/ZeroOmega/issues), browser-specific bugs are possible.
 
 Development status
 ------------------
