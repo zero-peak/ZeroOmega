@@ -1143,7 +1143,8 @@ msgstr ""
 "%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98'>常見問題</a>。"
 
 msgid "about_copyright"
-msgstr "版權所有 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. 保留所有權利。"
+msgstr "版權所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有權利。<br>"
+"版權所有 2024-2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
 
 msgid "about_credits"
 msgstr "ZeroOmega 的誕生離不開 <a href='https://github.com/FelisCatus/SwitchyOmega'>SwitchyOmega</a> 開源項目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>開源軟體</a>。"

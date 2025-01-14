@@ -1291,9 +1291,9 @@ msgstr ""
 
 msgid "about_copyright"
 msgstr ""
-"کپی رایت 2025-2024 <a "
+"کپی رایت 2017-2012 <a "
 "href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>"
-"نویسندگان The ZeroOmega </a>. کلیه حقوق محفوظ است، ترجمه شده به فارسی "
+"نویسندگان The SwitchyOmega </a>. کلیه حقوق محفوظ است، ترجمه شده به فارسی "
 "توسط گودرز جعفری."
 
 msgid "about_credits"

@@ -1153,8 +1153,8 @@ msgstr ""
 "SwitchyOmega/wiki/FAQ'>常见问题</a>。"
 
 msgid "about_copyright"
-msgstr "版权所有 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. 保留所有权利。<br>"
-"版权所有 2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
+msgstr "版权所有 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. 保留所有权利。<br>"
+"版权所有 2024-2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
 
 msgid "about_credits"
 msgstr "ZeroOmega 的诞生离不开 <a href='https://github.com/zero-peak/ZeroOmega'>ZeroOmega</a> 开源项目和其他<a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>开源软件</a>。"

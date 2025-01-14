@@ -1279,8 +1279,8 @@ msgstr "Other questions? Need help with using ZeroOmega? Please see our "
 "<a href='https://github.com/FelisCatus/SwitchyOmega/wiki/FAQ'>FAQ</a>."
 
 msgid "about_copyright"
-msgstr "Copyright 2024-2025 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The ZeroOmega Authors</a>. All rights reserved.<br>"
-"Copyright 2024 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
+msgstr "Copyright 2012-2017 <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>The SwitchyOmega Authors</a>. All rights reserved.<br>"
+"Copyright 2024-2025 <a href='https://github.com/zero-peak/ZeroOmega/graphs/contributors'>The ZeroOmega Authors</a>."
 
 msgid "about_credits"
 msgstr "ZeroOmega is made possible by the <a href='https://github.com/zero-peak/ZeroOmega'>ZeroOmega</a> open source project and other <a href='https://github.com/FelisCatus/SwitchyOmega/blob/master/AUTHORS'>open source software</a>."
