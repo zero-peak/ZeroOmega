@@ -48,6 +48,7 @@ class FirefoxProxyImpl extends ProxyImpl
         blobUrl = URL.createObjectURL(blob)
         browser.proxy.settings.set({
           value: {
+            proxyDNS: true,
             proxyType: 'autoConfig',
             autoConfigUrl: blobUrl
           }
@@ -58,7 +59,7 @@ class FirefoxProxyImpl extends ProxyImpl
     @_optionsReadyCallback = null
     return @setProxyAuth(profile, options)
   onRequest: (requestDetails) ->
-    return undefined if browser.extension.isAllowedIncognitoAccess()
+    #return undefined if browser.extension.isAllowedIncognitoAccess()
     # TODO 将来可以在这里实现按标签进行代理控制功能
     #return undefined
     # The browser only recognizes native promises return values, not Bluebird.
@@ -71,7 +72,7 @@ class FirefoxProxyImpl extends ProxyImpl
           switch profile.profileType
             when 'DirectProfile'
               return {type: 'direct'}
-            when 'SystemProfile'
+            when 'SystemProfile', 'PacProfile'
               # Returning undefined means using the default proxy from previous.
               # https://hg.mozilla.org/mozilla-central/rev/9f0ee2f582a2#l1.337
               return undefined
