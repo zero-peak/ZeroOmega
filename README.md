@@ -15,7 +15,7 @@ Chromium Extension
 ------------------
 The project is available as a Chromium Extension.
 
-You can try it on [Chrome Web Store](https://chrome.google.com/webstore/detail/padekgcemlokbadohgkifijomclgjgif),
+You can try it on [Chrome Web Store](https://chromewebstore.google.com/detail/pfnededegaaopdmhkdmcofjmoldfiped),
 or grab a packaged extension file (CRX) for offline installation on the [Releases page](https://github.com/zero-peak/ZeroOmega/releases).
 
 Please [report issues on the issue tracker](https://github.com/zero-peak/ZeroOmega/issues).
