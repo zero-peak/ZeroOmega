@@ -8,6 +8,7 @@ module.exports = ->
   "-confirmDeletion": true
   "-showInspectMenu": true
   "-addConditionsToBottom": false
+  "-showResultProfileOnActionBadgeText": false
   "-showExternalProfile": true
   "-downloadInterval": 1440
   "+proxy":

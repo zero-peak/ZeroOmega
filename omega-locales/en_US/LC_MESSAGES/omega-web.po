@@ -266,6 +266,9 @@ msgstr "Allow inspecting proxy used for page elements via context menu."
 msgid "options_addConditionsToBottom"
 msgstr "Put new conditions added using the popup to the bottom of the list."
 
+msgid "options_showResultProfileOnActionBadgeText"
+msgstr "show the result profile's name on the action badge text."
+
 msgid "options_group_keyboardShortcut"
 msgstr "Keyboard Shortcut"
 

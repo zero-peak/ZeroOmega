@@ -53,9 +53,15 @@ class ChromeTabs
     @actionForUrl(tab.url).then((action) =>
       if not action
         @clearIcon tab.id
+        chrome.action.setBadgeText?(text: '', tabId: tab.id)
         return
       @setIcon(action.icon, tab.id)
       title = if @_canSetPopup() then action.title else action.shortTitle
+      if action.badgeText
+        chrome.action.setBadgeText?(
+          text: action.badgeText.substring(0,3),
+          tabId: tab.id
+        )
       return chrome.action.setTitle({title: title, tabId: tab.id})
     ).catch((e) ->
       console.log('error:', e)

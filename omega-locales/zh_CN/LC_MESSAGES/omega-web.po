@@ -248,6 +248,9 @@ msgstr "右键菜单中，可检查网页元素所使用的代理。"
 msgid "options_addConditionsToBottom"
 msgstr "把以弹出菜单方式创建的规则添加到列表末尾。"
 
+msgid "options_showResultProfileOnActionBadgeText"
+msgstr "将最终使用的情景模式名称显示到徽标上。"
+
 msgid "options_group_keyboardShortcut"
 msgstr "键盘快捷键"
 
