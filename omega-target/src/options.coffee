@@ -5,6 +5,31 @@ Storage = require './storage'
 OmegaPac = require 'omega-pac'
 jsondiffpatch = require 'jsondiffpatch'
 
+
+
+PROFILETEMPPACKEY = '__tempZeroRuleListPac'
+
+generateProfileTempPac = (profile) ->
+  tempProfile = OmegaPac.Profiles.create(PROFILETEMPPACKEY, profile.profileType)
+  tempProfile.defaultProfileName = profile.defaultProfileName
+  tempProfile.format = profile.format
+  tempProfile.matchProfileName = profile.matchProfileName
+  tempProfile.ruleList = profile.ruleList
+  tempProfile.isTempPacProfile = true
+  options = {}
+  nameKey = OmegaPac.Profiles.nameAsKey(tempProfile.name)
+  options[nameKey] = tempProfile
+  profileNotFound = -> 'ignore'
+
+  ast = OmegaPac.PacGenerator.script(options, tempProfile.name,
+    profileNotFound: profileNotFound)
+  pac = ast.print_to_string(beautify: true, comments: true)
+  pac = OmegaPac.PacGenerator.ascii(pac)
+  return pac
+
+
+
+
 class Options
   ###*
   # The entire set of options including profiles and other settings.
@@ -109,7 +134,7 @@ class Options
             @_storage.get(null)
           else
             @sync.init({gistId, gistToken}).catch((e) ->
-              console.error('sync init fail::', e)
+              console.log('sync init fail::', e)
             )
             @_syncWatchStop = @sync.watchAndPull(@_storage)
             @sync.copyTo(@_storage).catch(Storage.StorageUnavailableError, =>
@@ -384,6 +409,8 @@ class Options
               value.revision)
             continue if result >= 0
           profilesChanged = true
+          if value.profileType is 'RuleListProfile'
+            value.pacScript = generateProfileTempPac(value)
         if key is '-builtinProfiles'
           currentProfileAffected = 'changed'
         @_options[key] = value
@@ -722,6 +749,7 @@ class Options
           profile.lastUpdate = new Date().toISOString()
           if OmegaPac.Profiles.update(profile, data)
             OmegaPac.Profiles.dropCache(profile)
+            OmegaPac.Profiles.updateRevision(profile)
             changes = {}
             changes[key] = profile
             @_setOptions(changes).return(profile)

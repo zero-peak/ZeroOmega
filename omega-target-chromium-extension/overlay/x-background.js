@@ -24,6 +24,16 @@ import "./js/background.js" // zeroBackground
 const isFirefox = !!globalThis.localStorage
 const zcb = globalThis.zeroDetectModeCB
 
+globalThis.POPUPHTMLURL = './popup-iframe.html'
+//if android, (eg. edge canary for android), use default popup/index.html
+//https://github.com/zero-peak/ZeroOmega/issues/93
+if (globalThis.navigator && /Android/i.test(globalThis.navigator.userAgent)){
+  globalThis.POPUPHTMLURL = './popup/index.html'
+}
+
+// keepAlive
+setInterval(chrome.runtime.getPlatformInfo, 25 * 1000) //https://developer.chrome.com/docs/extensions/develop/migrate/to-service-workers
+
 function detectPrivateMode(cb) {
     var db, tempMode,on, off;
     if (zcb) {

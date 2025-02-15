@@ -164,8 +164,7 @@ class ChromeOptions extends OmegaTarget.Options
     if quickSwitch
       chrome.action.setPopup({popup: ''})
     else
-      #chrome.action.setPopup({popup: 'popup/index.html'})
-      chrome.action.setPopup({popup: 'popup-iframe.html'})
+      chrome.action.setPopup({popup: globalThis.POPUPHTMLURL})
 
     chrome.contextMenus?.update('enableQuickSwitch', {checked: !!quickSwitch})
     Promise.resolve()

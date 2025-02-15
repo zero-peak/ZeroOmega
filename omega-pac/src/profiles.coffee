@@ -472,7 +472,13 @@ module.exports = exports =
       match: (profile, request) ->
         result = exports.match(profile, request, 'SwitchProfile')
       compile: (profile) ->
-        exports.compile(profile, 'SwitchProfile')
+        if profile.isTempPacProfile
+          exports.compile(profile, 'SwitchProfile')
+        else
+          if profile.pacScript
+            exports.compile(profile, 'PacProfile')
+          else
+            exports.compile(profile, 'SwitchProfile')
       updateUrl: (profile) -> profile.sourceUrl
       updateContentTypeHints: -> [
         '!text/html'
@@ -497,6 +503,8 @@ module.exports = exports =
         if formatHandler.preprocess?
           data = formatHandler.preprocess(data)
         return false if profile.ruleList == data
+        # regenerator pacScript
+        profile.pacScript = ''
         profile.ruleList = data
         return true
     'SwitchyRuleListProfile': 'RuleListProfile'

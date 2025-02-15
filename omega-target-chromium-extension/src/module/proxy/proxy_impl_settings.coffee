@@ -4,6 +4,29 @@ Promise = OmegaTarget.Promise
 chromeApiPromisify = require('../chrome_api').chromeApiPromisify
 ProxyImpl = require('./proxy_impl')
 
+notExistentWebsite = "preflight-auth.non-existent-website.zzzzzzzzeroomega.zero"
+
+getFirstAuthProfile = (profile, options) ->
+  for rule in profile.rules
+    profileName = rule.profileName
+    _profile = OmegaPac.Profiles.byName(profileName, options)
+    return _profile if _profile.auth
+
+addAuthPreflightRule = (profile, options) ->
+  return unless profile.profileType is 'SwitchProfile'
+  return unless profile.rules or profile.rules.length is 0
+  authProfile = getFirstAuthProfile(profile, options)
+  return unless authProfile
+  profile.rules.unshift({
+    "condition": {
+      "conditionType": "HostWildcardCondition"
+      "pattern": notExistentWebsite
+    }
+    "isPreflightRule": true
+    "profileName": authProfile.name
+  })
+  return authProfile
+
 class SettingsProxyImpl extends ProxyImpl
   @isSupported: -> chrome?.proxy?.settings?
   features: ['fullUrlHttp', 'pacScript', 'watchProxyChange']
@@ -14,6 +37,7 @@ class SettingsProxyImpl extends ProxyImpl
       return chromeApiPromisify(chrome.proxy.settings, 'clear')({}).then =>
         chrome.proxy.settings.get {}, @_proxyChangeListener
         return
+    authProfile = null
     config = {}
     if profile.profileType == 'DirectProfile'
       config['mode'] = 'direct'
@@ -31,14 +55,24 @@ class SettingsProxyImpl extends ProxyImpl
       config = @_fixedProfileConfig(profile)
     else
       config['mode'] = 'pac_script'
+      authProfile = addAuthPreflightRule(profile, options)
       config['pacScript'] =
         mandatory: true
         data: @getProfilePacScript(profile, meta, options)
     return @setProxyAuth(profile, options).then(->
       return chromeApiPromisify(chrome.proxy.settings, 'set')({value: config})
     ).then(=>
+      if authProfile
+        fetch("https://" + notExistentWebsite).catch(-> authProfile)
       chrome.proxy.settings.get {}, @_proxyChangeListener
       return
+    ).finally(->
+      if authProfile
+        profile.rules.forEach((rule, index) ->
+          if rule.isPreflightRule
+            profile.rules.splice(index, 1)
+        )
+        profile.rules
     )
   _fixedProfileConfig: (profile) ->
     config = {}

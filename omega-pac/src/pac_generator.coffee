@@ -73,6 +73,18 @@ module.exports =
           ]
           new U2.AST_Do(
             body: new U2.AST_BlockStatement body: [
+              new U2.AST_If(
+                condition: new U2.AST_UnaryPrefix(
+                  operator: "!",
+                  expression: new U2.AST_Sub(
+                    expression: new U2.AST_SymbolRef name: 'profiles'
+                    property: new U2.AST_SymbolRef name: 'result'
+                  )
+                )
+                body: new U2.AST_Return(
+                  value: new U2.AST_SymbolRef name: "result"
+                )
+              )
               new U2.AST_SimpleStatement body: new U2.AST_Assign(
                 left: new U2.AST_SymbolRef name: 'result'
                 operator: '='

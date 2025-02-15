@@ -2,6 +2,10 @@ OmegaTarget = require('omega-target')
 Promise = OmegaTarget.Promise
 ProxyAuth = require('./proxy_auth')
 
+
+# TODO temp profile will always create new cache.
+profilePacCache = new Map()
+
 class ProxyImpl
   constructor: (log) ->
     @log = log
@@ -31,6 +35,25 @@ class ProxyImpl
     )
   getProfilePacScript: (profile, meta, options) ->
     meta ?= profile
+    referenced_profiles = []
+    ref_set = OmegaPac.Profiles.allReferenceSet(profile,
+      options, profileNotFound: @_profileNotFound.bind(this))
+    for own _, name of ref_set
+      _profile = OmegaPac.Profiles.byName(name, options)
+      if _profile
+        referenced_profiles.push(_profile)
+    cachedProfiles = profilePacCache.keys().toArray()
+    allProfiles = Object.values(options)
+    cachedProfiles.forEach((cachedProfile) ->
+      if allProfiles.indexOf(cachedProfile) < 0
+        profilePacCache.delete(cachedProfile)
+    )
+    profilePac = profilePacCache.get(profile)
+    profilePacKey = referenced_profiles.map(
+      (_profile) -> _profile.name + '_' + (_profile.revision or 1)
+    ).join(',')
+    if profilePac?[profilePacKey]
+      return profilePac[profilePacKey]
     ast = OmegaPac.PacGenerator.script(options, profile,
       profileNotFound: @_profileNotFound.bind(this))
     ast = OmegaPac.PacGenerator.compress(ast)
@@ -39,6 +62,10 @@ class ProxyImpl
     profileName = profileName.replace(/\*/g, '\\u002a')
     profileName = profileName.replace(/\\/g, '\\u002f')
     prefix = "/*OmegaProfile*#{profileName}*#{meta.revision}*/"
-    return prefix + script
+    pacScript = prefix + script
+    profilePac = {}
+    profilePac[profilePacKey] = pacScript
+    profilePacCache.set(profile, profilePac)
+    return pacScript
 
 module.exports = ProxyImpl

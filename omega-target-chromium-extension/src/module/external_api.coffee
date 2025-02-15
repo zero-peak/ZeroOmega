@@ -23,7 +23,7 @@ module.exports = class ExternalApi
 
     @options.setProxyNotControllable(null)
     #chrome.action.setPopup?({popup: 'popup/index.html'})
-    chrome.action.setPopup?({popup: 'popup-iframe.html'})
+    chrome.action.setPopup?({popup: globalThis.POPUPHTMLURL})
     @options.reloadQuickSwitch()
     @disabled = false
     @options.clearBadge()
