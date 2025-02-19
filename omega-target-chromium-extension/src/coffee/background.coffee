@@ -195,7 +195,10 @@ zeroBackground = (zeroStorage, opts) ->
       if profile.name != currentName
         shortTitle += ' => ' + profile.name # TODO: I18n.
       if options._options['-showResultProfileOnActionBadgeText']
-        badgeText = profile.name
+        if profile.builtin
+          badgeText = profile.name
+        else
+          badgeText = profile.name?.substring(0, 4)
 
       return {
         title: chrome.i18n.getMessage('browserAction_titleWithResult', [

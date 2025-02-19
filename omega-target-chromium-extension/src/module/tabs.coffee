@@ -59,7 +59,7 @@ class ChromeTabs
       title = if @_canSetPopup() then action.title else action.shortTitle
       if action.badgeText
         chrome.action.setBadgeText?(
-          text: action.badgeText.substring(0,3),
+          text: action.badgeText,
           tabId: tab.id
         )
       return chrome.action.setTitle({title: title, tabId: tab.id})
