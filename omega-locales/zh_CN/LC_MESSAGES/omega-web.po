@@ -32,8 +32,14 @@ msgstr "自动切换"
 msgid "profile_direct"
 msgstr "[直接连接]"
 
+msgid "profile_direct_badge_text"
+msgstr "直连"
+
 msgid "profile_system"
 msgstr "[系统代理]"
+
+msgid "profile_system_badge_text"
+msgstr "系统"
 
 msgid "condition_HostWildcardCondition"
 msgstr "域名通配符"

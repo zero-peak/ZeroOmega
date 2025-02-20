@@ -32,8 +32,14 @@ msgstr "自動切換"
 msgid "profile_direct"
 msgstr "[直接連線]"
 
+msgid "profile_direct_badge_text"
+msgstr "直連"
+
 msgid "profile_system"
 msgstr "[系統代理]"
+
+msgid "profile_system_badge_text"
+msgstr "系統"
 
 msgid "condition_HostWildcardCondition"
 msgstr "網域萬用字元"

@@ -32,8 +32,14 @@ msgstr "Auto Switch"
 msgid "profile_direct"
 msgstr "[Direct]"
 
+msgid "profile_direct_badge_text"
+msgstr "Direct"
+
 msgid "profile_system"
 msgstr "[System Proxy]"
+
+msgid "profile_system_badge_text"
+msgstr "System"
 
 msgid "condition_HostWildcardCondition"
 msgstr "Host wildcard"
@@ -267,7 +273,7 @@ msgid "options_addConditionsToBottom"
 msgstr "Put new conditions added using the popup to the bottom of the list."
 
 msgid "options_showResultProfileOnActionBadgeText"
-msgstr "show the result profile's name on the action badge text."
+msgstr "Show the result profile's name on the action badge text."
 
 msgid "options_group_keyboardShortcut"
 msgstr "Keyboard Shortcut"
