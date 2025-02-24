@@ -2,7 +2,7 @@
 Promise = require 'bluebird'
 Storage = require './storage'
 Log = require './log'
-{Revision} = require 'omega-pac'
+{Revision, Profiles} = require 'omega-pac'
 jsondiffpatch = require 'jsondiffpatch'
 TokenBucket = require('limiter').TokenBucket
 
@@ -197,7 +197,7 @@ class OptionsSync
   # @param {Storage} local The local storage to be written to
   # @returns {function} Calling the returned function will stop watching.
   ###
-  watchAndPull: (local) ->
+  watchAndPull: (local, updateProfile) ->
     pullScheduled = null
     pull = {}
     doPull = =>
@@ -208,7 +208,14 @@ class OptionsSync
         Storage.operationsForChanges(changes, base: base, merge: @merge)
       ).then (operations) =>
         @_logOperations('OptionsSync::pull', operations)
-        local.apply(operations)
+        local.apply(operations).then( ->
+          updateProfileNames = []
+          Object.values(operations.set).forEach((profile) ->
+            if typeof profile is 'object' and Profiles.updateUrl(profile)
+              updateProfileNames.push(profile.name)
+          )
+          updateProfile?(updateProfileNames)
+        ).return(operations)
 
     @storage.watch null, (changes, opts = {}) =>
       for own key, value of changes

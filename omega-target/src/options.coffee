@@ -6,8 +6,25 @@ OmegaPac = require 'omega-pac'
 jsondiffpatch = require 'jsondiffpatch'
 
 
+generateSHA256 = (text) ->
+  return new Promise((resolve, reject) ->
+    encoder = new TextEncoder()
+    data = encoder.encode(text)
+    crypto.subtle.digest("SHA-256", data).then((hashBuffer) ->
+      # 将 ArrayBuffer 转换为十六进制字符串
+      hashArray = Array.from(new Uint8Array(hashBuffer))
+      hashHex = hashArray.map((byte) ->
+        byte.toString(16).padStart(2, '0')).join('')
+      # 输出 SHA-256 哈希值
+      resolve(hashHex)
+    ).catch((e) ->
+      console.log('eee', e)
+      reject(e)
+    )
+  )
 
 PROFILETEMPPACKEY = '__tempZeroRuleListPac'
+transformValueKeys = ['lastUpdate', 'ruleList', 'pacScript', 'sha256']
 
 generateProfileTempPac = (profile) ->
   tempProfile = OmegaPac.Profiles.create(PROFILETEMPPACKEY, profile.profileType)
@@ -76,7 +93,7 @@ class Options
       if OmegaPac.Profiles.updateUrl(value)
         profile = {}
         for k, v of value
-          continue if k == 'lastUpdate' || k == 'ruleList' || k == 'pacScript'
+          continue if transformValueKeys.indexOf(k) >= 0
           profile[k] = v
         value = profile
     return value
@@ -136,7 +153,8 @@ class Options
             @sync.init({gistId, gistToken}).catch((e) ->
               console.log('sync init fail::', e)
             )
-            @_syncWatchStop = @sync.watchAndPull(@_storage)
+            @_syncWatchStop =
+              @sync.watchAndPull(@_storage, @updateProfile.bind(this))
             @sync.copyTo(@_storage).catch(Storage.StorageUnavailableError, =>
               console.error('Warning: Sync storage is not available in this ' +
                 'browser! Disabling options sync.')
@@ -745,16 +763,18 @@ class Options
           # rejected by fetchUrl and will not end up here.
           # So empty data indicates success without any update (e.g. 304).
           return profile unless data
-          profile = OmegaPac.Profiles.byKey(key, @_options)
-          profile.lastUpdate = new Date().toISOString()
-          if OmegaPac.Profiles.update(profile, data)
-            OmegaPac.Profiles.dropCache(profile)
-            OmegaPac.Profiles.updateRevision(profile)
-            changes = {}
-            changes[key] = profile
-            @_setOptions(changes).return(profile)
-          else
-            return profile
+          generateSHA256(data).then((dataSHA256) =>
+            profile = OmegaPac.Profiles.byKey(key, @_options)
+            profile.lastUpdate = new Date().toISOString()
+            if OmegaPac.Profiles.update(profile, data) or not profile.sha256
+              profile.sha256 =  dataSHA256
+              OmegaPac.Profiles.dropCache(profile)
+              changes = {}
+              changes[key] = profile
+              @_setOptions(changes).return(profile)
+            else
+              return profile
+          )
         ).catch (reason) ->
           if reason instanceof Error then reason else new Error(reason)
 
@@ -1157,7 +1177,8 @@ class Options
               @sync.enabled = true
               @_syncWatchStop?()
               @sync.requestPush(@_options)
-              @_syncWatchStop = @sync.watchAndPull(@_storage)
+              @_syncWatchStop =
+                @sync.watchAndPull(@_storage, @updateProfile.bind(this))
               if args.useBuiltInSync
                 @sync.toggleBuiltInSync(true)
               else

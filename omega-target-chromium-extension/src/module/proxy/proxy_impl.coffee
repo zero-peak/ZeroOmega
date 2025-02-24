@@ -50,7 +50,12 @@ class ProxyImpl
     )
     profilePac = profilePacCache.get(profile)
     profilePacKey = referenced_profiles.map(
-      (_profile) -> _profile.name + '_' + (_profile.revision or 1)
+      (_profile) ->
+        revision = _profile.revision or 1
+        # remote pacScript and rule list use sha256 to  ensue uniqueId
+        if OmegaPac.Profiles.updateUrl(_profile) and _profile.sha256
+          revision = _profile.sha256
+        _profile.name + '_' + revision
     ).join(',')
     if profilePac?[profilePacKey]
       return profilePac[profilePacKey]
