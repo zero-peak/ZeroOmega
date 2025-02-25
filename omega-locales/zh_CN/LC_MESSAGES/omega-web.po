@@ -1021,6 +1021,9 @@ msgstr "管理扩展"
 msgid "popup_addConditionTo"
 msgstr "添加条件到情景模式"
 
+msgid "add_temp_condition"
+msgstr "添加临时条件"
+
 msgid "popup_addCondition"
 msgstr "添加条件"
 

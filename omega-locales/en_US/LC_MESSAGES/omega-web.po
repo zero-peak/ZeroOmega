@@ -1148,6 +1148,9 @@ msgstr "Manage extensions"
 msgid "popup_addConditionTo"
 msgstr "Add condition to"
 
+msgid "add_temp_condition"
+msgstr "Add temp condition"
+
 msgid "popup_addCondition"
 msgstr "Add condition"
 
