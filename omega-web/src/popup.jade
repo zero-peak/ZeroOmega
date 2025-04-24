@@ -164,7 +164,7 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
             type='button'
             ng-click='addTempConditionForDomains(domainsForCondition, profileForDomains)'
             ng-show='!!currentProfileCanAddRule')
-              | {{'Add temp condition'}}
+              | {{'add_temp_condition' | tr}}
           button.btn.btn-primary(type='submit' ng-show='!!currentProfileCanAddRule') {{'popup_addCondition' | tr}}
           button.btn.btn-default.pull-right(type='button' ng-show='!currentProfileCanAddRule'
             ng-click='openOptions("#!/general")') {{'popup_configureMonitorWebRequests' | tr}}
