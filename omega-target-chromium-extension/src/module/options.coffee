@@ -11,11 +11,48 @@ TEMPPROFILEKEY = 'tempProfileState'
 
 class ChromeOptions extends OmegaTarget.Options
   _inspect: null
+  _actionForUrl: null
 
   fetchUrl: fetchUrl
+  _networkInspectPorts: []
 
   constructor: (args...) ->
     super(args...)
+
+    chrome.runtime.onConnect.addListener((port) =>
+      return if port.name isnt 'network-inspect'
+      unless @_requestMonitor
+        originalEnabled = @_monitorWebRequests
+        @setMonitorWebRequests(true)
+        @_monitorWebRequests = originalEnabled
+      port.postMessage({
+        type: 'connected'
+      })
+      onMessage = (msg) =>
+        switch msg.type
+          when 'init'
+            requestTabId = msg.tabId
+            _tabInfo = @_requestMonitor.tabInfo
+            if requestTabId
+              _tabInfo = {}
+              _tabInfo[requestTabId] = @_requestMonitor.tabInfo[requestTabId]
+            port.postMessage({
+              type: 'init'
+              data: _tabInfo
+            })
+      port.onMessage.addListener(onMessage)
+      @_networkInspectPorts.push(port)
+      disConnect = =>
+        port.onMessage.removeListener(onMessage)
+        port.onDisconnect.removeListener(disConnect)
+        pos = 0
+        while pos >= 0
+          pos = @_networkInspectPorts.indexOf(port)
+          if pos >= 0
+            @_networkInspectPorts.splice(pos, 1)
+      port.onDisconnect.addListener(disConnect)
+    )
+
     chrome.alarms.onAlarm.addListener (alarm) =>
       switch alarm.name
         when 'omega.updateProfile'
@@ -94,8 +131,8 @@ class ChromeOptions extends OmegaTarget.Options
         )
     @ready
 
-  addTempRule: (domain, profileName) ->
-    super(domain, profileName).then =>
+  addTempRule: (domain, profileName, toggle) ->
+    super(domain, profileName, toggle).then =>
       _zeroState = {}
       _zeroState[TEMPPROFILEKEY] = {
         _tempProfile: @_tempProfile
@@ -186,7 +223,29 @@ class ChromeOptions extends OmegaTarget.Options
       @_tabRequestInfoPorts = {}
       wildcardForReq = (req) -> OmegaPac.wildcardForUrl(req.url)
       @_requestMonitor = new WebRequestMonitor(wildcardForReq)
-      @_requestMonitor.watchTabs (tabId, info) =>
+      @_requestMonitor.watchTabs (tabId, info, req, status) =>
+        unless /^(chrome|moz)-extension:\/\//i.test(req?.url)
+          updateMessage = =>
+            @_networkInspectPorts.forEach((port) ->
+              port.postMessage({
+                type: 'update'
+                data: {
+                  tabId,
+                  info,
+                  req,
+                  status
+                }
+              })
+            )
+          if status is 'start'
+            @_actionForUrl(req.url, {skipIcon: true})
+              .then((action) ->
+                request = info.requests[req.requestId]
+                if request
+                  request.actionProfile = action
+                  updateMessage()
+              )
+          updateMessage()
         return unless @_monitorWebRequests
         if info.errorCount > 0
           info.badgeSet = true
@@ -266,7 +325,8 @@ class ChromeOptions extends OmegaTarget.Options
 
   upgrade: (options, changes) ->
     super(options).catch (err) ->
-      return Promise.reject err
+      return Promise.reject err if options?['schemaVersion']
+      return Promise.reject new OmegaTarget.Options.NoOptionsError()
 
   onFirstRun: (reason) ->
     console.log('first run ....')

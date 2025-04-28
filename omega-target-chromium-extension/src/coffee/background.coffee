@@ -28,6 +28,10 @@ chrome.contextMenus?.onClicked.addListener((info, tab) ->
 )
 
 upgradeMigrateFn = (details) ->
+  if details.reason is 'install'
+    options.ready.then( ->
+      console.log('fresh install:', details)
+    )
   if details.reason is 'update'
     manifest = chrome.runtime.getManifest()
     currentVersion = manifest.version
@@ -116,7 +120,7 @@ zeroBackground = (zeroStorage, opts) ->
     name.charCodeAt(1) == charCodeUnderscore)
 
 
-  actionForUrl = (url) ->
+  actionForUrl = (url, opts = {}) ->
     options.ready.then(->
       request = OmegaPac.Conditions.requestFromUrl(url)
       options.matchProfile(request)
@@ -130,6 +134,7 @@ zeroBackground = (zeroStorage, opts) ->
       details = ''
       direct = false
       attached = false
+      prefix = ''
       condition2Str = (condition) ->
         condition.pattern || OmegaPac.Conditions.str(condition)
       for result in results
@@ -166,8 +171,10 @@ zeroBackground = (zeroStorage, opts) ->
         else if result.profileName
           if result.isTempRule
             details += chrome.i18n.getMessage('browserAction_tempRulePrefix')
+            prefix = chrome.i18n.getMessage('browserAction_tempRulePrefix')
           else if attached
             details += chrome.i18n.getMessage('browserAction_attachedPrefix')
+            prefix = chrome.i18n.getMessage('browserAction_attachedPrefix')
             attached = false
           condition = result.source ? condition2Str(result.condition)
           details += "#{condition} => #{dispName(result.profileName)}\n"
@@ -184,12 +191,14 @@ zeroBackground = (zeroStorage, opts) ->
         profileColor = profile.color
       else if profile.name == current.name and options.isCurrentProfileStatic()
         resultColor = profileColor = profile.color
-        icon = drawIcon(profile.color)
+        unless opts.skipIcon
+          icon = drawIcon(profile.color)
       else
         resultColor = profile.color
         profileColor = current.color
 
-      icon ?= drawIcon(resultColor, profileColor)
+      unless opts.skipIcon
+        icon ?= drawIcon(resultColor, profileColor)
 
       shortTitle = 'Omega: ' + currentName # TODO: I18n.
       if profile.name != currentName
@@ -206,9 +215,12 @@ zeroBackground = (zeroStorage, opts) ->
           dispName(profile.name)
           details
         ])
-
+        currentName: currentName,
+        name: dispName(profile.name)
+        profile: profile
         badgeText: badgeText
         shortTitle: shortTitle
+        prefix: prefix
         icon: icon
         resultColor: resultColor
         profileColor: profileColor
@@ -231,6 +243,8 @@ zeroBackground = (zeroStorage, opts) ->
   state.set({proxyImplFeatures: proxyImpl.features})
   options = new OmegaTargetCurrent.Options(storage, state, Log, sync,
     proxyImpl)
+
+  options._actionForUrl = actionForUrl
 
   options.initWithOptions(null, startupCheck)
 

@@ -1,0 +1,33 @@
+:root {
+  --base00: #fff;
+  --base01: #ededed;
+  --base02: #dddddd;
+  --base03: #cccccc;
+  --base04: #bbbbbb;
+  --base05: #2b312c;
+  --base06: #141714;
+  --base07: #090a09;
+  --base08: #a94442;
+  --base09: #2185d0;
+  --base0A: #337ab7;
+  --base0B: #449d44;
+  --base0C: #983680;
+  --base0D: #b78d12;
+  --base0E: #f2c037;
+  --base0F: #cc5595;
+  --defaultBackground: var(--base00);
+  --lighterBackground: var(--base01);
+  --selectionBackground: var(--base02);
+  --highlightBackground: var(--base03);
+  --darkForeground: var(--base04);
+  --defaultForeground: var(--base05);
+  --lightForeground: var(--base06);
+  --lightBackground: var(--base07);
+  --primaryColor: var(--base09);
+  --secondaryColor: var(--base0D);
+  --positiveColor: var(--base0B);
+  --negativeColor: var(--base08);
+  --infoColor: var(--base0A);
+  --warningColor: var(--base0E);
+  --whiteColor: #fff;
+}

@@ -299,6 +299,13 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
     $scope.requestInfoProvided ?= (info?.domains.length > 0)
     for domain in info.domains
       $scope.domainsForCondition[domain.domain] ?= true
+  $scope.inspectNetworkTraffic = (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    sp = new URLSearchParams(document.location.search)
+    activeTabId = sp.get('activeTabId')
+    url = chrome.runtime.getURL('popup/network/index.html?tabId=') + activeTabId
+    chrome.tabs.create({url: url})
 
   omegaTarget.setRequestInfoCallback (info) ->
     info.domains = generateDomainInfos(info)

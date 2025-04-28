@@ -145,6 +145,8 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
         div
           button.btn.btn-default.btn-xs.btn-link(ng-click='toggleSummarDetail($event)')
             i.glyphicon.glyphicon-transfer
+          button.btn.btn-default.btn-xs.btn-link(ng-click='inspectNetworkTraffic($event)')
+            i.glyphicon.glyphicon-dashboard
         .checkbox(ng-repeat='domain in requestInfo.domains track by domain.domain')
           label
             input(type='checkbox' ng-model='domainsForCondition[domain.domain]' autofocus ng-if='$index === 0')
@@ -164,7 +166,7 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
             type='button'
             ng-click='addTempConditionForDomains(domainsForCondition, profileForDomains)'
             ng-show='!!currentProfileCanAddRule')
-              | {{'add_temp_condition' | tr}}
+              | {{'Add temp condition'}}
           button.btn.btn-primary(type='submit' ng-show='!!currentProfileCanAddRule') {{'popup_addCondition' | tr}}
           button.btn.btn-default.pull-right(type='button' ng-show='!currentProfileCanAddRule'
             ng-click='openOptions("#!/general")') {{'popup_configureMonitorWebRequests' | tr}}

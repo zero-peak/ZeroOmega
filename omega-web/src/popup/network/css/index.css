@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.network-list-container{
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-to-bottom-btn.btn {
+  display: none;
+}
+.scroll-to-bottom-btn.btn .glyphicon:before {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+.disable-auto-scroll .tabulator-tableholder::-webkit-scrollbar-thumb:vertical {
+  background: var(--defaultForeground);
+}
+.disable-auto-scroll .scroll-to-bottom-btn.btn {
+  display: inline-block;
+}
+
+
+.omega-profile-select {
+  width: 100%;
+}
+.omega-profile-select .dropdown-menu > li > a {
+  max-width: none !important;
+}
+.omega-profile-select .btn {
+  width: 100%;
+  display: block;
+  text-align: left;
+  text-align: initial;
+  position: relative;
+  padding-right: 25px;
+}
+.omega-profile-select .btn .caret {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  margin-top: -2px;
+  vertical-align: middle;
+}
+.omega-profile-select .dropdown-menu {
+  width: 100%;
+  cursor: pointer;
+}
+
+.tabs-selector-container {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+.tabs-selector-container select {
+  max-width: 300px;
+
+}
+
+.tabs-selector-container .tab-info-container .tab-closed-tip,
+.tabs-selector-container .tab-info-container{
+  display: none;
+}
+.tabs-selector-container.tab-selected .tab-info-container{
+  display: inline-block;
+}
+.tabs-selector-container.tab-selected.tab-closed .tab-info-container .tab-closed-tip{
+  display: inline-block;
+  font-weight: bolder;
+  color: var(--negativeColor);
+}
+.tabs-selector-container.tab-selected.tab-closed .tab-info-container .tab-btns{
+  display: none;
+}
+
+
+.copy-btn {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+}
+.url-field:hover .copy-btn{
+  display: flex;
+}
+
+
+.status-start, .status-ongoing{
+  color: var(--warningColor);
+}
+.status-done{
+  color: var(--positiveColor);
+}
+.status-timeout, .status-timeout-abort, .status-error{
+  color: var(--negativeColor);
+}
+
+.request-from-icon{
+  opacity: .3;
+}
+
+.url-detail-container {
+    width: 500px;
+    background: var(--defaultBackground);
+    color: var(--defaultForeground);
+    position: relative;
+    margin: -5px -15px;
+    text-align: initial;
+    display: flex;
+    font-weight: initial;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.url-detail-container .header {
+    padding: 5px 10px 10px;
+    background: var(--infoColor);
+    color: white;
+}
+
+.url-detail-container .content {
+    flex: 1;
+    padding: 10px;
+}
+.url-detail-container .footer {
+    text-align: right;
+    padding: 10px;
+    background: var(--lighterBackground); 
+}
+
+.url-detail-container .content .dropdown-menu{
+  top: initial;
+  bottom: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+}

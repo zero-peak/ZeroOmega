@@ -1,3 +1,21 @@
+queryTab = (cb) ->
+  chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
+    if tabs.length == 0 or not (tabs[0].pendingUrl || tabs[0].url)
+      cb()
+    else
+      cb(tabs[0])
+getActiveTab = (activeTabId, cb) ->
+  unless activeTabId
+    sp = new URLSearchParams(document.location.search)
+    activeTabId = sp.get('activeTabId')
+  activeTabId = parseInt(activeTabId)
+  if activeTabId
+    chrome.tabs.get(activeTabId).then(cb).catch(->
+      cb()
+    )
+  else
+    queryTab(cb)
+
 angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
   decodeError = (obj) ->
     if obj._error == 'error'
@@ -128,28 +146,30 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
       callBackground('addProfile', profile).then omegaTarget.refresh
     setDefaultProfile: (profileName, defaultProfileName) ->
       callBackground('setDefaultProfile', profileName, defaultProfileName)
-    getActivePageInfo: ->
+    getActivePageInfo: (activeTabId) ->
       clearBadge = true
       d = $q['defer']()
-      chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-        if tabs.length == 0 or not (tabs[0].pendingUrl || tabs[0].url)
+      getActiveTab activeTabId, (tab) ->
+        unless tab
           d.resolve(null)
           return
-        args = {tabId: tabs[0].id, url: tabs[0].pendingUrl || tabs[0].url}
-        if tabs[0].id and requestInfoCallback
+        args = {tabId: tab.id, url: tab.pendingUrl || tab.url}
+        if tab.id and requestInfoCallback
           connectBackground('tabRequestInfo', args,
             requestInfoCallback)
         d.resolve(callBackground('getPageInfo', args))
       return d.promise.then (info) -> if info?.url then info else null
-    refreshActivePage: ->
+    refreshActivePage: (activeTabId) ->
       d = $q['defer']()
-      chrome.tabs.query {active: true, lastFocusedWindow: true}, (tabs) ->
-        url = tabs[0].pendingUrl || tabs[0].url
+      getActiveTab activeTabId, (tab) ->
+        unless tab
+          return d.resolve()
+        url = tab.pendingUrl || tab.url
         if url and not isChromeUrl(url)
-          if tabs[0].pendingUrl
-            chrome.tabs.update(tabs[0].id, {url})
+          if tab.pendingUrl
+            chrome.tabs.update(tab.id, {url})
           else
-            chrome.tabs.reload(tabs[0].id, {bypassCache: true})
+            chrome.tabs.reload(tab.id, {bypassCache: true})
         d.resolve()
       return d.promise
     openManage: ->

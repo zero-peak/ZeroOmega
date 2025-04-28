@@ -189,19 +189,45 @@ class Options
             'web.switchGuide': 'showOnFirstUse'
           }).then (items) => @_state.set(items)
           return null unless @sync?
-          @_state.get({'syncOptions': ''}).then ({syncOptions}) =>
-            return if syncOptions == 'conflict'
-            # Try to fetch options from sync storage.
-            return @sync.storage.get(null).then((options) =>
-              if not options['schemaVersion']
-                @_state.set({'syncOptions': 'pristine'})
-                return null
-              else
-                @_state.set({'syncOptions': 'sync'})
-                @sync.enabled = true
-                @log.log('Options#loadOptions::fromSync', options)
-                options
-            ).catch(-> null)
+          @sync.getBuiltInSyncConfig().then((builtInSyncConfig) =>
+            @_state.get({
+              'syncOptions': ''
+              'lastGistCommit': ''
+            }).then((syncConfig) =>
+              syncOptions = syncConfig.syncOptions
+              if !!builtInSyncConfig
+                @_state.set({
+                  'firstRun': '',
+                  'web.switchGuide': ''
+                })
+                {gistId, gistToken, lastGistCommit} = builtInSyncConfig
+                if syncConfig.lastGistCommit isnt lastGistCommit
+                  if syncOptions in ['pristine', 'conflict']
+                    @_state.set({
+                      syncOptions: 'conflict'
+                    }).then( =>
+                      @setOptionsSync(true, {
+                        gistId,
+                        gistToken,
+                        useBuiltInSync: true,
+                        force: true
+                      })
+                    )
+                    return
+              return if syncOptions == 'conflict'
+              # Try to fetch options from sync storage.
+              return @sync.storage.get(null).then((options) =>
+                if not options['schemaVersion']
+                  @_state.set({'syncOptions': 'pristine'})
+                  return null
+                else
+                  @_state.set({'syncOptions': 'sync'})
+                  @sync.enabled = true
+                  @log.log('Options#loadOptions::fromSync', options)
+                  options
+              ).catch(-> null)
+            )
+          )
         else
           @log.error(e.stack)
           # Some serious error happened when loading options. Disable syncing
@@ -869,6 +895,9 @@ class Options
       @applyProfile(@_currentProfileName)
 
     @_setOptions(changes)
+
+  getTempRules: ->
+    return @_tempProfileRules
 
   ###*
   # Add a temp rule.

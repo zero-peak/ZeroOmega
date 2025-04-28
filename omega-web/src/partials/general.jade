@@ -7,6 +7,12 @@ section.settings-group
       input#revert-proxy-changes(type='checkbox' ng-model='options["-monitorWebRequests"]')
       span {{'options_monitorWebRequests' | tr}}
     p.help-block(omega-html="'options_monitorWebRequestsHelp' | tr")
+  p
+    a.btn.btn-default(href="./popup/network/index.html" role="button" target="_blank")
+      span.glyphicon.glyphicon-dashboard
+      = ' '
+      | {{'Network monitor'}}
+    span.help-inline {{'Inspect network traffic'}}
 section.settings-group.width-limit
   h3 {{'options_downloadOptions' | tr}}
   p.help-block {{'options_downloadOptionsHelp' | tr}}

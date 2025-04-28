@@ -1,6 +1,8 @@
 Heap = require('heap')
 Url = require('url')
 
+MAXREQUESTCACHE = 1000
+
 module.exports = class WebRequestMonitor
   constructor: (@getSummaryId) ->
     @_requests = {}
@@ -30,9 +32,13 @@ module.exports = class WebRequestMonitor
       @_requestRedirected.bind(this)
       {urls: ['<all_urls>']}
     )
+    extraInfoSpec = ["responseHeaders"]
+    unless globalThis.localStorage # chrome only
+      extraInfoSpec.push('extraHeaders')
     chrome.webRequest.onCompleted.addListener(
       @_requestDone.bind(this)
       {urls: ['<all_urls>']}
+      extraInfoSpec
     )
     chrome.webRequest.onErrorOccurred.addListener(
       @_requestError.bind(this)
@@ -143,9 +149,9 @@ module.exports = class WebRequestMonitor
         @tabInfo[tab.id] ?= @_newTabInfo()
 
   _newTabInfo: -> {
-    requests: {}
+    requests: {} # {requestId: {}}
     requestCount: 0
-    requestStatus: {}
+    requestStatus: {} # {requestId: 'start'/'done'/'....'}
 
     ongoingCount: 0
     errorCount: 0
@@ -161,8 +167,35 @@ module.exports = class WebRequestMonitor
         if req.url.indexOf('chrome://errorpage/') != 0
           for own key, value of @_newTabInfo()
             info[key] = value
-      return if info.requestCount > 1000
-      info.requests[req.requestId] = req
+      if info.requestCount > MAXREQUESTCACHE
+        # clear done or timeout request, decrease  memory
+        nowTimeStamp = Date.now()
+        Object.keys(info.requests).forEach((requestId) ->
+          return if requestId == req.requestId
+          if info.requestStatus[requestId] is 'done'
+            delete info.requests[requestId]
+            delete info.requestStatus[requestId]
+          _request = info.requests[requestId]
+          if _request?.timeStamp
+            duration = nowTimeStamp - _request.timeStamp
+            if duration > 10 * 60 * 1000 # 10 min timeout
+              delete info.requests[requestId]
+              delete info.requestStatus[requestId]
+        )
+        info.requestCount = Object.keys(info.requests).length
+        # if it still exceed MAXREQUESTCACHE, just clean all by reset it
+        if info.requestCount > MAXREQUESTCACHE
+          @tabInfo[tab.id] = @_newTabInfo()
+          return
+      reqInfo = info.requests[req.requestId] || {}
+      statusObj = {}
+      statusObj[status] = req.timeStamp || Date.now()
+      statusInfo = Object.assign({}, reqInfo.statusInfo, statusObj)
+      info.requests[req.requestId] = Object.assign(
+        {}, info.requests[req.requestId], req, {
+          statusInfo: statusInfo,
+        }
+      )
       if (oldStatus = info.requestStatus[req.requestId])
         info[@eventCategory[oldStatus] + 'Count']--
       else
