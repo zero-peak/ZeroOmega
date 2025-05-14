@@ -457,7 +457,7 @@ msgid "options_syncUnsupportedHelp"
 msgstr "选项同步暂不支持您的平台或浏览器。目前只支持桌面版Chrome的浏览器的同步，请谅解。"
 
 msgid "options_builtin"
-msgstr "系统"
+msgstr "应用内置"
 
 msgid "options_theme"
 msgstr "主题"
