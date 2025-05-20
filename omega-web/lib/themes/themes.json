@@ -71,7 +71,7 @@
     "colors": {
       "base00": "#efecf4",
       "base01": "#e2dfe7",
-      "base02": "#8b8792",
+      "base02": "#b3aebd",
       "base03": "#7e7887",
       "base04": "#655f6d",
       "base05": "#585260",
@@ -115,7 +115,7 @@
     "colors": {
       "base00": "#fefbec",
       "base01": "#e8e4cf",
-      "base02": "#a6a28c",
+      "base02": "#cdc9b7",
       "base03": "#999580",
       "base04": "#7d7a68",
       "base05": "#6e6b5e",
@@ -137,7 +137,7 @@
     "colors": {
       "base00": "#20201d",
       "base01": "#292824",
-      "base02": "#6e6b5e",
+      "base02": "#4c493d",
       "base03": "#7d7a68",
       "base04": "#999580",
       "base05": "#a6a28c",
@@ -159,7 +159,7 @@
     "colors": {
       "base00": "#f4f3ec",
       "base01": "#e7e6df",
-      "base02": "#929181",
+      "base02": "#c1c0af",
       "base03": "#878573",
       "base04": "#6c6b5a",
       "base05": "#5f5e4e",
@@ -181,7 +181,7 @@
     "colors": {
       "base00": "#22221b",
       "base01": "#302f27",
-      "base02": "#5f5e4e",
+      "base02": "#424236",
       "base03": "#6c6b5a",
       "base04": "#878573",
       "base05": "#929181",
@@ -203,7 +203,7 @@
     "colors": {
       "base00": "#f1efee",
       "base01": "#e6e2e0",
-      "base02": "#a8a19f",
+      "base02": "#c9c2c0",
       "base03": "#9c9491",
       "base04": "#766e6b",
       "base05": "#68615e",
@@ -225,7 +225,7 @@
     "colors": {
       "base00": "#1b1918",
       "base01": "#2c2421",
-      "base02": "#68615e",
+      "base02": "#423e3d",
       "base03": "#766e6b",
       "base04": "#9c9491",
       "base05": "#a8a19f",
@@ -247,7 +247,7 @@
     "colors": {
       "base00": "#f7f3f7",
       "base01": "#d8cad8",
-      "base02": "#ab9bab",
+      "base02": "#bfadbf",
       "base03": "#9e8f9e",
       "base04": "#776977",
       "base05": "#695d69",
@@ -269,7 +269,7 @@
     "colors": {
       "base00": "#1b181b",
       "base01": "#292329",
-      "base02": "#695d69",
+      "base02": "#3a343a",
       "base03": "#776977",
       "base04": "#9e8f9e",
       "base05": "#ab9bab",
@@ -291,7 +291,7 @@
     "colors": {
       "base00": "#ebf8ff",
       "base01": "#c1e4f6",
-      "base02": "#7ea2b4",
+      "base02": "#a2c0cf",
       "base03": "#7195a8",
       "base04": "#5a7b8c",
       "base05": "#516d7b",
@@ -313,7 +313,7 @@
     "colors": {
       "base00": "#161b1d",
       "base01": "#1f292e",
-      "base02": "#516d7b",
+      "base02": "#2d3d44",
       "base03": "#5a7b8c",
       "base04": "#7195a8",
       "base05": "#7ea2b4",
@@ -335,7 +335,7 @@
     "colors": {
       "base00": "#f4ecec",
       "base01": "#e7dfdf",
-      "base02": "#8a8585",
+      "base02": "#c5c3c3",
       "base03": "#7e7777",
       "base04": "#655d5d",
       "base05": "#585050",
@@ -357,7 +357,7 @@
     "colors": {
       "base00": "#1b1818",
       "base01": "#292424",
-      "base02": "#585050",
+      "base02": "#423d3d",
       "base03": "#655d5d",
       "base04": "#7e7777",
       "base05": "#8a8585",
@@ -379,7 +379,7 @@
     "colors": {
       "base00": "#ecf4ee",
       "base01": "#dfe7e2",
-      "base02": "#87928a",
+      "base02": "#b8c5bc",
       "base03": "#78877d",
       "base04": "#5f6d64",
       "base05": "#526057",
@@ -401,7 +401,7 @@
     "colors": {
       "base00": "#171c19",
       "base01": "#232a25",
-      "base02": "#526057",
+      "base02": "#303a34",
       "base03": "#5f6d64",
       "base04": "#78877d",
       "base05": "#87928a",
@@ -423,7 +423,7 @@
     "colors": {
       "base00": "#f4fbf4",
       "base01": "#cfe8cf",
-      "base02": "#8ca68c",
+      "base02": "#c1d9c1",
       "base03": "#809980",
       "base04": "#687d68",
       "base05": "#5e6e5e",
@@ -445,7 +445,7 @@
     "colors": {
       "base00": "#131513",
       "base01": "#242924",
-      "base02": "#5e6e5e",
+      "base02": "#373c37",
       "base03": "#687d68",
       "base04": "#809980",
       "base05": "#8ca68c",
@@ -467,7 +467,7 @@
     "colors": {
       "base00": "#f5f7ff",
       "base01": "#dfe2f1",
-      "base02": "#979db4",
+      "base02": "#c3cfff",
       "base03": "#898ea4",
       "base04": "#6b7394",
       "base05": "#5e6687",
@@ -489,7 +489,7 @@
     "colors": {
       "base00": "#202746",
       "base01": "#293256",
-      "base02": "#5e6687",
+      "base02": "#454a60",
       "base03": "#6b7394",
       "base04": "#898ea4",
       "base05": "#979db4",
@@ -511,7 +511,7 @@
     "colors": {
       "base00": "#002635",
       "base01": "#00384d",
-      "base02": "#517F8D",
+      "base02": "#385862",
       "base03": "#6C8B91",
       "base04": "#869696",
       "base05": "#a1a19a",
@@ -533,7 +533,7 @@
     "colors": {
       "base00": "#28211c",
       "base01": "#36312e",
-      "base02": "#5e5d5c",
+      "base02": "#3a3837",
       "base03": "#666666",
       "base04": "#797977",
       "base05": "#8a8986",
@@ -621,7 +621,7 @@
     "colors": {
       "base00": "#E3EFEF",
       "base01": "#C9DBDC",
-      "base02": "#B0C5C8",
+      "base02": "#cad7d9",
       "base03": "#98AFB5",
       "base04": "#8299A1",
       "base05": "#6D828E",
@@ -705,6 +705,28 @@
     },
     "order": 5,
     "dark": true
+  },
+  "china-red-screen": {
+    "name": "中国过年红",
+    "colors": {
+      "base00": " #550000",
+      "base01": " #6e0a0a",
+      "base02": " #aa0000",
+      "base03": " #c86148",
+      "base04": " #d26c31",
+      "base05": " #f3cfa9",
+      "base06": " #f7f7e2",
+      "base07": " #fcfcfc",
+      "base08": " #f3cfa9",
+      "base09": " #c86148",
+      "base0A": " #f3cfa9",
+      "base0B": " #d26c31",
+      "base0C": " #efd393",
+      "base0D": " #efd393",
+      "base0E": " #d26c31",
+      "base0F": " #efd393"
+    },
+    "dark": false
   },
   "china-traditional-light": {
     "name": "中国传统色(亮)",
@@ -956,14 +978,14 @@
     "colors": {
       "base00": "#faf0dc",
       "base01": "#c8c8c8",
-      "base02": "#888888",
+      "base02": "#cbc9c9",
       "base03": "#585858",
       "base04": "#282828",
       "base05": "#181818",
       "base06": "#000000",
       "base07": "#000000",
       "base08": "#de5d6e",
-      "base09": "#ff9470",
+      "base09": "#fa5e2a",
       "base0A": "#b3684f",
       "base0B": "#76a85d",
       "base0C": "#64b5a7",
@@ -1000,7 +1022,7 @@
     "colors": {
       "base00": "#2b2b2b",
       "base01": "#323232",
-      "base02": "#323232",
+      "base02": "#4c4848",
       "base03": "#606366",
       "base04": "#a4a3a3",
       "base05": "#a9b7c6",
@@ -1330,7 +1352,7 @@
     "colors": {
       "base00": "#2C3E50",
       "base01": "#34495E",
-      "base02": "#7F8C8D",
+      "base02": "#355a5c",
       "base03": "#95A5A6",
       "base04": "#BDC3C7",
       "base05": "#e0e0e0",
@@ -1771,7 +1793,7 @@
     "colors": {
       "base00": "#322931",
       "base01": "#433b42",
-      "base02": "#5c545b",
+      "base02": "#4e454d",
       "base03": "#797379",
       "base04": "#989498",
       "base05": "#b9b5b8",
@@ -1947,7 +1969,7 @@
     "colors": {
       "base00": "#222222",
       "base01": "#313131",
-      "base02": "#555D55",
+      "base02": "#454845",
       "base03": "#644646",
       "base04": "#5A5A5A",
       "base05": "#DEDEE7",
@@ -1991,7 +2013,7 @@
     "colors": {
       "base00": "#201602",
       "base01": "#302e00",
-      "base02": "#5f5b17",
+      "base02": "#3e3b09",
       "base03": "#6c6823",
       "base04": "#86813b",
       "base05": "#948e48",
@@ -2079,7 +2101,7 @@
     "colors": {
       "base00": "#292D3E",
       "base01": "#444267",
-      "base02": "#32374D",
+      "base02": "#51556a",
       "base03": "#676E95",
       "base04": "#8796B0",
       "base05": "#959DCB",
@@ -2211,7 +2233,7 @@
     "colors": {
       "base00": "#22273b",
       "base01": "#414f60",
-      "base02": "#5a8380",
+      "base02": "#2e4846",
       "base03": "#6e6f72",
       "base04": "#87888b",
       "base05": "#a4a6a9",
@@ -2453,7 +2475,7 @@
     "colors": {
       "base00": "#171517",
       "base01": "#1b181b",
-      "base02": "#1d1b1d",
+      "base02": "#3e353e",
       "base03": "#383338",
       "base04": "#e7dbdb",
       "base05": "#f5f5f5",
@@ -2827,7 +2849,7 @@
     "colors": {
       "base00": "#f9f9f9",
       "base01": "#e0e0e0",
-      "base02": "#ababab",
+      "base02": "#d1d1d1",
       "base03": "#555555",
       "base04": "#343434",
       "base05": "#102015",
@@ -2871,7 +2893,7 @@
     "colors": {
       "base00": "#E9F1EF",
       "base01": "#CCD4D3",
-      "base02": "#90B7B6",
+      "base02": "#b9dfde",
       "base03": "#5C787B",
       "base04": "#4B5B5F",
       "base05": "#385156",
@@ -2915,7 +2937,7 @@
     "colors": {
       "base00": "#F5F7FA",
       "base01": "#E8E9ED",
-      "base02": "#A6AFB8",
+      "base02": "#d3dde7",
       "base03": "#85939E",
       "base04": "#667581",
       "base05": "#586875",
@@ -2959,7 +2981,7 @@
     "colors": {
       "base00": "#002b36",
       "base01": "#073642",
-      "base02": "#586e75",
+      "base02": "#394c52",
       "base03": "#657b83",
       "base04": "#839496",
       "base05": "#93a1a1",
@@ -3098,12 +3120,12 @@
       "base06": "#cfd1d2",
       "base07": "#dddfe0",
       "base08": "#b53b50",
-      "base09": "#ea770d",
-      "base0A": "#c9d364",
-      "base0B": "#06ea61",
-      "base0C": "#42fff9",
-      "base0D": "#03aeff",
-      "base0E": "#ea5ce2",
+      "base09": "#c56e1d",
+      "base0A": "#919940",
+      "base0B": "#12a14b",
+      "base0C": "#39bdb9",
+      "base0D": "#1479a9",
+      "base0E": "#993894",
       "base0F": "#cd6320"
     },
     "dark": true
@@ -3121,11 +3143,11 @@
       "base07": "#050608",
       "base08": "#b53b50",
       "base09": "#ea770d",
-      "base0A": "#c9d364",
-      "base0B": "#06ea61",
-      "base0C": "#42fff9",
+      "base0A": "#5d650c",
+      "base0B": "#09833a",
+      "base0C": "#0f9b96",
       "base0D": "#03aeff",
-      "base0E": "#ea5ce2",
+      "base0E": "#a924a1",
       "base0F": "#cd6320"
     },
     "dark": false
@@ -3289,7 +3311,7 @@
     "colors": {
       "base00": "#2e2a31",
       "base01": "#4a464d",
-      "base02": "#666369",
+      "base02": "#514e54",
       "base03": "#838085",
       "base04": "#9f9da2",
       "base05": "#bcbabe",
@@ -3588,7 +3610,7 @@
       "base0C": "#93e0e3",
       "base0D": "#7cb8bb",
       "base0E": "#dc8cc3",
-      "base0F": "#000000"
+      "base0F": "#a33737"
     },
     "dark": true
   }
