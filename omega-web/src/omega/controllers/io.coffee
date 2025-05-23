@@ -33,7 +33,8 @@ angular.module('omega').controller 'IoCtrl', (
       plainOptions = angular.fromJson(angular.toJson($rootScope.options))
       content = JSON.stringify(plainOptions)
       blob = new Blob [content], {type: "text/plain;charset=utf-8"}
-      downloadFile(blob, "Zero" + """OmegaOptions.bak""")
+      filename = """ZeroOmegaOptions-#{new Date().toISOString()}.bak"""
+      downloadFile(blob, filename)
 
   $scope.importSuccess = ->
     $rootScope.showAlert(
