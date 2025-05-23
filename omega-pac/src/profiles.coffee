@@ -11,6 +11,16 @@ class AST_Raw extends U2.AST_SymbolRef
     U2.AST_SymbolRef.call(this, name: raw)
     @aborts = -> false
 
+checkNeedFixForSocks5 = (proxy = {}) ->
+  if proxy.scheme == 'socks5'
+    # https://github.com/FelisCatus/SwitchyOmega/issues/391
+    if globalThis.FORCEFIXEXPORTSCRIPTFORSOCKS
+      return true
+    # https://github.com/zero-peak/ZeroOmega/issues/147
+    # check isnt firefox
+    return globalThis.navigator.userAgent.toLowerCase().indexOf('firefox') < 0
+  return false
+
 decorateCustomBuiltinProfiles = (profile, options = {}) ->
   return unless profile
   key = exports.nameAsKey(profile)
@@ -71,7 +81,7 @@ module.exports = exports =
 
   pacResult: (proxy) ->
     if proxy
-      if proxy.scheme == 'socks5'
+      if checkNeedFixForSocks5(proxy)
         "SOCKS5 #{proxy.host}:#{proxy.port}; SOCKS #{proxy.host}:#{proxy.port}"
       else
         "#{exports.pacProtocols[proxy.scheme]} #{proxy.host}:#{proxy.port}"
