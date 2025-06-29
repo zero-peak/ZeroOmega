@@ -17,8 +17,8 @@ checkNeedFixForSocks5 = (proxy = {}) ->
     if globalThis.FORCEFIXEXPORTSCRIPTFORSOCKS
       return true
     # https://github.com/zero-peak/ZeroOmega/issues/147
-    # check isnt firefox
-    return globalThis.navigator.userAgent.toLowerCase().indexOf('firefox') < 0
+    # https://github.com/zero-peak/ZeroOmega/issues/178
+    return false
   return false
 
 decorateCustomBuiltinProfiles = (profile, options = {}) ->

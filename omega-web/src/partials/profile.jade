@@ -7,7 +7,7 @@
       = ' '
       | {{'options_profileExportRuleList' | tr}}
     = ' '
-    button.btn.btn-default(ng-show='scriptable' ng-click='exportScript(profile.name)' title="{{'options_exportPacFileHelp' | tr}}")
+    button.btn.btn-default(ng-show='scriptable' ng-click='exportScript($event, profile.name)' title="{{'options_exportPacFileHelp' | tr}}")
       span.glyphicon.glyphicon-download
       = ' '
       | {{'options_profileExportPac' | tr}}

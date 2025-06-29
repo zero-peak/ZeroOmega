@@ -30,8 +30,8 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
     if $rootScope.optionsDirty
       $window.location.reload()
 
-  $rootScope.exportScript = (name) ->
-    $window.FORCEFIXEXPORTSCRIPTFORSOCKS = true
+  $rootScope.exportScript = (event, name) ->
+    $window.FORCEFIXEXPORTSCRIPTFORSOCKS = !!event.shiftKey
     getProfileName =
       if name
         $q.when(name)
