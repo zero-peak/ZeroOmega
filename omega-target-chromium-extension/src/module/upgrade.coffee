@@ -135,6 +135,10 @@ module.exports = (oldOptions, i18n) ->
             pattern: "localhost"
             conditionType: "BypassCondition"
           }
+          {
+            pattern: "192.168.*.*"
+            conditionType: "BypassCondition"
+          }
         ]
         profileType: "FixedProfile"
         name: exampleFixedProfileName
