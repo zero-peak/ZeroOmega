@@ -1,10 +1,13 @@
 globalThis.drawOmega = function (ctx, outerCircleColor, innerCircleColor) {
   ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = outerCircleColor;
+  ctx.strokeStyle = outerCircleColor;
+
   ctx.beginPath();
-  ctx.arc(0.5, 0.5, 0.5, 0, Math.PI * 2, true);
+  ctx.lineWidth = 0.25;
+  ctx.arc(0.5, 0.5, 0.375, 0, Math.PI * 2, true);
+
   ctx.closePath();
-  ctx.fill();
+  ctx.stroke();
 
   if (innerCircleColor != null) {
     ctx.fillStyle = innerCircleColor;
