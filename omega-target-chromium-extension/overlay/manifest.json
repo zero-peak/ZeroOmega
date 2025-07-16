@@ -41,6 +41,7 @@
     "tabs",
     "alarms",
     "storage",
+    "unlimitedStorage",
     "webRequest",
     "webRequestAuthProvider",
     "contextMenus"
