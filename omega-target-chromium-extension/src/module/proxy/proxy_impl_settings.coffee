@@ -10,7 +10,7 @@ getFirstAuthProfile = (profile, options) ->
   for rule in profile.rules
     profileName = rule.profileName
     _profile = OmegaPac.Profiles.byName(profileName, options)
-    return _profile if _profile.auth
+    return _profile if _profile?.auth
 
 addAuthPreflightRule = (profile, options) ->
   return unless profile.profileType is 'SwitchProfile'
