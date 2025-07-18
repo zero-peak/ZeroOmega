@@ -105,8 +105,7 @@ class ChromeOptions extends OmegaTarget.Options
     @ready.then =>
       chrome.storage.session
       .get(TEMPPROFILEKEY).then((tempProfileState = {}) =>
-        tempProfileState = if globalThis.hasStartupCheck
-        then tempProfileState[TEMPPROFILEKEY] else null
+        tempProfileState = tempProfileState[TEMPPROFILEKEY]
         # tempProfileState =
         # { _tempProfile,
         # _tempProfileActive}

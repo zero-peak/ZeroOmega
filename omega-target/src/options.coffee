@@ -251,15 +251,10 @@ class Options
   # @returns {Promise<OmegaOptions>} A promise that is fulfilled on ready.
   ###
   init: (startupCheck = -> true) ->
-    # startupCheck 一定要放在 isBrowserRestart 后面
     # startupProfileName 如果为空，就使用当前的 currentProfileName
     # 如果没有 currentProfileName, 就使用默认的 fallbackProfileName
-    # TODO  (suziwen1@gmail.com)
-    # 1. 好像有 bug , 一直没法重现，但就是很不经意就能出现，概率很小的样子
-    # 2. 有全局变量，容易污染代码，需要重构初始化流程
     @ready = @loadOptions().then(=>
-      if globalThis.isBrowserRestart and
-      startupCheck() and
+      if startupCheck() and
       @_options['-startupProfileName']
         console.log(
           'apply browser restart startup profile',

@@ -8,10 +8,12 @@ Log = OmegaTargetCurrent.Log
 
 BUILTINSYNCKEY = 'zeroOmegaSync'
 
-# TODO 将来可能代码需要重构下，这里写得有点乱． (suziwen1@gmail.com)
-globalThis.isBrowserRestart = globalThis.startupCheck is undefined
-globalThis.hasStartupCheck = not globalThis.isBrowserRestart
-startupCheck = globalThis.startupCheck ?= -> true
+globalThis.isBrowserRestart = false
+startupCheck = ->
+  setTimeout(->
+    globalThis.isBrowserRestart = false
+  , 2000)
+  return globalThis.isBrowserRestart
 options = null
 
 chrome.runtime.onStartup.addListener ->
