@@ -35,8 +35,8 @@ setInterval(chrome.runtime.getPlatformInfo, 25 * 1000) //https://developer.chrom
 
 function detectPrivateMode(cb) {
   var db, tempMode,on, off;
-  on = ()=> cb.bind(null, true);
-  off = ()=> cb.bind(null, false);
+  on = cb.bind(null, true);
+  off = cb.bind(null, false);
   if (isFirefox) {
     // in private mode, localStorage will be erased when browser restart
     tempMode = localStorage.getItem('zeroOmega.isPrivateMode')
