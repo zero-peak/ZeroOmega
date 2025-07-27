@@ -38,7 +38,12 @@ class BrowserStorage extends Storage
       for own key, value of items
         value = JSON.stringify(value)
         @proto.setItem.call(@storage, @prefix + key, value)
-      return items
+      return new Promise( (resolve) ->
+        # firefox localStorage need real async
+        setTimeout( ->
+          resolve(items)
+        , 1)
+      )
     ).then((items) =>
       return items unless @proto.getValuesMap
       initValuesMap = @proto.getValuesMap()
@@ -70,6 +75,13 @@ class BrowserStorage extends Storage
       for key in keys
         @proto.removeItem.call(@storage, @prefix + key)
 
+    ).then( ->
+      return new Promise((resolve) ->
+        # firefox localStorage need real async
+        setTimeout( ->
+          resolve()
+        , 1)
+      )
     ).then( =>
       return unless @proto.getValuesMap
       initValuesMap = @proto.getValuesMap()
