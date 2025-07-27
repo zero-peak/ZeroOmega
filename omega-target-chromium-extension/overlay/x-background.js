@@ -22,7 +22,6 @@ import "./js/background.js" // zeroBackground
  **/
 
 const isFirefox = !!globalThis.localStorage
-const zcb = globalThis.zeroDetectModeCB
 
 globalThis.POPUPHTMLURL = './popup-iframe.html'
 //if android, (eg. edge canary for android), use default popup/index.html
@@ -35,14 +34,9 @@ if (globalThis.navigator && /Android/i.test(globalThis.navigator.userAgent)){
 setInterval(chrome.runtime.getPlatformInfo, 25 * 1000) //https://developer.chrome.com/docs/extensions/develop/migrate/to-service-workers
 
 function detectPrivateMode(cb) {
-    var db, tempMode,on, off;
-    if (zcb) {
-      on = zcb(cb, true);
-      off = zcb(cb, false);
-    } else {
-      on = ()=> {setTimeout(cb.bind(null, true), 1)};
-      off = ()=> {setTimeout(cb.bind(null, false), 1)};
-    }
+  var db, tempMode,on, off;
+  on = ()=> cb.bind(null, true);
+  off = ()=> cb.bind(null, false);
   if (isFirefox) {
     // in private mode, localStorage will be erased when browser restart
     tempMode = localStorage.getItem('zeroOmega.isPrivateMode')

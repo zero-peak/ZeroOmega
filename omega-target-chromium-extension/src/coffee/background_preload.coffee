@@ -2,7 +2,6 @@ if not globalThis.window
   globalThis.window = globalThis
   globalThis.global = globalThis
 window.UglifyJS_NoUnsafeEval = true
-globalThis.zeroDetectModeCB = null
 globalThis.startupCheck = undefined
 
 initContextMenu = ->
