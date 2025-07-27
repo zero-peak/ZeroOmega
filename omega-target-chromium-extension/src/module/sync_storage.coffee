@@ -263,7 +263,8 @@ class ChromeSyncStorage extends OmegaTarget.Storage
     if data and data.schemaVersion
       for own key, value of data
         entries.push([key, value])
-      result = idbKeyval.setMany(entries, @syncStore)
+      result = idbKeyval.clear(@syncStore)
+        .then( => idbKeyval.setMany(entries, @syncStore))
     Promise.resolve(result)
 
   ##
