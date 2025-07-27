@@ -94,18 +94,19 @@ To build the project:
 
     # Install node and npm first (make sure npm --version > 2.0), then:
     
-    sudo npm install -g grunt-cli@1.2.0 bower
     # In the project folder:
     cd omega-build
     npm run deps # This runs npm install in every module.
     npm run dev # This runs npm link to aid local development.
     # Note: the previous command may require sudo in some environments.
     # The modules are now working. We can build now:
-    grunt
+    npm run build
+    npm run release
     # After building, a folder will be generated:
-    cd .. # Return to project root.
-    ls omega-target-chromium-extension/build/
+    cd ../omega-target-chromium-extension # Return to project root.
+    ls /build/
     # The folder above can be loaded as an unpacked extension in Chromium now.
+    # The chromium-release.zip and firefox-release.zip are the package files corresponding to chromium and firefox respectively.
 
 To enable `grunt watch`, run `grunt watch` once in the `omega-build` directory.
 This will effectively run `grunt watch` in every module in this project.

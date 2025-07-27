@@ -7,4 +7,4 @@ module.exports =
     'po2crx'
   ]
   test: ['mochaTest']
-  release: ['default', 'chromium-manifest', 'compress']
+  release: ['manifest', 'compress']
