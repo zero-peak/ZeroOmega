@@ -88,11 +88,11 @@ below.
 ## Building the project
 
 ZeroOmega has migrated to use npm and grunt for building. Please note that
-npm 2.x is required for this project.
+node 20.x is required for this project.
 
 To build the project:
 
-    # Install node and npm first (make sure npm --version > 2.0), then:
+    # Install node and npm first (make sure node --version >= 20), then:
     
     # In the project folder:
     cd omega-build
