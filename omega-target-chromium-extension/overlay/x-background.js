@@ -2,11 +2,11 @@ import zeroLocalStorage from "./localstorage-polyfill.js"
 import ZeroLogFactory from './log.js'
 import ZeroIndexedDBFactory from './indexedDB.js'
 
-import "./lib/compare-versions.js"
+import "./lib/zero-dependencies/compare-versions/compare-versions.js"
 import "./js/background_preload.js"
-import "./lib/idb-keyval.js"
-import "./lib/moment-with-locales.js"
-import "./lib/csso.js"
+import "./lib/zero-dependencies/idb-keyval/idb-keyval.js"
+import "./lib/zero-dependencies/moment/moment-with-locales.js"
+import "./lib/zero-dependencies/csso/csso.js"
 import "./js/log_error.js"
 //import "./log.js"
 //import "./lib/FileSaver/FileSaver.min.js"

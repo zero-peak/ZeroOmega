@@ -1,8 +1,8 @@
 import { waitTimeout, escapeHTML, copyToClipoard } from './utils.js'
 import { initTabsSelector } from './tab.js'
 import { initUrlCellDetail } from './url.js'
-import Toastify from "../../../lib/toastify/toastify-es.js";
-import { filesize} from "../../../lib/filesize.esm.js";
+import Toastify from "../../../lib/zero-dependencies/toastify/toastify-es.js";
+import { filesize} from "../../../lib/zero-dependencies/filesize/filesize.esm.js";
 import {
   Tabulator,
   ColumnCalcsModule,
@@ -19,7 +19,7 @@ import {
   SelectRowModule,
   SelectRangeModule,
   KeybindingsModule,
-} from "../../../lib/tabulator/tabulator_esm.js";
+} from "../../../lib/zero-dependencies/tabulator/tabulator_esm.js";
 Tabulator.registerModule([
   ColumnCalcsModule,
   TooltipModule,

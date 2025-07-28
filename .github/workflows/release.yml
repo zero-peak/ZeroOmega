@@ -1,0 +1,43 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies, build, release
+        working-directory: 'omega-build'
+        run: |
+          npm run deps
+          npm run dev
+          npm run build
+          npm run release
+
+      - name: Generate SHA-256 checksum
+        run: |
+          sha256sum dist/chromium-release.zip > dist/chromium-release.zip.sha256
+          sha256sum dist/firefox-release.zip > dist/firefox-release.zip.sha256
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/chromium-release.zip
+            dist/chromium-release.zip.sha256
+            dist/firefox-release.zip
+            dist/firefox-release.zip.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

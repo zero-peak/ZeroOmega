@@ -40,6 +40,7 @@
     "angular-ui-utils": "bower-validate",
     "angular-ladda": "~0.2.1",
     "shepherd.js": "~0.5.1",
+    "zero-dependencies": "git://github.com/zero-peak/zero-dependencies.git#main",
     "jqueryui-touch-punch": "*"
   },
   "exportsOverride": {

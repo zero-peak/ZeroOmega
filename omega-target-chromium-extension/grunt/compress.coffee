@@ -3,7 +3,7 @@ module.exports =
     mode: 'zip'
   chromium:
     options:
-      archive: './chromium-release.zip'
+      archive: '../dist/chromium-release.zip'
     files: [
       {
         cwd: 'build'
@@ -19,7 +19,7 @@ module.exports =
     ]
   firefox:
     options:
-      archive: './firefox-release.zip'
+      archive: '../dist/firefox-release.zip'
     files: [
       {
         cwd: 'build'

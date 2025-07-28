@@ -1,15 +1,15 @@
-import fakeIndexedDB from "./lib/fake-indexeddb/fakeIndexedDB.js";
-import FDBCursor from "./lib/fake-indexeddb/FDBCursor.js";
-import FDBCursorWithValue from "./lib/fake-indexeddb/FDBCursorWithValue.js";
-import FDBDatabase from "./lib/fake-indexeddb/FDBDatabase.js";
-import FDBFactory from "./lib/fake-indexeddb/FDBFactory.js";
-import FDBIndex from "./lib/fake-indexeddb/FDBIndex.js";
-import FDBKeyRange from "./lib/fake-indexeddb/FDBKeyRange.js";
-import FDBObjectStore from "./lib/fake-indexeddb/FDBObjectStore.js";
-import FDBOpenDBRequest from "./lib/fake-indexeddb/FDBOpenDBRequest.js";
-import FDBRequest from "./lib/fake-indexeddb/FDBRequest.js";
-import FDBTransaction from "./lib/fake-indexeddb/FDBTransaction.js";
-import FDBVersionChangeEvent from "./lib/fake-indexeddb/FDBVersionChangeEvent.js";
+import fakeIndexedDB from "./lib/zero-dependencies/fake-indexeddb/fakeIndexedDB.js";
+import FDBCursor from "./lib/zero-dependencies/fake-indexeddb/FDBCursor.js";
+import FDBCursorWithValue from "./lib/zero-dependencies/fake-indexeddb/FDBCursorWithValue.js";
+import FDBDatabase from "./lib/zero-dependencies/fake-indexeddb/FDBDatabase.js";
+import FDBFactory from "./lib/zero-dependencies/fake-indexeddb/FDBFactory.js";
+import FDBIndex from "./lib/zero-dependencies/fake-indexeddb/FDBIndex.js";
+import FDBKeyRange from "./lib/zero-dependencies/fake-indexeddb/FDBKeyRange.js";
+import FDBObjectStore from "./lib/zero-dependencies/fake-indexeddb/FDBObjectStore.js";
+import FDBOpenDBRequest from "./lib/zero-dependencies/fake-indexeddb/FDBOpenDBRequest.js";
+import FDBRequest from "./lib/zero-dependencies/fake-indexeddb/FDBRequest.js";
+import FDBTransaction from "./lib/zero-dependencies/fake-indexeddb/FDBTransaction.js";
+import FDBVersionChangeEvent from "./lib/zero-dependencies/fake-indexeddb/FDBVersionChangeEvent.js";
 
 
 /**

@@ -1,5 +1,5 @@
 import { escapeHTML, tr, compareProfile, getProfileIcon } from "./utils.js";
-import Toastify from "../../../lib/toastify/toastify-es.js";
+import Toastify from "../../../lib/zero-dependencies/toastify/toastify-es.js";
 
 const updateMainBtn = (mainBtnEl, profile, profiles)=>{
   let text = tr('profile_' + profile.name) ||
