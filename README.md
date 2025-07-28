@@ -101,11 +101,11 @@ To build the project:
     # Note: the previous command may require sudo in some environments.
     # The modules are now working. We can build now:
     npm run build
-    npm run release
-    # After building, a folder will be generated:
-    cd ../omega-target-chromium-extension # Return to project root.
-    ls /build/
+    # After building, a "build" folder will be generated in omega-target-chromium-extension folder.
     # The folder above can be loaded as an unpacked extension in Chromium now.
+    npm run release
+    # After release, a "dist" folder will be generated in root folder.
+    cd ../dist # Return to generated folder.
     # The chromium-release.zip and firefox-release.zip are the package files corresponding to chromium and firefox respectively.
 
 To enable `grunt watch`, run `grunt watch` once in the `omega-build` directory.
