@@ -192,12 +192,16 @@ angular.module('omega').controller 'SwitchProfileCtrl', ($scope, $rootScope,
       rule.condition.pattern = ''
     $scope.profile.rules.push rule
 
+  $scope.isMultiline = (pattern) ->
+    pattern and pattern.indexOf('\n') >= 0
+
   $scope.validateCondition = (condition, pattern) ->
     if condition.conditionType.indexOf('Regex') >= 0
-      try
-        new RegExp(pattern)
-      catch _
-        return false
+      for line in pattern.split(/[|\n]/) when line.trim()
+        try
+          new RegExp(line.trim())
+        catch _
+          return false
     return true
 
   $scope.conditionHasWarning = (condition) ->

@@ -94,8 +94,16 @@ div(ng-controller='SwitchProfileCtrl')
                 label.checkbox-inline(ng-repeat='selected in getWeekdayList(rule.condition) track by $index')
                   input(type='checkbox' ng-model='selected' ng-change='updateDay(rule.condition, $index, selected)')
                   = '{{"options_weekDayShort_" + $index | tr}} '
-              input.form-control(ng-model='rule.condition.pattern' ng-switch-default required
-                ui-validate='{pattern: "validateCondition(rule.condition, $value)"}')
+              span.input-group(ng-switch-default)
+                textarea.form-control.monospace(ng-model='rule.condition.pattern' required
+                  rows='{{rule._expanded ? 10 : 1}}'
+                  ng-click='!rule._expanded && isMultiline(rule.condition.pattern) && (rule._expanded = true)'
+                  ng-keydown='!rule._expanded && $event.keyCode === 13 && $event.preventDefault()'
+                  ng-style='{cursor: !rule._expanded && isMultiline(rule.condition.pattern) ? "pointer" : "auto", resize: "none", overflow: rule._expanded ? "auto" : "hidden", height: rule._expanded ? "auto" : "34px"}'
+                  ui-validate='{pattern: "validateCondition(rule.condition, $value)"}')
+                span.input-group-btn
+                  button.btn.btn-default(type='button' ng-click='rule._expanded = !rule._expanded')
+                    span.glyphicon(ng-class='rule._expanded ? "glyphicon-chevron-up" : "glyphicon-chevron-down"')
             td.switch-rule-row-target
               div(omega-profile-select='options | profiles:profile' ng-model='rule.profileName'
                 disp-name='dispNameFilter' options='options'

@@ -247,7 +247,11 @@ module.exports = exports =
 
     'UrlRegexCondition':
       abbrs: ['UR', 'URegex', 'UrlR', 'UrlRegex']
-      analyze: (condition) -> @safeRegex escapeSlash condition.pattern
+      analyze: (condition) ->
+        raw = condition.pattern.split(/[|\n]/)
+        parts = for p in raw when p.trim()
+          escapeSlash p.trim()
+        @safeRegex parts.join('|')
       match: (condition, request, cache) ->
         return cache.analyzed.test(request.url)
       compile: (condition, cache) ->
@@ -257,8 +261,9 @@ module.exports = exports =
       abbrs: ['U', 'UW', 'Url', 'UrlW', 'UWild', 'UWildcard', 'UrlWild',
               'UrlWildcard']
       analyze: (condition) ->
-        parts = for pattern in condition.pattern.split('|') when pattern
-          shExp2RegExp pattern, trimAsterisk: true
+        raw = condition.pattern.split(/[|\n]/)
+        parts = for pattern in raw when pattern.trim()
+          shExp2RegExp pattern.trim(), trimAsterisk: true
         @safeRegex parts.join('|')
       match: (condition, request, cache) ->
         return cache.analyzed.test(request.url)
@@ -267,7 +272,11 @@ module.exports = exports =
 
     'HostRegexCondition':
       abbrs: ['R', 'HR', 'Regex', 'HostR', 'HRegex', 'HostRegex']
-      analyze: (condition) -> @safeRegex escapeSlash condition.pattern
+      analyze: (condition) ->
+        raw = condition.pattern.split(/[|\n]/)
+        parts = for p in raw when p.trim()
+          escapeSlash p.trim()
+        @safeRegex parts.join('|')
       match: (condition, request, cache) ->
         return cache.analyzed.test(request.host)
       compile: (condition, cache) ->
@@ -277,7 +286,9 @@ module.exports = exports =
       abbrs: ['', 'H', 'W', 'HW', 'Wild', 'Wildcard', 'Host', 'HostW', 'HWild',
               'HWildcard', 'HostWild', 'HostWildcard']
       analyze: (condition) ->
-        parts = for pattern in condition.pattern.split('|') when pattern
+        raw = condition.pattern.split(/[|\n]/)
+        parts = for pattern in raw when pattern.trim()
+          pattern = pattern.trim()
           # Get the magical regex of this pattern. See
           # https://github.com/FelisCatus/SwitchyOmega/wiki/Host-wildcard-condition
           # for the magic.
@@ -684,4 +695,5 @@ module.exports = exports =
         condition.startHour = 0 unless 0 <= condition.startHour < 24
         condition.endHour = 0 unless 0 <= condition.endHour < 24
         condition
+
     # coffeelint: enable=missing_fat_arrows
