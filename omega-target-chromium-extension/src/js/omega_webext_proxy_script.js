@@ -48,8 +48,9 @@ FindProxyForURL = (function () {
             // https://dxr.mozilla.org/mozilla-central/rev/ffe6cc09ccf38cca6f0e727837bbc6cb722d1e71/toolkit/components/extensions/ProxyScriptContext.jsm#51
             proxyInfo.type = 'socks';
             // Enable SOCKS5 remote DNS.
-            // TODO(catus): Maybe allow the users to configure this?
-            proxyInfo.proxyDNS = true;
+            if (profile.proxyDNS) {
+              proxyInfo.proxyDNS = true;
+            }
           }
           if (auth) {
             proxyInfo.username = auth.username;

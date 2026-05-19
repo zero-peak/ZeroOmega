@@ -48,7 +48,7 @@ class FirefoxProxyImpl extends ProxyImpl
         blobUrl = URL.createObjectURL(blob)
         browser.proxy.settings.set({
           value: {
-            proxyDNS: true,
+            proxyDNS: profile.proxyDNS,
             proxyType: 'autoConfig',
             autoConfigUrl: blobUrl
           }
@@ -81,7 +81,7 @@ class FirefoxProxyImpl extends ProxyImpl
         if Array.isArray(result)
           proxy = result[2]
           auth = result[3]
-          return @proxyInfo(proxy, auth) if proxy
+          return @proxyInfo(proxy, auth, profile.proxyDNS) if proxy
           next = result[0]
         else if result.profileName
           next = OmegaPac.Profiles.nameAsKey(result.profileName)
@@ -93,7 +93,7 @@ class FirefoxProxyImpl extends ProxyImpl
     ))
   onError: (error) ->
     @log.error(error)
-  proxyInfo: (proxy, auth) ->
+  proxyInfo: (proxy, auth, proxyDNS) ->
     proxyInfo =
       type: proxy.scheme
       host: proxy.host
@@ -108,9 +108,8 @@ class FirefoxProxyImpl extends ProxyImpl
         # HTTP proxy auth must be handled via webRequest.onAuthRequired.
         proxyInfo.username = auth.username
         proxyInfo.password = auth.password
-    if proxyInfo.type == 'socks'
+    if proxyInfo.type == 'socks' and proxyDNS
       # Enable SOCKS remote DNS.
-      # TODO(catus): Maybe allow the users to configure this?
       proxyInfo.proxyDNS = true
 
     # TODO(catus): Maybe allow proxyDNS for socks4? Server may support SOCKS4a.

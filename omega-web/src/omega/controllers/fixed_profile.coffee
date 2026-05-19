@@ -21,6 +21,8 @@ angular.module('omega').controller 'FixedProfileCtrl', ($scope, $modal,
 
   $scope.showAdvanced = false
 
+  $scope.proxyDNS = $scope.profile.proxyDNS ? true
+
   $scope.optionsForScheme = {}
   for scheme in $scope.urlSchemes
     defaultLabel =
@@ -94,6 +96,12 @@ angular.module('omega').controller 'FixedProfileCtrl', ($scope, $modal,
     $scope.bypassList = (item.pattern for item in list).join('\n')
 
   $scope.$watch 'profile.bypassList', onBypassListChange, true
+
+  onProxyDNSChange = (proxyDNS) ->
+    $scope.profile.proxyDNS = proxyDNS
+    $scope.proxyDNS = proxyDNS
+
+  $scope.$watch 'proxyDNS', onProxyDNSChange, true
 
   $scope.$watch 'bypassList', (bypassList, oldList) ->
     return if not bypassList? or bypassList == oldList

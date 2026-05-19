@@ -641,6 +641,12 @@ msgstr "Use the proxy above for all protocols."
 msgid "options_proxy_expand"
 msgstr "Show Advanced"
 
+msgid "options_proxy_proxyDNS"
+msgstr "Proxy DNS requests via SOCKS proxy."
+
+msgid "options_proxy_proxyDNSHelp"
+msgstr "This should be disabled if you use DNS-over-HTTPS in Firefox-based browsers."
+
 msgid "options_group_bypassList"
 msgstr "Bypass List"
 
