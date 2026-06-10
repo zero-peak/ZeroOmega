@@ -264,7 +264,7 @@ class Options
   init: (startupCheck = -> true) ->
     # startupProfileName 如果为空，就使用当前的 currentProfileName
     # 如果没有 currentProfileName, 就使用默认的 fallbackProfileName
-    @ready = @loadOptions().then(=>
+    applyStartupProfile = =>
       if startupCheck() and
       @_options['-startupProfileName']
         console.log(
@@ -282,12 +282,29 @@ class Options
             @applyProfile('system')
           else
             @applyProfile(st['currentProfileName'] || @fallbackProfileName)
-    ).catch((err) =>
+
+    startup = @loadOptions().then(applyStartupProfile).catch((err) =>
       if not err instanceof ProfileNotExistError
         @log.error(err)
       @applyProfile(@fallbackProfileName)
     ).catch((err) =>
       @log.error(err)
+    )
+
+    # Startup safety net (issue #276): on a service-worker cold start a storage
+    # read (e.g. IndexedDB) can stall indefinitely. Without a time bound,
+    # loadOptions never settles, applyProfile never runs, and BOTH the proxy
+    # and the popup are left dead until the extension is reloaded by hand. If
+    # startup does not finish in time, force a profile to be applied from the
+    # configured startup profile (or the fallback) so the proxy gets set and
+    # options.ready resolves.
+    @ready = startup.timeout(@startupTimeout).catch(Promise.TimeoutError, (err) =>
+      @log.error('Options#init timed out on startup; applying a fallback ' +
+        'profile so the proxy and popup can recover. ' + err)
+      name = @_options['-startupProfileName'] || @fallbackProfileName
+      @applyProfile(name).catch (e) =>
+        @log.error(e)
+        @applyProfile(@fallbackProfileName) if name != @fallbackProfileName
     ).then => @getAll()
 
     @ready.then =>
