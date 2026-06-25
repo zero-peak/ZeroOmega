@@ -998,9 +998,10 @@ class Options
   # Add a condition to the current active switch profile.
   # @param {Object.<String,{}>} cond The condition to add
   # @param {string>} profileName The name of the result profile of the rule.
+  # @param {boolean=} addToBottom Whether to append the rule to the end.
   # @returns {Promise} A promise which is fulfilled when the condition is saved.
   ###
-  addCondition: (condition, profileName) ->
+  addCondition: (condition, profileName, addToBottom) ->
     @log.method('Options#addCondition', this, arguments)
     return Promise.resolve() if not @_currentProfileName
     profile = OmegaPac.Profiles.byName(@_currentProfileName, @_options)
@@ -1022,7 +1023,7 @@ class Options
           break
 
 
-      if @_options['-addConditionsToBottom']
+      if addToBottom ? @_options['-addConditionsToBottom']
         profile.rules.push({
           condition: cond
           profileName: profileName

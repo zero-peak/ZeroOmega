@@ -140,8 +140,8 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
       callBackgroundNoReply('applyProfile', name)
     addTempRule: (domain, profileName, toggle) ->
       callBackground('addTempRule', domain, profileName, toggle)
-    addCondition: (condition, profileName) ->
-      callBackground('addCondition', condition, profileName)
+    addCondition: (condition, profileName, addToBottom) ->
+      callBackground('addCondition', condition, profileName, addToBottom)
     addProfile: (profile) ->
       callBackground('addProfile', profile).then omegaTarget.refresh
     setDefaultProfile: (profileName, defaultProfileName) ->

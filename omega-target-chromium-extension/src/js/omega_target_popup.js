@@ -71,8 +71,12 @@ OmegaTargetPopup = {
     callBackgroundNoReply('setDefaultProfile',
       [profileName, defaultProfileName], cb);
   },
-  addCondition: function(condition, profileName, cb){
-    callBackground('addCondition', [condition, profileName], cb)
+  addCondition: function(condition, profileName, addToBottom, cb){
+    if (typeof addToBottom == 'function') {
+      cb = addToBottom;
+      addToBottom = null;
+    }
+    callBackground('addCondition', [condition, profileName, addToBottom], cb)
   },
   getTempRules: function(cb){
     callBackground('getTempRules', [], cb);

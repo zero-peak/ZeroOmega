@@ -316,7 +316,7 @@ export const initUrlCellDetail = async (cell) => {
     OmegaTargetPopup.addCondition([{
       conditionType: 'HostWildcardCondition',
       pattern
-    }], profileName, ()=>{
+    }], profileName, true, ()=>{
       OmegaTargetPopup.setState('lastProfileNameForCondition', profileName, ()=>{
         Toastify({
           text: "Add condition success",

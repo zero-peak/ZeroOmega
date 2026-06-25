@@ -163,7 +163,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
       refresh()
   
   $scope.addCondition = (condition, profileName) ->
-    omegaTarget.addCondition(condition, profileName).then ->
+    omegaTarget.addCondition(condition, profileName, true).then ->
       omegaTarget.state('lastProfileNameForCondition', profileName)
       refresh()
 
@@ -174,7 +174,7 @@ module.controller 'PopupCtrl', ($scope, $window, $q, omegaTarget,
         conditionType: 'HostWildcardCondition'
         pattern: domain
       })
-    omegaTarget.addCondition(conditions, profileName).then ->
+    omegaTarget.addCondition(conditions, profileName, true).then ->
       omegaTarget.state('lastProfileNameForCondition', profileName)
       refresh()
 
