@@ -1,18 +1,21 @@
 :root {
-  --base00: #F8F4ED;
-  --base01: #E7E3DB;
-  --base02: #C7D2D4;
-  --base03: #A4ACA7;
-  --base04: #3a403b;
-  --base05: #2B312C;
-  --base06: #141714;
-  --base07: #090a09;
-  --base08: #EE3F4D;
-  --base09: #12AA9C;
-  --base0A: #619AC3;
-  --base0B: #41AE3C;
-  --base0C: #983680;
-  --base0D: #B78D12;
-  --base0E: #FC7930;
-  --base0F: #CC5595;
+  --base00: #ffffff;
+  --base01: #f5f5f5;
+  --base02: #eff6ff;
+  --base03: #6b7280;
+  --base04: #374151;
+  --base05: #1a1a1a;
+  --base06: #111111;
+  --base07: #000000;
+  --base08: #dc2626;
+  --base09: #3b82f6;
+  --base0A: #3b82f6;
+  --base0B: #16a34a;
+  --base0C: #7c3aed;
+  --base0D: #d97706;
+  --base0E: #ea580c;
+  --base0F: #db2777;
+  --surfaceBackground: #ffffff;
+  --borderColor: #e5e7eb;
+  --cardShadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

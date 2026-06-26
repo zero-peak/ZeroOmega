@@ -1,0 +1,66 @@
+@import url('https://api.fontshare.com/v2/css?f[]=pp-neue-montreal@400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+@minimal-bg: #ffffff;
+@minimal-text: #1a1a1a;
+@minimal-text-muted: #6b7280;
+@minimal-accent: #3b82f6;
+@minimal-accent-light: #eff6ff;
+@minimal-hover: #f5f5f5;
+@minimal-effective: #f9fafb;
+@minimal-radius: 8px;
+@minimal-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+@minimal-font-title: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, sans-serif;
+@minimal-font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+@minimal-transition: 600ms ease;
+@minimal-space-lg: 64px;
+@minimal-space-md: 24px;
+@minimal-space-sm: 8px;
+
+@keyframes om-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.minimal-base() {
+  background: @minimal-bg;
+  color: @minimal-text;
+  font-family: @minimal-font-body;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+.minimal-card() {
+  background: @minimal-bg;
+  border-radius: @minimal-radius;
+  box-shadow: @minimal-shadow;
+}
+
+.minimal-nav-link() {
+  display: block;
+  padding: 10px 12px;
+  border-radius: @minimal-radius;
+  color: @minimal-text;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: background-color @minimal-transition,
+              color @minimal-transition;
+}
+
+.minimal-nav-link-hover() {
+  background: @minimal-hover;
+  color: @minimal-text;
+  text-decoration: none;
+}
+
+.minimal-stagger(@max: 20) {
+  .loop(@i) when (@i <= @max) {
+    &:nth-of-type(@{i}) {
+      animation-delay: (@i * 0.04s);
+    }
+    .loop(@i + 1);
+  }
+  .loop(1);
+}

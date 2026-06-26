@@ -22,11 +22,16 @@ html(lang='en' ng-app='omegaPopup' ng-controller='PopupCtrl' ng-csp)
     meta(charset='utf-8')
     title {{'popup_title' | tr}} (Zer&#8203oOmega)
     meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    link(rel='stylesheet' href='https://api.fontshare.com/v2/css?f[]=pp-neue-montreal@400,500,600,700&display=swap')
     link(rel='stylesheet' href='lib/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet' href='css/popup.css')
     style.om-style
       {{customCss}}
   body(ng-class='{"with-condition-form": showConditionForm}')
+    .om-header(ng-hide='showConditionForm || proxyNotControllable || showRequestInfo')
+      span.om-title ZeroOmega
     ul.popup-menu-nav.nav.nav-pills.nav-stacked(ng-hide='showConditionForm || proxyNotControllable || showRequestInfo')
       li.profile(ng-repeat='profile in builtinProfiles' ng-class='{active: isActive(profile.name), "bg-info": isEffective(profile.name)}')
         a(href='#' role='button' ng-attr-tabindex='{{100 + $index}}' ng-click='applyProfile(profile)' title='{{getProfileTitle(profile)}}'

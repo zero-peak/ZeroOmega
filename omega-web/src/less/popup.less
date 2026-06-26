@@ -1,15 +1,91 @@
 @import 'common.less';
+@import 'minimal.less';
 
-/* popup */
+/* popup — Minimal */
 
 body {
   margin: 0;
-  padding: 10px;
-  min-width: 180px;
+  padding: 0;
+  min-width: 220px;
   width: fit-content;
+  .minimal-base();
+}
+
+.om-header {
+  padding: 20px 24px 4px;
+}
+
+.om-title {
+  font-family: @minimal-font-title;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: @minimal-text;
 }
 
 body.with-condition-form {
+}
+
+.condition-form,
+.proxy-not-controllable,
+.request-info-details {
+  padding: @minimal-space-md;
+  margin: @minimal-space-sm @minimal-space-md @minimal-space-md;
+  .minimal-card();
+  color: @minimal-text;
+
+  label, legend, p, .help-block {
+    color: @minimal-text-muted;
+  }
+
+  legend {
+    font-family: @minimal-font-title;
+    font-weight: 600;
+    color: @minimal-text;
+    border: none;
+    margin-bottom: @minimal-space-md;
+  }
+
+  .form-control {
+    background: @minimal-bg;
+    border: 1px solid #e5e7eb;
+    border-radius: @minimal-radius;
+    color: @minimal-text;
+    transition: border-color @minimal-transition,
+                box-shadow @minimal-transition;
+
+    &:focus {
+      border-color: @minimal-accent;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+  }
+
+  .btn-default {
+    background: @minimal-bg;
+    border: 1px solid #e5e7eb;
+    border-radius: @minimal-radius;
+    color: @minimal-text;
+    transition: background-color @minimal-transition;
+
+    &:hover {
+      background: @minimal-hover;
+      color: @minimal-text;
+    }
+  }
+
+  .btn-primary {
+    background: @minimal-accent;
+    border: 1px solid @minimal-accent;
+    border-radius: @minimal-radius;
+    color: #fff;
+    transition: background-color @minimal-transition;
+
+    &:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+    }
+  }
 }
 
 .condition-form {
@@ -18,6 +94,7 @@ body.with-condition-form {
 
 .nav {
   margin-bottom: 0;
+  padding: 8px 16px 20px;
 }
 
 li > a {
@@ -28,11 +105,11 @@ li > a {
 
 .shortcut-help {
   .monospace();
-  border: solid 1px #000;
-  border-radius: 2px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
   display: inline-block;
-  color: #000;
-  box-shadow: 1px 1px;
+  color: @minimal-text-muted;
+  background: @minimal-effective;
   width: 1em;
   height: 1em;
   line-height: 1em;
@@ -41,50 +118,96 @@ li > a {
 }
 
 .nav-pills.nav-stacked {
+  > li {
+    margin-bottom: 4px;
+    animation: om-fade-in @minimal-transition backwards;
+    .minimal-stagger(15);
+
+    &.active > a,
+    &.bg-info.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @minimal-accent !important;
+        background: @minimal-accent-light !important;
+        font-weight: 500;
+      }
+    }
+
+    &.bg-info:not(.active) > a {
+      background: @minimal-effective !important;
+    }
+
+    &.bg-warning > a {
+      background: #fffbeb !important;
+      color: #92400e !important;
+    }
+  }
+
   > li > a {
-    padding: 5px 25px 5px 8px;
+    .minimal-nav-link();
+    padding: 10px 12px;
     white-space: nowrap;
     cursor: pointer;
 
+    &:hover,
+    &:focus {
+      .minimal-nav-link-hover();
+    }
+
     .glyphicon {
-      margin-right: 6px;
+      margin-right: 10px;
+      opacity: 0.55;
+    }
+
+    &:hover .glyphicon {
+      opacity: 0.75;
     }
 
     &.profile-with-default-edit {
-      padding-right: 32px;
+      padding-right: 36px;
       position: relative;
+
       .dropdown-toggle {
         margin: -5px 0;
         color: inherit;
-        padding: 5px 8px 3px;
+        padding: 4px 7px 2px;
         min-width: 20px;
         position: absolute;
-        right: 0;
+        right: 4px;
+        background: @minimal-bg;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        transition: background-color @minimal-transition;
 
         .glyphicon {
           margin-right: 0;
+        }
+
+        &:hover {
+          background: @minimal-hover;
         }
       }
     }
   }
 
   > li.active .dropdown-toggle {
-    border-color: transparent !important;
-    border-left: solid 1px !important;
-    background: none !important;
-    border-radius: 0 !important;
+    border-color: #e5e7eb !important;
+    background: @minimal-bg !important;
+    border-radius: 6px !important;
   }
 }
 
 .divider {
-  height: 1px;
+  height: 0;
+  margin: 16px 0;
   overflow: hidden;
-  background-color: #E5E5E5;
+  background: none;
+  border: none;
 }
 
 .temp-rule a {
-  padding-left: 8px !important;
-  box-shadow: none !important;
+  padding-left: 12px !important;
 }
 
 ul.dropdown-menu {
@@ -95,16 +218,30 @@ li .dropdown-menu {
   position: static;
   top: initial;
   top: -moz-initial;
-  margin: 0 5px !important;
+  margin: 4px 0 0 !important;
   float: none;
+  padding: 4px 0;
+  background: @minimal-bg;
+  border: none;
+  border-radius: @minimal-radius;
+  box-shadow: @minimal-shadow;
 
   a {
     cursor: pointer;
+    border-radius: @minimal-radius;
+    color: @minimal-text;
+    transition: background-color @minimal-transition;
+
+    &:hover {
+      background: @minimal-hover;
+      color: @minimal-text;
+    }
   }
 }
 
 .current-domain {
-  color: #08C;
+  color: @minimal-accent;
+  font-weight: 500;
 }
 
 select, textarea, input {
@@ -121,7 +258,10 @@ legend,
 }
 
 .well {
-  padding: 10px;
+  padding: @minimal-space-md;
+  .minimal-card();
+  border: none;
+  color: @minimal-text;
 }
 
 .condition-controls, .proxy-not-controllable-controls {
@@ -132,7 +272,7 @@ legend,
 
 .external-profile {
   a {
-    padding-right: 10px !important;
+    padding-right: 12px !important;
   }
 
   form {
@@ -146,6 +286,9 @@ legend,
     padding: 0;
     height: 2em;
     width: ~"calc(100% - 1em - 8px)";
+    border: 1px solid #e5e7eb;
+    border-radius: @minimal-radius;
+    color: @minimal-text;
   }
 }
 
