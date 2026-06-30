@@ -12,12 +12,14 @@ getFirstAuthProfile = (profile, options) ->
     _profile = OmegaPac.Profiles.byName(profileName, options)
     return _profile if _profile?.auth
 
-addAuthPreflightRule = (profile, options) ->
+withAuthPreflightRule = (profile, options) ->
   return unless profile.profileType is 'SwitchProfile'
-  return unless profile.rules or profile.rules.length is 0
+  return unless profile.rules?.length > 0
   authProfile = getFirstAuthProfile(profile, options)
   return unless authProfile
-  profile.rules.unshift({
+  # The auth probe rule is internal; keep it out of user-visible profiles.
+  preflightProfile = JSON.parse(JSON.stringify(profile))
+  preflightProfile.rules.unshift({
     "condition": {
       "conditionType": "HostWildcardCondition"
       "pattern": notExistentWebsite
@@ -25,7 +27,10 @@ addAuthPreflightRule = (profile, options) ->
     "isPreflightRule": true
     "profileName": authProfile.name
   })
-  return authProfile
+  return {
+    authProfile: authProfile
+    profile: preflightProfile
+  }
 
 class SettingsProxyImpl extends ProxyImpl
   @isSupported: -> chrome?.proxy?.settings?
@@ -55,7 +60,10 @@ class SettingsProxyImpl extends ProxyImpl
       config = @_fixedProfileConfig(profile)
     else
       config['mode'] = 'pac_script'
-      authProfile = addAuthPreflightRule(profile, options)
+      authPreflight = withAuthPreflightRule(profile, options)
+      if authPreflight
+        authProfile = authPreflight.authProfile
+        profile = authPreflight.profile
       config['pacScript'] =
         mandatory: true
         data: @getProfilePacScript(profile, meta, options)
@@ -66,13 +74,6 @@ class SettingsProxyImpl extends ProxyImpl
         fetch("https://" + notExistentWebsite).catch(-> authProfile)
       chrome.proxy.settings.get {}, @_proxyChangeListener
       return
-    ).finally(->
-      if authProfile
-        profile.rules.forEach((rule, index) ->
-          if rule.isPreflightRule
-            profile.rules.splice(index, 1)
-        )
-        profile.rules
     )
   _fixedProfileConfig: (profile) ->
     config = {}
