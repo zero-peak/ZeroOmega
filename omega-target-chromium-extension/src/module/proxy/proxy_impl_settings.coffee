@@ -81,21 +81,22 @@ class SettingsProxyImpl extends ProxyImpl
     protocols = ['proxyForHttp', 'proxyForHttps', 'proxyForFtp']
     protocolProxySet = false
     for protocol in protocols when profile[protocol]?
-      rules[protocol] = profile[protocol]
+      rules[protocol] = @_normalizeProxyHost(profile[protocol])
       protocolProxySet = true
 
     if profile.fallbackProxy
+      fallbackProxy = @_normalizeProxyHost(profile.fallbackProxy)
       if profile.fallbackProxy.scheme == 'http'
         # Chromium does not allow HTTP proxies in 'fallbackProxy'.
         if not protocolProxySet
           # Use 'singleProxy' if no proxy is configured for other protocols.
-          rules['singleProxy'] = profile.fallbackProxy
+          rules['singleProxy'] = fallbackProxy
         else
           # Try to set the proxies of all possible protocols.
           for protocol in protocols
-            rules[protocol] ?= JSON.parse(JSON.stringify(profile.fallbackProxy))
+            rules[protocol] ?= JSON.parse(JSON.stringify(fallbackProxy))
       else
-        rules['fallbackProxy'] = profile.fallbackProxy
+        rules['fallbackProxy'] = fallbackProxy
     else if not protocolProxySet
       config['mode'] = 'direct'
 
@@ -105,6 +106,12 @@ class SettingsProxyImpl extends ProxyImpl
         bypassList.push(@_formatBypassItem(condition))
       config['rules'] = rules
     return config
+  _normalizeProxyHost: (proxy) ->
+    host = OmegaPac.Profiles.normalizeProxyHost(proxy.host)
+    return proxy if host == proxy.host
+    proxy = JSON.parse(JSON.stringify(proxy))
+    proxy.host = host
+    proxy
   _formatBypassItem: (condition) ->
     str = OmegaPac.Conditions.str(condition)
     i = str.indexOf(' ')

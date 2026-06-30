@@ -40,7 +40,7 @@ FindProxyForURL = (function () {
         if (proxy && !state.useLegacyStringReturn) {
           var proxyInfo = {
             type: proxy.scheme,
-            host: proxy.host,
+            host: OmegaPac.Profiles.normalizeProxyHost(proxy.host),
             port: proxy.port,
           };
           if (proxyInfo.type === 'socks5') {

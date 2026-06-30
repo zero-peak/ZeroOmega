@@ -31,7 +31,9 @@ module.exports = class ProxyAuth
     )
     @listening = true
 
-  _keyForProxy: (proxy) -> "#{proxy.host.toLowerCase()}:#{proxy.port}"
+  _keyForProxy: (proxy) ->
+    host = OmegaPac.Profiles.normalizeProxyHost(proxy.host)
+    "#{host.toLowerCase()}:#{proxy.port}"
   setProxies: (profiles) ->
     @_proxies = {}
     @_fallbacks = []

@@ -1,4 +1,5 @@
 OmegaTarget = require('omega-target')
+OmegaPac = OmegaTarget.OmegaPac
 # The browser only accepts native promises as onRequest return values.
 # DO NOT USE Bluebird Promises here!
 NativePromise = Promise ? null
@@ -96,15 +97,15 @@ class FirefoxProxyImpl extends ProxyImpl
   proxyInfo: (proxy, auth) ->
     proxyInfo =
       type: proxy.scheme
-      host: proxy.host
+      host: OmegaPac.Profiles.normalizeProxyHost(proxy.host)
       port: proxy.port
     if proxyInfo.type == 'socks5'
       # MOZ: SOCKS5 proxies should be specified as "type": "socks".
-      # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/proxy/ProxyInfo
+      # See MDN WebExtensions proxy.ProxyInfo.
       proxyInfo.type = 'socks'
       if auth
         # Username & password here are only available for SOCKS5.
-        # https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/proxy/ProxyInfo
+        # See MDN WebExtensions proxy.ProxyInfo.
         # HTTP proxy auth must be handled via webRequest.onAuthRequired.
         proxyInfo.username = auth.username
         proxyInfo.password = auth.password

@@ -79,12 +79,23 @@ module.exports = exports =
       port: port
     }
 
+  normalizeProxyHost: (host) ->
+    return host unless typeof host == 'string'
+    return host unless /[^\x00-\x7f]/.test(host)
+    try
+      normalized = new URL('http://' + host).hostname
+      return normalized if normalized
+    catch _
+      return host
+    host
+
   pacResult: (proxy) ->
     if proxy
+      host = exports.normalizeProxyHost(proxy.host)
       if checkNeedFixForSocks5(proxy)
-        "SOCKS5 #{proxy.host}:#{proxy.port}; SOCKS #{proxy.host}:#{proxy.port}"
+        "SOCKS5 #{host}:#{proxy.port}; SOCKS #{host}:#{proxy.port}"
       else
-        "#{exports.pacProtocols[proxy.scheme]} #{proxy.host}:#{proxy.port}"
+        "#{exports.pacProtocols[proxy.scheme]} #{host}:#{proxy.port}"
     else
       'DIRECT'
 

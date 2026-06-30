@@ -46,6 +46,10 @@ describe 'Profiles', ->
     it 'should return a valid PAC result for a proxy', ->
       proxy = {scheme: "http", host: "127.0.0.1", port: 8888}
       Profiles.pacResult(proxy).should.equal("PROXY 127.0.0.1:8888")
+    it 'should normalize IDN proxy hosts to ASCII', ->
+      proxy = {scheme: "https", host: "\u30b7.\u30b7", port: 443}
+      Profiles.pacResult(proxy).should.equal("HTTPS xn--xck.xn--xck:443")
+      proxy.host.should.equal("\u30b7.\u30b7")
     it 'should return special compatible result for SOCKS5', ->
       proxy = {scheme: "socks5", host: "127.0.0.1", port: 8888}
       compatibleResult = "SOCKS5 127.0.0.1:8888; SOCKS 127.0.0.1:8888"
