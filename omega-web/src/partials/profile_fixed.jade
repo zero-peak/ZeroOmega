@@ -35,6 +35,14 @@ div(ng-controller='FixedProfileCtrl')
             td(colspan='7')
               button.btn.btn-link(ng-click='showAdvanced = true')
                 | #[span.glyphicon.glyphicon-chevron-down] {{'options_proxy_expand' | tr}}
+        tbody
+          tr
+            td(colspan='7')
+              div.checkbox
+                label
+                  input(type='checkbox' ng-model='proxyDNS')
+                  span {{'options_proxy_proxyDNS' | tr}}
+                p.help-block(omega-html="'options_proxy_proxyDNSHelp' | tr")
   section.settings-group
     h3 {{'options_group_bypassList' | tr}}
     p.help-block {{'options_bypassListHelp' | tr}}
