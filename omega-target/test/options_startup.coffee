@@ -34,17 +34,17 @@ describe 'Options startup resilience (issue #276)', ->
 
   makeProxyImpl = ->
     applyProfile: sinon.spy(-> Promise.resolve())
-    watchProxyChange: ->
+    watchProxyChange: -> null
     setProxyAuth: -> Promise.resolve()
     features: []
 
   # A `state` whose reads never resolve, simulating IndexedDB stalling during
   # a service-worker cold start. Writes resolve so they don't mask the read.
   makeHangingState = ->
-    get: -> new Promise(-> )    # never resolves
+    get: -> new Promise(-> null)    # never resolves
     set: -> Promise.resolve({})
     remove: -> Promise.resolve()
-    watch: -> (-> )
+    watch: -> (-> null)
     apply: -> Promise.resolve()
 
   # A `state` that behaves normally (reads resolve with defaults).
@@ -67,7 +67,7 @@ describe 'Options startup resilience (issue #276)', ->
     options.startupTimeout = 200
     # _watch pulls in csso / quick-switch / inspect machinery that needs the
     # extension environment; it is irrelevant to startup control flow here.
-    sinon.stub(options, '_watch').returns(-> )
+    sinon.stub(options, '_watch').returns(-> null)
     # Short-circuit applyProfile so we test init's control flow, not the proxy
     # plumbing. We only care THAT a profile gets applied.
     sinon.stub(options, 'applyProfile').returns(Promise.resolve())

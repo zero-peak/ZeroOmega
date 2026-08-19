@@ -298,14 +298,15 @@ class Options
     # startup does not finish in time, force a profile to be applied from the
     # configured startup profile (or the fallback) so the proxy gets set and
     # options.ready resolves.
-    @ready = startup.timeout(@startupTimeout).catch(Promise.TimeoutError, (err) =>
-      @log.error('Options#init timed out on startup; applying a fallback ' +
-        'profile so the proxy and popup can recover. ' + err)
-      name = @_options['-startupProfileName'] || @fallbackProfileName
-      @applyProfile(name).catch (e) =>
-        @log.error(e)
-        @applyProfile(@fallbackProfileName) if name != @fallbackProfileName
-    ).then => @getAll()
+    @ready = startup.timeout(@startupTimeout)
+      .catch(Promise.TimeoutError, (err) =>
+        @log.error('Options#init timed out on startup; applying a fallback ' +
+          'profile so the proxy and popup can recover. ' + err)
+        name = @_options['-startupProfileName'] || @fallbackProfileName
+        @applyProfile(name).catch (e) =>
+          @log.error(e)
+          @applyProfile(@fallbackProfileName) if name != @fallbackProfileName
+      ).then => @getAll()
 
     @ready.then =>
       #@sync.requestPush(@_options) if @sync?.enabled

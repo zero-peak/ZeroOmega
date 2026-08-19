@@ -41,17 +41,32 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
     # response was received") and no response is ever delivered. Without a
     # retry the popup would hang forever showing only the toolbar icon, so
     # retry a few times with a small backoff to ride out the wake-up race.
+    #
+    # If the worker failed to start on a cold start, Chrome marks it invalid
+    # and refuses to wake it again for a while; sendMessage then fails with
+    # "Receiving end does not exist." A handful of quick retries is not
+    # enough to ride that out, so on that specific error keep retrying with
+    # a much longer exponential backoff (~15s total) before giving up.
     maxAttempts = 5
+    maxWorkerDownAttempts = 9
     send = (attempt) ->
       chrome.runtime.sendMessage({
         method: method
         args: args
       }, (response) ->
         if chrome.runtime.lastError?
-          if attempt < maxAttempts
-            setTimeout((-> send(attempt + 1)), 100 * attempt)
+          err = chrome.runtime.lastError
+          workerDown =
+            err.message?.indexOf('Receiving end does not exist') >= 0
+          max = if workerDown then maxWorkerDownAttempts else maxAttempts
+          if attempt < max
+            delay = if workerDown and attempt > maxAttempts
+              2000 * Math.pow(2, attempt - maxAttempts - 1)
+            else
+              100 * attempt
+            setTimeout((-> send(attempt + 1)), delay)
           else
-            d.reject(chrome.runtime.lastError)
+            d.reject(err)
           return
         if response?.error
           d.reject(decodeError(response.error))
