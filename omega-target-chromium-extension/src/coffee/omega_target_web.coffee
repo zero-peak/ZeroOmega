@@ -34,18 +34,47 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
     })
   callBackground = (method, args...) ->
     d = $q['defer']()
-    chrome.runtime.sendMessage({
-      method: method
-      args: args
-    }, (response) ->
-      if chrome.runtime.lastError?
-        d.reject(chrome.runtime.lastError)
-        return
-      if response.error
-        d.reject(decodeError(response.error))
-      else
-        d.resolve(response.result)
-    )
+    # On Manifest V3 the background service worker may be asleep or still
+    # initializing when the popup is opened right after a browser restart.
+    # In that case sendMessage fails with chrome.runtime.lastError (e.g.
+    # "Could not establish connection" or "The message port closed before a
+    # response was received") and no response is ever delivered. Without a
+    # retry the popup would hang forever showing only the toolbar icon, so
+    # retry a few times with a small backoff to ride out the wake-up race.
+    #
+    # If the worker failed to start on a cold start, Chrome marks it invalid
+    # and refuses to wake it again for a while; sendMessage then fails with
+    # "Receiving end does not exist." A handful of quick retries is not
+    # enough to ride that out, so on that specific error keep retrying with
+    # a much longer exponential backoff (~15s total) before giving up.
+    maxAttempts = 5
+    maxWorkerDownAttempts = 9
+    send = (attempt) ->
+      chrome.runtime.sendMessage({
+        method: method
+        args: args
+      }, (response) ->
+        if chrome.runtime.lastError?
+          err = chrome.runtime.lastError
+          workerDown =
+            err.message?.indexOf('Receiving end does not exist') >= 0
+          max = if workerDown then maxWorkerDownAttempts else maxAttempts
+          if attempt < max
+            delay = if workerDown and attempt > maxAttempts
+              2000 * Math.pow(2, attempt - maxAttempts - 1)
+            else
+              100 * attempt
+            setTimeout((-> send(attempt + 1)), delay)
+          else
+            d.reject(err)
+          return
+        if response?.error
+          d.reject(decodeError(response.error))
+        else
+          d.resolve(response?.result)
+      )
+      return
+    send(1)
     return d.promise
   connectBackground = (name, message, callback) ->
     port = chrome.runtime.connect({name: name})
@@ -73,17 +102,17 @@ angular.module('omegaTarget', []).factory 'omegaTarget', ($q) ->
         if Array.isArray(name)
           callBackground('getState', name).then((values) ->
             d.resolve(name.map((key) -> values[key]))
-          )
+          , d.reject)
         else
           callBackground('getState', [name]).then( (values) ->
             d.resolve(values[name])
-          )
+          , d.reject)
       else
         newItem = {}
         newItem[name] = value
         callBackground('setState', newItem).then( ->
           d.resolve(value)
-        )
+        , d.reject)
       return d.promise
     lastUrl: (url) ->
       name = 'web.last_url'
