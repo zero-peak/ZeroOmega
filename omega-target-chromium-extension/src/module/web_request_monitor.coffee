@@ -185,7 +185,7 @@ module.exports = class WebRequestMonitor
         info.requestCount = Object.keys(info.requests).length
         # if it still exceed MAXREQUESTCACHE, just clean all by reset it
         if info.requestCount > MAXREQUESTCACHE
-          @tabInfo[tab.id] = @_newTabInfo()
+          @tabInfo[req.tabId] = @_newTabInfo()
           return
       reqInfo = info.requests[req.requestId] || {}
       statusObj = {}
