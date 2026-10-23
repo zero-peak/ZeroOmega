@@ -37,6 +37,7 @@
   },
   "permissions": [
     "proxy",
+    "privacy",
     "tabs",
     "alarms",
     "storage",

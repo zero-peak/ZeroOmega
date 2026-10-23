@@ -14,6 +14,24 @@ section.settings-group
       | {{'Network monitor'}}
     span.help-inline {{'Inspect network traffic'}}
 section.settings-group.width-limit
+  h3 {{'options_webRTCIPHandlingPolicy' | tr}}
+  div.radio
+    label
+      input(type='radio' name='webRTCIPHandlingPolicy' value='default' ng-model='options["-webRTCIPHandlingPolicy"]')
+      span(omega-html="'options_webRTCIPHandlingPolicyDefault' | tr")
+  div.radio
+    label
+      input(type='radio' name='webRTCIPHandlingPolicy' value='default_public_and_private_interfaces' ng-model='options["-webRTCIPHandlingPolicy"]')
+      span(omega-html="'options_webRTCIPHandlingPolicyDefaultPublicAndPrivateInterfaces' | tr")
+  div.radio
+    label
+      input(type='radio' name='webRTCIPHandlingPolicy' value='default_public_interface_only' ng-model='options["-webRTCIPHandlingPolicy"]')
+      span(omega-html="'options_webRTCIPHandlingPolicyDefaultPublicInterfaceOnly' | tr")
+  div.radio
+    label
+      input(type='radio' name='webRTCIPHandlingPolicy' value='disable_non_proxied_udp' ng-model='options["-webRTCIPHandlingPolicy"]')
+      span(omega-html="'options_webRTCIPHandlingPolicyDisableNonProxiedUDP' | tr")
+section.settings-group.width-limit
   h3 {{'options_downloadOptions' | tr}}
   p.help-block {{'options_downloadOptionsHelp' | tr}}
   .form-group

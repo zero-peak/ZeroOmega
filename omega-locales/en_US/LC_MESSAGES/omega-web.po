@@ -378,6 +378,21 @@ msgid "options_monitorWebRequestsHelp"
 msgstr "A yellow badge will be displayed on the icon if some resources fail to load,<br>"
 "and you can set the profile for such resources conveniently via the popup menu."
 
+msgid "options_webRTCIPHandlingPolicy"
+msgstr "WebRTC IP Handling Policy"
+
+msgid "options_webRTCIPHandlingPolicyDefault"
+msgstr "WebRTC uses all available network interfaces."
+
+msgid "options_webRTCIPHandlingPolicyDefaultPublicAndPrivateInterfaces"
+msgstr "WebRTC uses all public and private interfaces."
+
+msgid "options_webRTCIPHandlingPolicyDefaultPublicInterfaceOnly"
+msgstr "WebRTC uses all public interfaces, but not private ones."
+
+msgid "options_webRTCIPHandlingPolicyDisableNonProxiedUDP"
+msgstr "WebRTC uses either UDP SOCKS proxying or will fallback to TCP proxying."
+
 msgid "options_downloadOptions"
 msgstr "Download Options"
 

@@ -522,6 +522,12 @@ class Options
           monitorWebRequests = true
           @_setOptions({'-monitorWebRequests': true}, {persist: true})
         @setMonitorWebRequests(monitorWebRequests)
+      if changes['-webRTCIPHandlingPolicy']? or changes == @_options
+        policy = @_options['-webRTCIPHandlingPolicy']
+        if not policy?
+          policy = 'default'
+          @_setOptions({'-webRTCIPHandlingPolicy': policy}, {persist: true})
+        @setWebRTCIPHandlingPolicy(policy)
 
     handler()
     @_storage.watch null, handler
@@ -569,6 +575,14 @@ class Options
   # @returns {Promise} A promise which is fulfilled when the settings apply
   ###
   setMonitorWebRequests: -> Promise.resolve()
+
+  ###*
+  # Apply the settings related to WebRTC IP handling policy.
+  # In base class, this method is not implemented and will not do anything.
+  # @param {string} policy The policy of WebRTC IP handling
+  # @returns {Promise} A promise which is fulfilled when the settings apply
+  ###
+  setWebRTCIPHandlingPolicy: (policy) -> Promise.resolve()
 
   ###*
   # @callback watchCallback

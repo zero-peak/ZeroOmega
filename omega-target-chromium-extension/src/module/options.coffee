@@ -287,6 +287,19 @@ class ChromeOptions extends OmegaTarget.Options
         port.onDisconnect.addListener =>
           delete @_tabRequestInfoPorts[tabId] if tabId?
 
+  setWebRTCIPHandlingPolicy: (policy) ->
+    setting = chrome?.privacy?.network?.webRTCIPHandlingPolicy
+    return Promise.resolve() unless setting?
+    new Promise (resolve) ->
+      setting.get {}, (details) ->
+        if details?.levelOfControl in [
+          'controllable_by_this_extension'
+          'controlled_by_this_extension'
+        ]
+          setting.set {value: policy}, -> resolve()
+        else
+          resolve()
+
   schedule: (name, periodInMinutes) ->
     name = 'omega.' + name
     if periodInMinutes < 0
