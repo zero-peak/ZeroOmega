@@ -5,15 +5,20 @@ $script('../js/omega_target_popup.js', 'om-target', function() {
   $script('js/style.js', 'om-style')
   function init(){
     chrome.tabs.query({active: true, lastFocusedWindow: true}).then(function(tabs){
-      if (tabs.length > 0 && (tabs[0].pendingUrl || tabs[0].url)){
-        const activeTab = tabs[0]
+      if (tabs.length > 0) {
+        const activeTab = tabs[0];
         window.OmegaPopup.activeTab = activeTab;
-        const reqinfoEl = document.getElementById('js-reqinfo');
-        const addruleEl = document.getElementById('js-addrule');
-        reqinfoEl.setAttribute('href', '../popup.html?activeTabId=' + activeTab.id + '#!requestInfo')
-        addruleEl.setAttribute('href', '../popup.html?activeTabId=' + activeTab.id + '#!addRule')
+        if (activeTab.pendingUrl || activeTab.url) {
+          const reqinfoEl = document.getElementById('js-reqinfo');
+          const addruleEl = document.getElementById('js-addrule');
+          reqinfoEl.setAttribute('href', '../popup.html?activeTabId=' + activeTab.id + '#!requestInfo');
+          addruleEl.setAttribute('href', '../popup.html?activeTabId=' + activeTab.id + '#!addRule');
+        }
       }
-    }).catch(function(){})
+      $script.done('om-active-tab');
+    }).catch(function(){
+      $script.done('om-active-tab');
+    })
     OmegaTargetPopup.getActivePageInfo(function(err, info) {
       window.OmegaPopup.pageInfo = info;
       $script.done('om-page-info');

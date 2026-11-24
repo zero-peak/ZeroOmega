@@ -14,6 +14,43 @@ section.settings-group
       | {{'Network monitor'}}
     span.help-inline {{'Inspect network traffic'}}
 section.settings-group.width-limit
+  h3 {{'options_group_proxyActivity' | tr}}
+  div.checkbox
+    label
+      input#proxy-activity-indicator(type='checkbox' ng-model='options["-proxyActivityIndicator"]')
+      span {{'options_proxyActivityIndicator' | tr}}
+    p.help-block {{'options_proxyActivityIndicatorHelp' | tr}}
+  div(ng-show='options["-proxyActivityIndicator"]')
+    .form-group
+      label(for='proxy-activity-icon-mode') {{'options_proxyActivityIconMode' | tr}}
+      select#proxy-activity-icon-mode.form-control.inline-form-control(ng-model='options["-proxyActivityIconMode"]'
+        ng-options='mode as (proxyActivityIconModeI18n(mode) | tr) for mode in proxyActivityIconModes')
+    .form-group
+      label(for='proxy-activity-window') {{'options_proxyActivityWindowSec' | tr}}
+      input#proxy-activity-window.form-control.inline-form-control.no-min-width(type='number' min='1' max='300' step='1'
+        style='width: 90px !important;'
+        ng-model='options["-proxyActivityWindowSec"]'
+        ng-required='options["-proxyActivityIndicator"]')
+      span.help-inline {{'options_proxyActivityWindowSecUnit' | tr}}
+    div.checkbox(ng-show='options["-proxyActivityIconMode"] != "off"')
+      label
+        input#proxy-activity-subrequests-only(type='checkbox' ng-model='options["-proxyActivitySubrequestsOnly"]')
+        span {{'options_proxyActivitySubrequestsOnly' | tr}}
+      p.help-block {{'options_proxyActivitySubrequestsOnlyHelp' | tr}}
+    div.checkbox
+      label
+        input#proxy-activity-popup-highlight(type='checkbox' ng-model='options["-proxyActivityPopupHighlight"]')
+        span {{'options_proxyActivityPopupHighlight' | tr}}
+    .form-group(ng-show='options["-proxyActivityPopupHighlight"]')
+      label(for='proxy-activity-scope') {{'options_proxyActivityScope' | tr}}
+      select#proxy-activity-scope.form-control.inline-form-control(ng-model='options["-proxyActivityScope"]'
+        ng-options='sc as (proxyActivityScopeI18n(sc) | tr) for sc in proxyActivityScopes')
+    div.checkbox
+      label
+        input#proxy-activity-ignore-cache(type='checkbox' ng-model='options["-proxyActivityIgnoreCache"]')
+        span {{'options_proxyActivityIgnoreCache' | tr}}
+      p.help-block {{'options_proxyActivityIgnoreCacheHelp' | tr}}
+section.settings-group.width-limit
   h3 {{'options_downloadOptions' | tr}}
   p.help-block {{'options_downloadOptionsHelp' | tr}}
   .form-group

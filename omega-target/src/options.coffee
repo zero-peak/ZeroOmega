@@ -523,6 +523,56 @@ class Options
           @_setOptions({'-monitorWebRequests': true}, {persist: true})
         @setMonitorWebRequests(monitorWebRequests)
 
+      activityKeys = [
+        '-proxyActivityIndicator'
+        '-proxyActivityIconMode'
+        '-proxyActivityWindowSec'
+        '-proxyActivitySubrequestsOnly'
+        '-proxyActivityPopupHighlight'
+        '-proxyActivityScope'
+        '-proxyActivityIgnoreCache'
+      ]
+      activityChanged = (changes == @_options) or
+        activityKeys.some((k) -> Object::hasOwnProperty.call(changes, k))
+      if activityChanged
+        defaults =
+          '-proxyActivityIndicator': false
+          '-proxyActivityIconMode': 'blink'
+          '-proxyActivityWindowSec': 10
+          '-proxyActivitySubrequestsOnly': false
+          '-proxyActivityPopupHighlight': true
+          '-proxyActivityScope': 'tab'
+          '-proxyActivityIgnoreCache': false
+        missing = {}
+        hasMissing = false
+        for own k, v of defaults
+          if not @_options[k]?
+            @_options[k] = v
+            missing[k] = v
+            hasMissing = true
+        if hasMissing
+          @_setOptions(missing, {persist: true})
+        iconMode = @_options['-proxyActivityIconMode']
+        if iconMode not in ['blink', 'glow', 'off']
+          iconMode = 'blink'
+        scope = @_options['-proxyActivityScope']
+        if scope not in ['tab', 'all']
+          scope = 'tab'
+        windowSec = parseInt(@_options['-proxyActivityWindowSec'], 10)
+        if isNaN(windowSec) or windowSec < 1
+          windowSec = 10
+        else if windowSec > 300
+          windowSec = 300
+        @setProxyActivityConfig(
+          enabled: !!@_options['-proxyActivityIndicator']
+          iconMode: iconMode
+          windowSec: windowSec
+          subrequestsOnly: !!@_options['-proxyActivitySubrequestsOnly']
+          popupHighlight: !!@_options['-proxyActivityPopupHighlight']
+          scope: scope
+          ignoreCache: !!@_options['-proxyActivityIgnoreCache']
+        )
+
     handler()
     @_storage.watch null, handler
 
@@ -569,6 +619,14 @@ class Options
   # @returns {Promise} A promise which is fulfilled when the settings apply
   ###
   setMonitorWebRequests: -> Promise.resolve()
+
+  ###*
+  # Apply the settings related to proxy activity indicator.
+  # In base class, this method is not implemented and will not do anything.
+  # @param {{}} config Activity indicator configuration
+  # @returns {Promise} A promise which is fulfilled when the settings apply
+  ###
+  setProxyActivityConfig: -> Promise.resolve()
 
   ###*
   # @callback watchCallback

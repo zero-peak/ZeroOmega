@@ -117,6 +117,42 @@ zeroBackground = (zeroStorage, opts) ->
 
     return iconCache[cacheKey] = icon
 
+  drawActivityIcon = (activityColor, profileColor, showDot) ->
+    dotKey = if showDot then '1' else '0'
+    cacheKey = "act+#{activityColor ? ''}+#{profileColor ? ''}+#{dotKey}"
+    icon = iconCache[cacheKey]
+    return icon if icon
+    try
+      if not drawContext?
+        canvas = new OffscreenCanvas(300, 300)
+        drawContext = canvas.getContext('2d', {willReadFrequently: true})
+
+      icon = {}
+      for size in [16, 19, 24, 32, 38]
+        drawContext.scale(size, size)
+        drawContext.clearRect(0, 0, 1, 1)
+        if typeof drawOmegaActivity == 'function'
+          drawOmegaActivity(
+            drawContext, activityColor, profileColor, activityColor, showDot
+          )
+        else if profileColor?
+          drawOmega drawContext, activityColor, profileColor
+        else
+          drawOmega drawContext, activityColor
+        drawContext.setTransform(1, 0, 0, 1, 0, 0)
+        icon[size] = drawContext.getImageData(0, 0, size, size)
+        if icon[size].data[3] == 255
+          throw new Error(
+            'Icon drawing blocked by privacy.resistFingerprinting.')
+    catch e
+      if not drawError?
+        drawError = e
+        Log.error(e)
+        Log.error('Profile-colored icon disabled. Falling back to static icon.')
+      icon = null
+
+    return iconCache[cacheKey] = icon
+
   charCodeUnderscore = '_'.charCodeAt(0)
   isHidden = (name) -> (name.charCodeAt(0) == charCodeUnderscore and
     name.charCodeAt(1) == charCodeUnderscore)
@@ -211,6 +247,9 @@ zeroBackground = (zeroStorage, opts) ->
           badgeText = dispName(profile.name + '_badge_text')
         badgeText = badgeText.substring(0, 4)
 
+      isProxy = (not direct) and profile? and
+        (profile.profileType not in ['DirectProfile', 'SystemProfile'])
+
       return {
         title: chrome.i18n.getMessage('browserAction_titleWithResult', [
           currentName
@@ -226,6 +265,8 @@ zeroBackground = (zeroStorage, opts) ->
         icon: icon
         resultColor: resultColor
         profileColor: profileColor
+        isDirect: direct
+        isProxy: isProxy
       }
     ).catch -> return null
 
@@ -306,6 +347,7 @@ zeroBackground = (zeroStorage, opts) ->
               )
           )
   tabs = new OmegaTargetCurrent.ChromeTabs(actionForUrl)
+  options.setProxyActivityDeps(tabs, drawActivityIcon)
   tabs.watch()
 
   options._inspect = new OmegaTargetCurrent.Inspect (url, tab) ->
@@ -380,6 +422,7 @@ zeroBackground = (zeroStorage, opts) ->
   external = false
   options.currentProfileChanged = (reason) ->
     iconCache = {}
+    options._proxyActivity?.onProfileChanged()
 
     if reason == 'external'
       external = true

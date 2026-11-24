@@ -1368,3 +1368,66 @@ msgstr "ZeroOmega is made possible by the <a href='https://github.com/zero-peak/
 
 msgid "about_license"
 msgstr "ZeroOmega is <a href='https://www.gnu.org/philosophy/free-sw.en.html'>free software</a> licensed under <a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public License</a> Version 3 or later."
+
+msgid "options_group_proxyActivity"
+msgstr "Proxy Activity Indicator"
+
+msgid "options_proxyActivityIndicator"
+msgstr "Enable proxy activity indicator"
+
+msgid "options_proxyActivityIndicatorHelp"
+msgstr "Track requests routed through a proxy (including sub-requests inside direct pages) to highlight the toolbar icon and recently used profiles in the popup menu."
+
+msgid "options_proxyActivityIconMode"
+msgstr "Toolbar icon mode"
+
+msgid "options_proxyActivityIconMode_blink"
+msgstr "Blink icon"
+
+msgid "options_proxyActivityIconMode_glow"
+msgstr "Solid highlight (no blinking)"
+
+msgid "options_proxyActivityIconMode_off"
+msgstr "Do not change icon"
+
+msgid "options_proxyActivityWindowSec"
+msgstr "Activity window"
+
+msgid "options_proxyActivityWindowSecUnit"
+msgstr "seconds (1–300)"
+
+msgid "options_proxyActivitySubrequestsOnly"
+msgstr "Highlight icon only for proxied sub-requests on direct pages"
+
+msgid "options_proxyActivitySubrequestsOnlyHelp"
+msgstr "Only blink or highlight the toolbar icon when the main page is direct, while background resources on the page use a proxy."
+
+msgid "options_proxyActivityPopupHighlight"
+msgstr "Highlight recently used proxies in the popup list"
+
+msgid "options_proxyActivityScope"
+msgstr "Popup highlight scope"
+
+msgid "options_proxyActivityScope_tab"
+msgstr "Current tab only"
+
+msgid "options_proxyActivityScope_all"
+msgstr "All browser tabs"
+
+msgid "options_proxyActivityIgnoreCache"
+msgstr "Ignore cached browser responses"
+
+msgid "options_proxyActivityIgnoreCacheHelp"
+msgstr "Count only real network requests and ignore resources served directly from browser cache."
+
+msgid "browserAction_proxyActivityTitle"
+msgstr "Active proxy ($1:SEC$s): $2:PROXIES$"
+
+msgid "popup_proxyActivitySecUnit"
+msgstr "s"
+
+msgid "popup_proxyActivityStat"
+msgstr "$1:AGE$ ago · $2:COUNT$ req"
+
+msgid "popup_proxyActivityOtherTabNote"
+msgstr "Used in another tab"

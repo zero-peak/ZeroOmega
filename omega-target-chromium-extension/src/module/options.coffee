@@ -3,6 +3,7 @@ OmegaPac = OmegaTarget.OmegaPac
 Promise = OmegaTarget.Promise
 querystring = require('querystring')
 WebRequestMonitor = require('./web_request_monitor')
+ProxyActivityTracker = require('./proxy_activity')
 ChromePort = require('./chrome_port')
 fetchUrl = require('./fetch_url')
 Url = require('url')
@@ -12,14 +13,35 @@ TEMPPROFILEKEY = 'tempProfileState'
 class ChromeOptions extends OmegaTarget.Options
   _inspect: null
   _actionForUrl: null
+  _tabs: null
+  _drawActivityIcon: null
+  _proxyActivity: null
+  _activityWatching: false
+  _activityRecordedIds: null
 
   fetchUrl: fetchUrl
   _networkInspectPorts: []
 
   constructor: (args...) ->
     super(args...)
+    @_activityRecordedIds = {}
+    @_proxyActivity = new ProxyActivityTracker(
+      setTabIcon: (tabId, icon) =>
+        @_tabs?.setIcon(icon, tabId)
+      setTabTitle: (tabId, title) =>
+        @_tabs?.setTitle(title, tabId)
+      drawActivityIcon: (activityColor, profileColor, showDot) =>
+        @_drawActivityIcon?(activityColor, profileColor, showDot)
+      getDefaultAction: =>
+        @_tabs?._defaultAction
+      getMessage: (key, subs) ->
+        chrome.i18n?.getMessage?(key, subs) or ''
+    )
 
     chrome.runtime.onConnect.addListener((port) =>
+      if port.name is 'proxy-activity'
+        @_proxyActivity.attachPort(port)
+        return
       return if port.name isnt 'network-inspect'
       unless @_requestMonitor
         originalEnabled = @_monitorWebRequests
@@ -216,12 +238,66 @@ class ChromeOptions extends OmegaTarget.Options
   _requestMonitor: null
   _monitorWebRequests: false
   _tabRequestInfoPorts: null
+
+  setProxyActivityDeps: (tabs, drawActivityIcon) ->
+    @_tabs = tabs
+    @_drawActivityIcon = drawActivityIcon
+    tabs?.setProxyActivity?(@_proxyActivity)
+    return
+
+  setProxyActivityConfig: (config) ->
+    @_proxyActivity?.setConfig(config)
+    if config?.enabled
+      unless @_requestMonitor?
+        originalEnabled = @_monitorWebRequests
+        @setMonitorWebRequests(true)
+        @_monitorWebRequests = originalEnabled
+      @_ensureProxyActivityMonitor()
+    Promise.resolve()
+
+  getProxyActivity: (tabId) ->
+    Promise.resolve(@_proxyActivity?.getSnapshot(tabId) or null)
+
+  _ensureProxyActivityMonitor: ->
+    return if @_activityWatching
+    return unless @_requestMonitor?
+    @_activityWatching = true
+    ignoredUrlRe = /^(chrome|moz)-extension:|^(chrome|about|data|blob|file):/i
+    @_requestMonitor.watchActivity (status, req) =>
+      return unless req?.url
+      return if ignoredUrlRe.test(req.url)
+      if status == 'start' and req.type == 'main_frame' and req.tabId >= 0
+        if req.url.indexOf('chrome://errorpage/') != 0
+          @_proxyActivity.onTabNavigationStart(req.tabId, req.url)
+      return unless @_proxyActivity?.config?.enabled
+      return unless @_actionForUrl?
+      if not @_proxyActivity.config.ignoreCache
+        return unless status == 'start'
+      else
+        if status == 'headers'
+          if Object.keys(@_activityRecordedIds).length > 1000
+            @_activityRecordedIds = {}
+          @_activityRecordedIds[req.requestId] = true
+        else if status == 'done'
+          if @_activityRecordedIds[req.requestId]
+            delete @_activityRecordedIds[req.requestId]
+            return
+          return if req.fromCache
+        else
+          return
+      @_actionForUrl(req.url, {skipIcon: true}).then((action) =>
+        @_proxyActivity.recordRequest(req, action)
+      ).catch(-> null)
+    return
+
   setMonitorWebRequests: (enabled) ->
     @_monitorWebRequests = enabled
     if enabled and not @_requestMonitor?
       @_tabRequestInfoPorts = {}
       wildcardForReq = (req) -> OmegaPac.wildcardForUrl(req.url)
       @_requestMonitor = new WebRequestMonitor(wildcardForReq)
+      if @_proxyActivity?.config?.enabled
+        @_ensureProxyActivityMonitor()
       @_requestMonitor.watchTabs (tabId, info, req, status) =>
         unless /^(chrome|moz)-extension:\/\//i.test(req?.url)
           updateMessage = =>
