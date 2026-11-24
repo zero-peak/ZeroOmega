@@ -16,7 +16,7 @@ globalThis.drawOmega = function (ctx, outerCircleColor, innerCircleColor) {
   }
 
   ctx.beginPath();
-  ctx.arc(0.5, 0.5, 0.25, 0, Math.PI * 2, true);
+  ctx.arc(0.5, 0.5, innerCircleColor === outerCircleColor ? 0.27 : 0.25, 0, Math.PI * 2, true);
   ctx.closePath();
   ctx.fill();
 };
