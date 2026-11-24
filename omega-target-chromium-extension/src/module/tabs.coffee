@@ -1,9 +1,14 @@
 class ChromeTabs
   _defaultAction: null
   _badgeTab: null
+  _proxyActivity: null
 
   constructor: (@actionForUrl) ->
     @_dirtyTabs = {}
+    return
+
+  setProxyActivity: (tracker) ->
+    @_proxyActivity = tracker
     return
 
   ignoreError: ->
@@ -12,11 +17,17 @@ class ChromeTabs
 
   watch: ->
     chrome.tabs.onUpdated.addListener @onUpdated.bind(this)
+    chrome.tabs.onRemoved.addListener (tabId) =>
+      @_proxyActivity?.onTabRemoved(tabId)
     chrome.tabs.onActivated.addListener (info) =>
       chrome.tabs.get info.tabId, (tab) =>
         return if chrome.runtime.lastError
         if @_dirtyTabs.hasOwnProperty(info.tabId)
           @onUpdated tab.id, {}, tab
+    chrome.tabs.query {}, (tabs) =>
+      return if chrome.runtime.lastError
+      for tab in tabs
+        @_proxyActivity?.setTabOrigin(tab.id, tab.url) if tab?.url
 
   resetAll: (action) ->
     @_defaultAction = action
@@ -43,6 +54,7 @@ class ChromeTabs
         @_badgeTab = null
 
     if not tab.url? or tab.url.indexOf("chrome") == 0
+      @_proxyActivity?.setTabBaseAction(tab.id, tab.url, null)
       if @_defaultAction
         chrome.action.setTitle({
           title: @_defaultAction.title
@@ -52,20 +64,33 @@ class ChromeTabs
       return
     @actionForUrl(tab.url).then((action) =>
       if not action
+        @_proxyActivity?.setTabBaseAction(tab.id, tab.url, null)
         @clearIcon tab.id
         chrome.action.setBadgeText?(text: '', tabId: tab.id)
         return
-      @setIcon(action.icon, tab.id)
       title = if @_canSetPopup() then action.title else action.shortTitle
+      baseAction = Object.assign({}, action, {title: title})
+      @_proxyActivity?.setTabBaseAction(tab.id, tab.url, baseAction)
       if action.badgeText
         chrome.action.setBadgeText?(
           text: action.badgeText,
           tabId: tab.id
         )
-      return chrome.action.setTitle({title: title, tabId: tab.id})
+      unless @_proxyActivity?.hasActiveIconOverride(tab.id)
+        @setIcon(action.icon, tab.id)
+        return @setTitle(title, tab.id)
     ).catch((e) ->
       console.log('error:', e)
     )
+
+  setTitle: (title, tabId) ->
+    return unless title?
+    params = {title: title}
+    params.tabId = tabId if tabId?
+    try
+      chrome.action.setTitle?(params, @ignoreError)
+    catch _
+      return
 
   setTabBadge: (tab, badge) ->
     @_badgeTab ?= {}

@@ -6,6 +6,7 @@ module.exports =
   SwitchySharp: require('./switchysharp')
   ExternalApi: require('./external_api')
   WebRequestMonitor: require('./web_request_monitor')
+  ProxyActivityTracker: require('./proxy_activity')
   Inspect: require('./inspect')
   Url: require('url')
   proxy: require('./proxy')

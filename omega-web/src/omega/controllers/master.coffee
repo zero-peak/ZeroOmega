@@ -326,6 +326,14 @@ angular.module('omega').controller 'MasterCtrl', ($scope, $rootScope, $window,
   $scope.downloadIntervalI18n = (interval) ->
     "options_downloadInterval_" + (if interval < 0 then "never" else interval)
 
+  $scope.proxyActivityIconModes = ['blink', 'glow', 'off']
+  $scope.proxyActivityIconModeI18n = (mode) ->
+    "options_proxyActivityIconMode_" + mode
+
+  $scope.proxyActivityScopes = ['tab', 'all']
+  $scope.proxyActivityScopeI18n = (scope) ->
+    "options_proxyActivityScope_" + scope
+
   themeItems = []
   for key, val of themes
     val.key = 'others/base16-' + key

@@ -20,3 +20,23 @@ globalThis.drawOmega = function (ctx, outerCircleColor, innerCircleColor) {
   ctx.closePath();
   ctx.fill();
 };
+
+globalThis.drawOmegaActivity = function (
+  ctx, outerCircleColor, innerCircleColor, activityColor, showDot
+) {
+  globalThis.drawOmega(ctx, activityColor || outerCircleColor, innerCircleColor);
+  if (showDot) {
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(0.79, 0.21, 0.21, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#ff3b30";
+    ctx.beginPath();
+    ctx.arc(0.79, 0.21, 0.145, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fill();
+  }
+};

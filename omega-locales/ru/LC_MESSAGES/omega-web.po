@@ -1415,3 +1415,66 @@ msgstr ""
 "sw.en.html'>свободное программное обеспечение</a>, лицензируемое на "
 "условиях <a href='https://www.gnu.org/licenses/gpl.html'>GNU General Public "
 "License</a> Версии 3 или более поздней."
+
+msgid "options_group_proxyActivity"
+msgstr "Индикатор активности прокси"
+
+msgid "options_proxyActivityIndicator"
+msgstr "Включить индикатор активности прокси"
+
+msgid "options_proxyActivityIndicatorHelp"
+msgstr "Отслеживает запросы, идущие через прокси (включая подзапросы на страницах, открытых напрямую), подсвечивает значок в панели браузера и недавно использованные прокси в выпадающем списке."
+
+msgid "options_proxyActivityIconMode"
+msgstr "Режим значка на панели"
+
+msgid "options_proxyActivityIconMode_blink"
+msgstr "Мигать значком"
+
+msgid "options_proxyActivityIconMode_glow"
+msgstr "Гореть (подсвечивать без мигания)"
+
+msgid "options_proxyActivityIconMode_off"
+msgstr "Не менять значок"
+
+msgid "options_proxyActivityWindowSec"
+msgstr "Время индикации / окно активности"
+
+msgid "options_proxyActivityWindowSecUnit"
+msgstr "сек (1–300)"
+
+msgid "options_proxyActivitySubrequestsOnly"
+msgstr "Менять значок только при проксируемых подзапросах на прямых страницах"
+
+msgid "options_proxyActivitySubrequestsOnlyHelp"
+msgstr "Значок будет мигать или гореть только когда основной домен страницы идёт напрямую, но внутренние ресурсы страницы обращаются через прокси."
+
+msgid "options_proxyActivityPopupHighlight"
+msgstr "Подсвечивать недавно использованные прокси в выпадающем списке"
+
+msgid "options_proxyActivityScope"
+msgstr "Область подсветки в списке"
+
+msgid "options_proxyActivityScope_tab"
+msgstr "Только текущая вкладка"
+
+msgid "options_proxyActivityScope_all"
+msgstr "Все вкладки браузера"
+
+msgid "options_proxyActivityIgnoreCache"
+msgstr "Игнорировать запросы из кэша браузера"
+
+msgid "options_proxyActivityIgnoreCacheHelp"
+msgstr "Учитывать только реальные сетевые обращения и не реагировать на ресурсы, отданные из локального кэша."
+
+msgid "browserAction_proxyActivityTitle"
+msgstr "Активный прокси ($1:SEC$с): $2:PROXIES$"
+
+msgid "popup_proxyActivitySecUnit"
+msgstr "с"
+
+msgid "popup_proxyActivityStat"
+msgstr "$1:AGE$ назад · $2:COUNT$ запр."
+
+msgid "popup_proxyActivityOtherTabNote"
+msgstr "Использовался в другой вкладке"

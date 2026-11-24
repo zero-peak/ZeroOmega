@@ -11,6 +11,13 @@ module.exports = ->
   "-showResultProfileOnActionBadgeText": false
   "-showExternalProfile": true
   "-downloadInterval": 1440
+  "-proxyActivityIndicator": false
+  "-proxyActivityIconMode": "blink"
+  "-proxyActivityWindowSec": 10
+  "-proxyActivitySubrequestsOnly": false
+  "-proxyActivityPopupHighlight": true
+  "-proxyActivityScope": "tab"
+  "-proxyActivityIgnoreCache": false
   "+proxy":
     bypassList: [
       {

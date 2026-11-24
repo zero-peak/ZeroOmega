@@ -22,9 +22,20 @@
     'RuleListProfile': 3000,
   };
 
+  var profileItemsByName = {};
+  var activityPort = null;
+  var activityTimer = null;
+  var latestActivity = null;
+  var activityClockSkew = 0;
+  var hoveredProfileName = null;
+  var activityDetailsEl = null;
+  var detailsHideTimer = null;
+  var detailsHoverBound = false;
+
   $script.ready('om-state', updateMenuByState);
   $script.ready('om-page-info', updateMenuByPageInfo);
   $script.ready(['om-state', 'om-page-info'], updateMenuByStateAndPageInfo);
+  $script.ready(['om-profile-items', 'om-active-tab'], initProxyActivity);
 
   return;
 
@@ -161,6 +172,11 @@
 
       var profileDisp = createMenuItemForProfile(profile,
         state.availableProfiles);
+      profileDisp.dataset.profileName = profile.name;
+      profileDisp.dataset.baseTitle = profileDisp.getAttribute('title') || '';
+      profileDisp.dataset.profileColor = profile.color || '';
+      profileItemsByName[profile.name] = profileDisp;
+      bindActivityHover(profileDisp, profile.name);
       var link = profileDisp.querySelector('a');
       link.id = 'js-profile-' + profileCount;
       link.addEventListener('click', function() {
@@ -290,5 +306,294 @@
       ul.appendChild(li);
     });
     return ul;
+  }
+
+  function getDetailsEl() {
+    if (!activityDetailsEl) {
+      activityDetailsEl = document.getElementById('js-activity-details');
+    }
+    if (activityDetailsEl && !detailsHoverBound) {
+      detailsHoverBound = true;
+      activityDetailsEl.addEventListener('mouseenter', function() {
+        if (detailsHideTimer) {
+          clearTimeout(detailsHideTimer);
+          detailsHideTimer = null;
+        }
+      });
+      activityDetailsEl.addEventListener('mouseleave', function() {
+        scheduleHideDetails();
+      });
+    }
+    return activityDetailsEl;
+  }
+
+  function scheduleHideDetails() {
+    if (detailsHideTimer) {
+      clearTimeout(detailsHideTimer);
+    }
+    detailsHideTimer = setTimeout(function() {
+      detailsHideTimer = null;
+      hoveredProfileName = null;
+      hideActivityDetails();
+      renderProxyActivity();
+    }, 100);
+  }
+
+  function bindActivityHover(li, profileName) {
+    li.addEventListener('mouseenter', function() {
+      if (detailsHideTimer) {
+        clearTimeout(detailsHideTimer);
+        detailsHideTimer = null;
+      }
+      hoveredProfileName = profileName;
+      showActivityDetailsFor(profileName);
+    });
+    li.addEventListener('mouseleave', function() {
+      if (hoveredProfileName === profileName) {
+        scheduleHideDetails();
+      }
+    });
+  }
+
+  function showActivityDetailsFor(profileName) {
+    var detailsEl = getDetailsEl();
+    if (!detailsEl) return;
+    var li = profileItemsByName[profileName];
+    var data = latestActivity;
+    var enabled = data && data.config && data.config.enabled &&
+      data.config.popupHighlight;
+    var entry = enabled && data.entries && data.entries[profileName];
+    if (!li || !entry) {
+      hideActivityDetails();
+      return;
+    }
+
+    var now = Date.now() - activityClockSkew;
+    var windowMs = (data.config.windowSec || 10) * 1000;
+    if ((now - entry.lastUsed) > windowMs &&
+        !li.classList.contains('om-proxy-recent')) {
+      hideActivityDetails();
+      return;
+    }
+
+    var ageSec = Math.max(0, Math.floor((now - entry.lastUsed) / 1000));
+    var accent = entry.color || li.dataset.profileColor || '#ff6b00';
+    var baseTitle = (li.dataset.baseTitle || '').trim();
+    var hosts = (entry.hosts || []).slice().sort();
+
+    detailsEl.textContent = '';
+    detailsEl.style.setProperty('--om-activity-color', accent);
+
+    var header = document.createElement('div');
+    header.className = 'om-activity-details-header';
+
+    var dot = document.createElement('span');
+    dot.className = 'om-activity-details-dot';
+    header.appendChild(dot);
+
+    var nameEl = document.createElement('span');
+    nameEl.className = 'om-activity-details-name';
+    nameEl.textContent = profileName;
+    header.appendChild(nameEl);
+
+    var statEl = document.createElement('span');
+    statEl.className = 'om-activity-details-stat';
+    var statMsg = OmegaTargetPopup.getMessage('popup_proxyActivityStat', [
+      formatActivityAge(ageSec),
+      String(entry.count || 1)
+    ]);
+    statEl.textContent = statMsg ||
+      (formatActivityAge(ageSec) + ' \u00b7 ' + (entry.count || 1));
+    header.appendChild(statEl);
+    detailsEl.appendChild(header);
+
+    if (baseTitle && baseTitle !== profileName) {
+      var descEl = document.createElement('div');
+      descEl.className = 'om-activity-details-desc';
+      descEl.textContent = baseTitle.replace(/\s*\n\s*/g, ' \u00b7 ');
+      detailsEl.appendChild(descEl);
+    }
+
+    if (!entry.inCurrentTab) {
+      var tabNote = document.createElement('div');
+      tabNote.className = 'om-activity-details-note';
+      tabNote.textContent =
+        OmegaTargetPopup.getMessage('popup_proxyActivityOtherTabNote') ||
+        'Used in another tab';
+      detailsEl.appendChild(tabNote);
+    }
+
+    if (hosts.length > 0) {
+      var hostsEl = document.createElement('div');
+      hostsEl.className = 'om-activity-details-hosts';
+      hosts.forEach(function(host) {
+        var chip = document.createElement('span');
+        chip.className = 'om-activity-host-chip';
+        chip.textContent = host;
+        hostsEl.appendChild(chip);
+      });
+      detailsEl.appendChild(hostsEl);
+    }
+
+    detailsEl.classList.remove('om-hidden');
+  }
+
+  function hideActivityDetails() {
+    var detailsEl = getDetailsEl();
+    if (detailsEl) {
+      detailsEl.classList.add('om-hidden');
+    }
+  }
+
+  function initProxyActivity() {
+    if (typeof chrome === 'undefined' || !chrome.runtime ||
+        !chrome.runtime.connect) {
+      return;
+    }
+    var activeTab = window.OmegaPopup.activeTab;
+    var tabId = activeTab && typeof activeTab.id === 'number' ?
+      activeTab.id : null;
+    try {
+      activityPort = chrome.runtime.connect({ name: 'proxy-activity' });
+    } catch (_) {
+      return;
+    }
+    activityPort.onMessage.addListener(function(msg) {
+      if (!msg || msg.type !== 'activity') return;
+      latestActivity = msg;
+      activityClockSkew = Date.now() - (msg.now || Date.now());
+      renderProxyActivity();
+    });
+    activityPort.onDisconnect.addListener(function() {
+      activityPort = null;
+    });
+    try {
+      activityPort.postMessage({ type: 'init', tabId: tabId });
+    } catch (_) {
+      return;
+    }
+    activityTimer = setInterval(renderProxyActivity, 500);
+    window.addEventListener('unload', function() {
+      if (activityTimer) {
+        clearInterval(activityTimer);
+        activityTimer = null;
+      }
+      if (activityPort) {
+        try { activityPort.disconnect(); } catch (_) {}
+        activityPort = null;
+      }
+    });
+  }
+
+  function formatActivityAge(ageSec) {
+    var unit = OmegaTargetPopup.getMessage('popup_proxyActivitySecUnit') || 's';
+    if (ageSec < 1) {
+      return '<1' + unit;
+    }
+    return ageSec + unit;
+  }
+
+  function clearItemActivity(li) {
+    li.classList.remove(
+      'om-proxy-recent',
+      'om-proxy-recent-blink',
+      'om-proxy-recent-other-tab'
+    );
+    li.style.removeProperty('--om-activity-color');
+    var badge = li.querySelector(':scope > a > .om-activity-badge');
+    if (badge) {
+      badge.remove();
+    }
+    if (li.dataset.baseTitle != null) {
+      if (li.getAttribute('title') !== li.dataset.baseTitle) {
+        li.setAttribute('title', li.dataset.baseTitle);
+      }
+    }
+  }
+
+  function renderProxyActivity() {
+    var names = Object.keys(profileItemsByName);
+    if (!names.length) return;
+    var data = latestActivity;
+    var enabled = data && data.config && data.config.enabled &&
+      data.config.popupHighlight;
+    if (!enabled) {
+      hideActivityDetails();
+      names.forEach(function(name) {
+        clearItemActivity(profileItemsByName[name]);
+      });
+      return;
+    }
+
+    var windowMs = (data.config.windowSec || 10) * 1000;
+    var now = Date.now() - activityClockSkew;
+    var isBlink = data.config.iconMode === 'blink';
+    var entries = data.entries || {};
+
+    names.forEach(function(name) {
+      var li = profileItemsByName[name];
+      if (name === hoveredProfileName &&
+          li.classList.contains('om-proxy-recent')) {
+        return;
+      }
+      var entry = entries[name];
+      if (!entry || (now - entry.lastUsed) > windowMs) {
+        clearItemActivity(li);
+        return;
+      }
+
+      var ageSec = Math.max(0, Math.floor((now - entry.lastUsed) / 1000));
+      var accent = entry.color || li.dataset.profileColor || '#ff6b00';
+      li.style.setProperty('--om-activity-color', accent);
+      li.classList.add('om-proxy-recent');
+      if (isBlink) {
+        li.classList.add('om-proxy-recent-blink');
+      } else {
+        li.classList.remove('om-proxy-recent-blink');
+      }
+      if (!entry.inCurrentTab) {
+        li.classList.add('om-proxy-recent-other-tab');
+      } else {
+        li.classList.remove('om-proxy-recent-other-tab');
+      }
+
+      if (li.hasAttribute('title')) {
+        li.removeAttribute('title');
+      }
+
+      var link = li.querySelector(':scope > a');
+      var badge = link.querySelector(':scope > .om-activity-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'om-activity-badge';
+        var dot = document.createElement('span');
+        dot.className = 'om-activity-dot';
+        var meta = document.createElement('span');
+        meta.className = 'om-activity-meta';
+        badge.appendChild(dot);
+        badge.appendChild(meta);
+        var editToggle = link.querySelector(':scope > .om-edit-toggle');
+        if (editToggle) {
+          link.insertBefore(badge, editToggle);
+        } else {
+          link.appendChild(badge);
+        }
+      }
+      var metaText = formatActivityAge(ageSec);
+      if (entry.count > 1) {
+        metaText += ' \u00b7 ' + entry.count;
+      }
+      var metaEl = badge.querySelector('.om-activity-meta');
+      if (metaEl.textContent !== metaText) {
+        metaEl.textContent = metaText;
+      }
+
+      if (name === hoveredProfileName) {
+        var detailsEl = getDetailsEl();
+        if (detailsEl && detailsEl.classList.contains('om-hidden')) {
+          showActivityDetailsFor(name);
+        }
+      }
+    });
   }
 })();

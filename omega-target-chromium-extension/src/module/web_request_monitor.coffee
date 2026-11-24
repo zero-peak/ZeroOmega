@@ -8,14 +8,16 @@ module.exports = class WebRequestMonitor
     @_requests = {}
     @_recentRequests = new Heap((a, b) -> a._startTime - b._startTime)
     @_callbacks = []
+    @_activityCallbacks = []
     @_tabCallbacks = []
     @tabInfo = {}
 
   _callbacks: null
+  _activityCallbacks: null
   watching: false
   timer: null
-  watch: (callback) ->
-    @_callbacks.push(callback)
+
+  _ensureWatching: ->
     return if @watching
     if not chrome.webRequest
       console.log('Request monitor disabled! No webRequest permission.')
@@ -46,10 +48,20 @@ module.exports = class WebRequestMonitor
     )
     @watching = true
 
+  watch: (callback) ->
+    @_callbacks.push(callback)
+    @_ensureWatching()
+
+  watchActivity: (callback) ->
+    @_activityCallbacks.push(callback)
+    @_ensureWatching()
+
   _requests: null
   _recentRequests: null
 
   _requestStart: (req) ->
+    for callback in @_activityCallbacks
+      callback('start', req)
     return if req.tabId < 0
     req._startTime = Date.now()
     @_requests[req.requestId] = req
@@ -72,6 +84,8 @@ module.exports = class WebRequestMonitor
       @_recentRequests.pop()
 
   _requestHeadersReceived: (req) ->
+    for callback in @_activityCallbacks
+      callback('headers', req)
     reqInfo = @_requests[req.requestId]
     return unless reqInfo
     reqInfo.noTimeout = true
@@ -111,6 +125,8 @@ module.exports = class WebRequestMonitor
       callback('error', req)
 
   _requestDone: (req) ->
+    for callback in @_activityCallbacks
+      callback('done', req)
     for callback in @_callbacks
       callback('done', req)
     delete @_requests[req.requestId]
